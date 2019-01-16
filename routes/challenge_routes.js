@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { celebrate, Joi } = require("celebrate");
-const ChallengeController = require("./../controllers/challenge_controller");
+const ChallengeController = require("../controllers/challenge_controller");
 
 // @Base Route '/challenges'
 
