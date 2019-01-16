@@ -1,6 +1,8 @@
 const { Schema } = require("mongoose");
 const SubmissionSchema = require("./submission_schema");
 
+//  email: string from passport
+//  password: string from passport
 const UserSchema = new Schema({
   first_name: {
     type: String,
@@ -15,7 +17,7 @@ const UserSchema = new Schema({
     required: true
   },
   is_verified: {
-    type: boolean,
+    type: Boolean,
     default: false
   },
   profile_image: {
@@ -23,18 +25,18 @@ const UserSchema = new Schema({
   },
   gender: {
     type: String,
-    required: true
+    enum: ["Male", "Female", "Rather not say"]
   },
   age: {
     type: Number,
-    required: true
+    min: 0,
+    max: 150
   },
   location: {
-    type: String,
-    required: true
+    type: String
   },
   is_admin: {
-    type: boolean,
+    type: Boolean,
     default: false
   },
   submissions: [SubmissionSchema]

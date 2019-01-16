@@ -1,4 +1,7 @@
+const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
+const UserSchema = require("./user_schema");
+const UserModel = mongoose.model("User", UserSchema);
 
 const ChallengeSchema = new Schema({
   title: {
@@ -12,11 +15,13 @@ const ChallengeSchema = new Schema({
     type: String
   },
   expiry_date: {
-    type: date
+    type: Date,
+    min: Date.now
   },
   submissions: [
     {
-      type: String
+      type: Schema.Types.ObjectId,
+      ref: "User"
     }
   ]
 });

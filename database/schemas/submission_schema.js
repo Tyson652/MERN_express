@@ -7,6 +7,10 @@ const SubmissionSchema = new Schema({
   },
   description: {
     type: String
+  },
+  video: {
+    type: String,
+    required: true
   }
   // likes: [],
 });

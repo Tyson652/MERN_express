@@ -3,7 +3,8 @@
 * A link (URL) to your published App
 
 * A link to your GitHub repository
-  * https://github.com/jamesphongduong/MERN_assignment
+  * Front-End (React): https://github.com/Tyson652/MERN_react
+  * Back-End (Node): https://github.com/Tyson652/MERN_express
 
 * Description of your project, including,
   * Problem definition / purpose
