@@ -1,8 +1,9 @@
 const { Schema } = require("mongoose");
+const passportLocalMongoose = require("passport-local-mongoose");
 const SubmissionSchema = require("./submission_schema");
 
-//  email: string from passport
-//  password: string from passport
+//  email: string - from passport-local-mongoose
+//  password: string - from passport-local-mongoose, salted and hashed
 const UserSchema = new Schema({
   first_name: {
     type: String,
@@ -41,5 +42,7 @@ const UserSchema = new Schema({
   },
   submissions: [SubmissionSchema]
 });
+
+UserSchema.plugin(passportLocalMongoose, { usernameField: "email" });
 
 module.exports = UserSchema;

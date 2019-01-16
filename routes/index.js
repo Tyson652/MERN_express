@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const challengeRoutes = require("./challenge_route");
+const authRoutes = require("./auth_routes");
+const challengeRoutes = require("./challenge_routes");
 
-router.get("/", (req, res) => res.send("Welcome"));
+router.use("/", authRoutes);
 
-// TODO: auth for challenge base route
+// TODO: auth lock down for challenge base route
 router.use("/challenges", challengeRoutes);
 
 module.exports = router;
