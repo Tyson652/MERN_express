@@ -15,7 +15,7 @@ const UserSchema = new Schema({
     required: true
   },
   is_verified: {
-    type: boolean,
+    type: Boolean,
     default: false
   },
   profile_image: {
@@ -34,7 +34,7 @@ const UserSchema = new Schema({
     required: true
   },
   is_admin: {
-    type: boolean,
+    type: Boolean,
     default: false
   },
   submissions: [SubmissionSchema]

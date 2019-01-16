@@ -12,7 +12,7 @@ const ChallengeSchema = new Schema({
     type: String
   },
   expiry_date: {
-    type: date
+    type: Date
   },
   submissions: [
     {
