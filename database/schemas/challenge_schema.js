@@ -1,7 +1,5 @@
-const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
-const UserSchema = require("./user_schema");
-const UserModel = mongoose.model("User", UserSchema);
+const SubmissionSchema = require("./submission_schema");
 
 const ChallengeSchema = new Schema({
   title: {
@@ -16,14 +14,10 @@ const ChallengeSchema = new Schema({
   },
   expiry_date: {
     type: Date,
-    min: Date.now
+    min: Date.now,
+    default: Date.now() + 31536000000 // 1 year from now
   },
-  submissions: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User"
-    }
-  ]
+  submissions: [SubmissionSchema]
 });
 
 module.exports = ChallengeSchema;

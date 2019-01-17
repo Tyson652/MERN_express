@@ -21,7 +21,6 @@ function register(req, res, next) {
   UserModel.register(user, password, (err, user) => {
     if (err) {
       // FIXME: breaks tests, custom HTTPError not defined
-      console.log("hello");
       console.log(err);
       return next(new HTTPError(500, err.message));
     }

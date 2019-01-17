@@ -40,7 +40,6 @@ router.post(
         .max(40)
         .required(),
         terms_conditions: Joi.boolean()
-      // terms_conditions: Joi.string().regex(/^true$/)
     }
   }),
   AuthController.register
