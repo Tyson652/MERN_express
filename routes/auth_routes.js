@@ -28,7 +28,7 @@ router.post(
         .min(6)
         .max(40)
         .required(),
-      termsConditions: Joi.string().regex(/^true$/)
+      terms_conditions: Joi.string().regex(/^true$/)
     }
   }),
   AuthController.register
