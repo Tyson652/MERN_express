@@ -16,9 +16,9 @@ async function challengeFindMiddleware(req, res, next) {
 // ------ Authentication Routes ------
 router.use("/", authRoutes);
 
-// ------ Challenges/Submissions Routes ------
+// ------ Challenges & Submissions Routes ------
 // Submissions nested within /challenges/:id/submissions
-// TODO: auth lock down for challenge base route
+// TODO: required login user
 router.use("/challenges", challengeFindMiddleware, challengeRoutes);
 
 module.exports = router;

@@ -1,5 +1,24 @@
 const ChallengeModel = require("./../database/models/challenge_model");
 
+// API to get lists ongoing Challenges
+// @return challenges: array [{},{}] without submission subdocs
+async function index(req, res, next) {
+  try {
+    const challenges = await ChallengeModel.aggregate([
+      { $match: { expiry_date: { $gt: new Date() } } },
+      { $sort: { expiry_date: 1 } }, // most recent first
+      { $limit: 50 },
+      { $project: { title: 1, description: 1, video: 1, expiry_date: 1 } }
+    ]);
+
+    return res.json(challenges);
+  } catch (error) {
+    return next(error);
+  }
+}
+
+// TODO: associate challenge creator to a user/brand
+// TODO: required user is_admin
 // API to create a new Challenge
 // @params title: string
 // @params description: string
@@ -22,5 +41,6 @@ async function create(req, res, next) {
 }
 
 module.exports = {
+  index,
   create
 };

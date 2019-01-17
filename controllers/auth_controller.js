@@ -20,8 +20,7 @@ function register(req, res, next) {
 
   UserModel.register(user, password, (err, user) => {
     if (err) {
-      // FIXME: breaks tests, custom HTTPError not defined
-      return next(new HTTPError(500, err.message));
+      return next(new HTTPError(501, err.message));
     }
 
     const token = JWTService.generateToken(user);

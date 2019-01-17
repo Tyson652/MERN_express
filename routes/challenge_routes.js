@@ -7,6 +7,8 @@ const SubmissionController = require("./../controllers/submission_controller");
 // @Base Route '/challenges'
 // @Nested Routes '/challenges/:id/submissions'
 
+router.get("/", ChallengeController.index);
+
 router.post(
   "/",
   celebrate({

@@ -1,7 +1,7 @@
 const supertest = require("supertest");
-const app = require("./../../../app");
+const app = require("../../app");
 const mongoose = require("mongoose");
-const ChallengeModel = require("./../../../database/models/challenge_model");
+const ChallengeModel = require("../../database/models/challenge_model");
 
 beforeAll(() => {
   mongoose.connect(
@@ -25,6 +25,8 @@ const testChallenge = {
 };
 
 let newChallenge = "";
+
+// ---------------- Create Tests ----------------
 
 describe("Create a submission", () => {
   test("POST /challenges/:id/submissions with valid req body", async () => {

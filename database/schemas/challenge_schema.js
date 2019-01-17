@@ -14,7 +14,8 @@ const ChallengeSchema = new Schema({
   },
   expiry_date: {
     type: Date,
-    min: Date.now
+    min: Date.now,
+    default: Date.now() + 31536000000 // 1 year from now
   },
   submissions: [SubmissionSchema]
 });
