@@ -6,6 +6,17 @@ const AuthController = require("../controllers/auth_controller");
 // @Base Route '/'
 
 router.post(
+  "/login",
+  celebrate({
+    body: {
+      email: Joi.string().email().required(),
+      password: Joi.string().required()
+    }
+  }),
+AuthController.login
+);
+
+router.post(
   "/register",
   celebrate({
     body: {
@@ -28,7 +39,7 @@ router.post(
         .min(6)
         .max(40)
         .required(),
-      terms_conditions: Joi.string().regex(/^true$/)
+        terms_conditions: Joi.boolean()
     }
   }),
   AuthController.register
