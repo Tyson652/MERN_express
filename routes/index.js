@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const passport = require("passport");
 const authRoutes = require("./auth_routes");
 const challengeRoutes = require("./challenge_routes");
 
@@ -18,7 +19,11 @@ router.use("/", authRoutes);
 
 // ------ Challenges & Submissions Routes ------
 // Submissions nested within /challenges/:id/submissions
-// TODO: required login user
-router.use("/challenges", challengeFindMiddleware, challengeRoutes);
+router.use(
+  "/challenges",
+  passport.authenticate("jwt", { session: false }),
+  challengeFindMiddleware,
+  challengeRoutes
+);
 
 module.exports = router;
