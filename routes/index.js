@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const authRoutes = require("./auth_routes");
+const profileRoutes = require("./profile_routes");
 const challengeRoutes = require("./challenge_routes");
 
 // ------ Middleware to find a challenge for controller ------
@@ -16,6 +17,13 @@ async function challengeFindMiddleware(req, res, next) {
 
 // ------ Authentication Routes ------
 router.use("/", authRoutes);
+
+// ------ Profile Routes ------
+router.use(
+  "/profile",
+  passport.authenticate("jwt", { session: false }),
+  profileRoutes
+);
 
 // ------ Challenges & Submissions Routes ------
 // Submissions nested within /challenges/:id/submissions
