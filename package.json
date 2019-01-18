@@ -7,7 +7,7 @@
     "test": "jest --coverage --detectOpenHandles",
     "seed": "node database/seeds",
     "dev-server": "nodemon index.js",
-    "sever": "forever -c \"nodemon --exitcrash -L\" index.js"
+    "server": "forever -c \"nodemon --exitcrash -L\" index.js"
   },
   "jest": {
     "testEnvironment": "node",

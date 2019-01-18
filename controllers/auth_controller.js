@@ -31,23 +31,26 @@ function register(req, res, next) {
   });
 }
 
+// API to log in a existing user via local strategy
+// @params email: string - passport-local-mongoose requires to be unique by default
+// @params password: string
+// @return  JWT
 async function login(req, res, next) {
   const { email, password } = req.body;
 
-  try { 
+  try {
     const { user, error } = await UserModel.authenticate()(email, password);
     if (error) throw error;
 
     const token = JWTService.generateToken(user);
-    
-    return res.json({ token });
 
+    return res.json({ token });
   } catch (err) {
     return next(err);
   }
 }
 
-module.exports = { 
+module.exports = {
   register,
   login
 };

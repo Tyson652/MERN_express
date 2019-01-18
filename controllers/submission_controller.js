@@ -9,22 +9,27 @@ const UserModel = require("./../database/models/user_model");
 // @return challenge: object
 async function create(req, res, next) {
   try {
-    let { id } = req.params;
-    let { title, description, video } = req.body;
+    // Save new submission to challenge object
+    const { id } = req.params;
+    const { title, description, video } = req.body;
+    const { _id, nickname, profile_image } = req.user;
 
     const challenge = await ChallengeModel.findById(id);
-    challenge.submissions.push({ title, description, video });
+    challenge.submissions.push({
+      title,
+      description,
+      video,
+      user: { id: _id, nickname, profile_image }
+    });
     await challenge.save();
 
-    // TODO: add to submission to current user
-    // console.log(req.user);
-    // const user = await UserModel.findById(req.user);
-    // user.submissions.push({
-    // challenge or submission ID?
-    //   submissionId: challenge.id,
-    //   submissionTitle: challenge.title
-    // });
-    // await user.save();
+    // Save challenge details to user
+    const user = await UserModel.findById(_id);
+    user.submissions.push({
+      challengeId: challenge.id,
+      challengeTitle: challenge.title
+    });
+    await user.save();
 
     return res.json(challenge);
   } catch (error) {

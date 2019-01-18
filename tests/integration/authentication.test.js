@@ -50,7 +50,7 @@ describe("Register a new user", () => {
         nickname: "SRogers1111",
         email: "test111@mail.com",
         password: "password",
-        termsConditions: ""
+        terms_conditions: ""
       })
       .expect(500);
 
