@@ -40,7 +40,14 @@ async function create(req, res, next) {
   }
 }
 
+//challenge upload
+function upload(req, res, next) {
+  console.log(req.body);
+  console.log(req.file);
+}
+
 module.exports = {
   index,
-  create
+  create,
+  upload
 };

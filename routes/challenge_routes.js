@@ -4,8 +4,18 @@ const { celebrate, Joi } = require("celebrate");
 const ChallengeController = require("../controllers/challenge_controller");
 const SubmissionController = require("./../controllers/submission_controller");
 
+//multer
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
+
 // @Base Route '/challenges'
 // @Nested Routes '/challenges/:id/submissions'
+
+//challenge upload route
+router.post(
+  "/upload", upload.single("video"),
+  ChallengeController.upload
+);
 
 router.get("/", ChallengeController.index);
 
