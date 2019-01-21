@@ -3,24 +3,17 @@ const router = express.Router();
 const { celebrate, Joi } = require("celebrate");
 const ChallengeController = require("../controllers/challenge_controller");
 const SubmissionController = require("./../controllers/submission_controller");
-
-//multer
-const multer = require("multer");
-const storage = multer.diskStorage({
-  destination: "uploads",
-  filename: function (req, file, cb) {
-    cb(null, "test.mov")
-  }
-});
-const upload = multer({ storage: storage });
-
+const upload = require ("./../config/multer");
+const yt = require ("./../services/youtube_service");
 
 // @Base Route '/challenges'
 // @Nested Routes '/challenges/:id/submissions'
 
 //challenge upload route
 router.post(
-  "/upload", upload.single("video"),
+  "/upload", 
+  upload.single("video"),
+  yt.upload,
   ChallengeController.upload
 );
 
