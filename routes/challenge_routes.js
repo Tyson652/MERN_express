@@ -12,10 +12,12 @@ const yt = require ("./../services/youtube_service");
 //challenge upload route
 router.post(
   "/upload", 
-  upload.single("video"),
-  yt.upload,
+  // upload.single("video"),
+  // yt.upload,
   ChallengeController.upload
 );
+
+router.get("/upload", ChallengeController.upload);
 
 router.get("/", ChallengeController.index);
 

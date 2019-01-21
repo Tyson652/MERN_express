@@ -41,9 +41,17 @@ async function create(req, res, next) {
 }
 
 //challenge upload
-function upload(req, res, next) {
-  console.log(req.file);
-  res.json("hello");
+async function upload(req, res, next) {
+  const { title, desc } = req.body;
+  const { id } = req.file;
+
+  const challenge = new ChallengeModel({
+    title,
+    description: desc,
+    yt_id: id
+  });
+  
+  return res.json(challenge);
 }
 
 module.exports = {
@@ -51,3 +59,31 @@ module.exports = {
   create,
   upload
 };
+
+
+
+//req body
+// { title: 'title', desc: 'desc' }
+// //req file
+// { fieldname: 'video',
+//   originalname: 'sample.mov',
+//   encoding: '7bit',
+//   mimetype: 'video/quicktime',
+//   destination: '/var/folders/st/jb30jn5n2_x6gqn9bbt8_8jw0000gn/T',
+//   filename: 'video-1548070551077',
+//   path: '/var/folders/st/jb30jn5n2_x6gqn9bbt8_8jw0000gn/T/video-1548070551077',
+//   size: 2926364,
+//   youtubeid: 'QVM6tvs-A4w' }
+// //req user
+// { is_verified: false,
+//   is_admin: false,
+//   _id: 5c4507120b27d51f474e5d4f,
+//   first_name: 'james',
+//   last_name: 'duong',
+//   nickname: 'jd',
+//   email: 'james@gmail.com',
+//   submissions: [],
+//   createdAt: 2019-01-20T23:41:07.209Z,
+//   updatedAt: 2019-01-20T23:41:07.209Z,
+//   __v: 0 }
+//

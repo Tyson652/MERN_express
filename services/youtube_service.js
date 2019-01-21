@@ -20,12 +20,22 @@ function upload(req, res, next) {
 }
 
 function list(req, res, next) {
-        youtube.videos.list({ part: "contentDetails", chart: "mostPopular"})
-        .then(response => console.log(response.data.items))
-        .catch(err => next(err));
+    youtube.videos.list({ part: "contentDetails", chart: "mostPopular"})
+    .then(response => console.log(response.data.items))
+    .catch(err => next(err));
+}
+
+function destroy() {
+
+}
+
+function edit() {
+
 }
 
 module.exports = {
     upload,
-    list
+    list,
+    destroy,
+    edit
 }
