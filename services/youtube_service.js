@@ -19,6 +19,13 @@ function upload(req, res, next) {
     .catch(err => next(err));
 }
 
+function list(req, res, next) {
+        youtube.videos.list({ part: "contentDetails", chart: "mostPopular"})
+        .then(response => console.log(response.data.items))
+        .catch(err => next(err));
+}
+
 module.exports = {
-    upload
+    upload,
+    list
 }
