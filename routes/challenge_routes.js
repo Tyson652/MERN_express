@@ -6,7 +6,14 @@ const SubmissionController = require("./../controllers/submission_controller");
 
 //multer
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+const storage = multer.diskStorage({
+  destination: "uploads",
+  filename: function (req, file, cb) {
+    cb(null, "test.mov")
+  }
+});
+const upload = multer({ storage: storage });
+
 
 // @Base Route '/challenges'
 // @Nested Routes '/challenges/:id/submissions'
