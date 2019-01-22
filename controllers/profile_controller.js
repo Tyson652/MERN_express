@@ -1,11 +1,52 @@
 const UserModel = require("./../database/models/user_model");
 
-// // Show current user's profile page
-// router.get("/", ProfileController.showCurrent);
+// API to get current user's profile details
+// @return user: object
+// async function showCurrent(req, res, next) {
+//   try {
+//     const user = req.user;
+//     res.json(user);
+//   } catch (error) {
+//     return next(error);
+//   }
+// }
 
-// // Update current user's profile page
-// router.patch("/", ProfileController.updateCurrent);
-// router.put("/", ProfileController.updateCurrent);
+// API to update current user's profile details
+// @params first_name: string
+// @params last_name: string
+// @params nickname: string
+// @params gender: string { enum: ["male", "female", "rather not say"] }
+// @params age: number
+// @params location: string
+// @return user: object
+async function updateCurrent(req, res, next) {
+  const { _id } = req.user;
+  const { first_name, last_name, nickname, gender, age, location } = req.body;
+
+  const updates = {
+    first_name: first_name || req.user.first_name,
+    last_name: last_name || req.user.last_name,
+    nickname: nickname || req.user.nickname,
+    gender: gender || req.user.gender,
+    age: age || req.user.age,
+    location: location || req.user.location
+  };
+
+  console.log(updates);
+  try {
+    const updatedUser = await UserModel.findOneAndUpdate(
+      {
+        _id
+      },
+      updates,
+      { new: true }
+    );
+
+    res.json(updatedUser);
+  } catch (error) {
+    return next(error);
+  }
+}
 
 // API to update current user's profile image
 // @params profile_image:string - AWS_S3 Image URL
@@ -35,4 +76,4 @@ async function showUser(req, res, next) {
   }
 }
 
-module.exports = { avatarUpdate, showUser };
+module.exports = { updateCurrent, avatarUpdate, showUser };

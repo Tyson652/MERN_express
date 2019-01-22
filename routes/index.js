@@ -18,7 +18,7 @@ async function challengeFindMiddleware(req, res, next) {
 // ------ Authentication Routes ------
 router.use("/", authRoutes);
 
-// ------ Profile Routes ------
+// ------ Profile Routes (current user and other users) ------
 // --- Upload Image nested with /profile/image-upload ---
 router.use(
   "/profile",
