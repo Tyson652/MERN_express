@@ -27,7 +27,7 @@ function list(req, res, next) {
     .catch(err => next(err));
 }
 
-function destroy(req, res, next) {
+async function destroy(req, res, next) {
     const { id } = req.params;
   
     const challenge = await ChallengeModel.findById(id);
