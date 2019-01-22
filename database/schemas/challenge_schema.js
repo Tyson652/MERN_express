@@ -10,6 +10,9 @@ const ChallengeSchema = new Schema(
     description: {
       type: String
     },
+    yt_id: {
+      type: String
+    },
     yt_url: {
       type: String
     },

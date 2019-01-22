@@ -1,6 +1,8 @@
 const youtube = require("./../config/youtube");
 const fs = require("fs");
 
+const ChallengeModel = require("./../database/models/challenge_model");
+
 function upload(req, res, next) {
     youtube.videos.insert({
         snippet: {
@@ -25,17 +27,23 @@ function list(req, res, next) {
     .catch(err => next(err));
 }
 
-function destroy() {
+function destroy(req, res, next) {
+    const { id } = req.params;
+  
+    const challenge = await ChallengeModel.findById(id);
+    const yt_id = challenge.yt_id;
 
-}
-
-function edit() {
-
+    youtube.video.delete({
+        id: yt_id
+    })
+    .then(response => {
+        next();
+    })
+    .catch(err => next(err));
 }
 
 module.exports = {
     upload,
     list,
-    destroy,
-    edit
+    destroy
 }

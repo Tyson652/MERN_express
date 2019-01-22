@@ -23,7 +23,12 @@ router.post(
   ChallengeController.create
 );
 
-router.get("/", ChallengeController.index);
+//challenge delete route
+router.post(
+  "/:id/delete",
+  yt.destroy,
+  ChallengeController.destroy
+);
 
 router.post(
   "/",

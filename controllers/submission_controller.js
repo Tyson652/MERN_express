@@ -19,6 +19,8 @@ async function create(req, res, next) {
     challenge.submissions.push({
       title,
       description,
+      //yt id and url saved to make it easier to delete from youtube api, but also have full video url
+      yt_id,
       yt_url: `https://www.youtube.com/watch?v=${yt_id}`,
       user: { id: _id, nickname, profile_image }
     });

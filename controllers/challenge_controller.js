@@ -34,18 +34,29 @@ async function create(req, res, next) {
   const { title, description } = req.body;
   const { yt_id } = req.file;
 
+  //yt id and url saved to make it easier to delete from youtube api, but also have full video url
   const challenge = new ChallengeModel ({
     title,
     description,
+    yt_id,
     yt_url: `https://www.youtube.com/watch?v=${yt_id}`
   });
   console.log("here");
   return res.json(challenge);
 }
 
+async function destroy(req, res, next) {  
+  const { id } = req.params;
+  
+  const challenge = await ChallengeModel.findById(id);
+  challenge.remove();
+  next();
+}
+
 module.exports = {
   index,
-  create
+  create,
+  destroy
 };
 
 //duplicate code
