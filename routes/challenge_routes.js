@@ -8,16 +8,20 @@ const yt = require ("./../services/youtube_service");
 
 // @Base Route '/challenges'
 // @Nested Routes '/challenges/:id/submissions'
+router.post(
+  "/:id/submissions", 
+  upload.single("video"),
+  yt.upload,
+  SubmissionController.create
+);
 
 //challenge upload route
 router.post(
   "/upload", 
-  // upload.single("video"),
-  // yt.upload,
-  ChallengeController.upload
+  upload.single("video"),
+  yt.upload,
+  ChallengeController.create
 );
-
-router.get("/upload", ChallengeController.upload);
 
 router.get("/", ChallengeController.index);
 

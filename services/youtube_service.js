@@ -13,7 +13,7 @@ function upload(req, res, next) {
         part: "snippet"
     })
     .then(response => {
-        req.file.youtubeid = response.data.id;
+        req.file.yt_id = response.data.id;
         next();
     })
     .catch(err => next(err));

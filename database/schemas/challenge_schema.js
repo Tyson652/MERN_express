@@ -10,7 +10,7 @@ const ChallengeSchema = new Schema(
     description: {
       type: String
     },
-    yt_id: {
+    yt_url: {
       type: String
     },
     expiry_date: {

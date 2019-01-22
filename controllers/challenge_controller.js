@@ -25,40 +25,44 @@ async function index(req, res, next) {
 // @params video:string - YouTube URL ID
 // @params expiry_date: date
 // @return challenge: object
-async function create(req, res, next) {
-  try {
-    let { title, description, video, expiry_date } = req.body;
-    const challenge = await ChallengeModel.create({
-      title,
-      description,
-      video,
-      expiry_date
-    });
-    return res.json(challenge);
-  } catch (error) {
-    return next(error);
-  }
-}
 
 //challenge upload
-async function upload(req, res, next) {
-  const { title, desc } = req.body;
-  const { id } = req.file;
+async function create(req, res, next) {
+  console.log("challenge controller ran");
+  console.log(req.body);
+  console.log(req.file);
+  const { title, description } = req.body;
+  const { yt_id } = req.file;
 
-  const challenge = new ChallengeModel({
+  const challenge = new ChallengeModel ({
     title,
-    description: desc,
-    yt_id: id
+    description,
+    yt_url: `https://www.youtube.com/watch?v=${yt_id}`
   });
-  
+  console.log("here");
   return res.json(challenge);
 }
 
 module.exports = {
   index,
-  create,
-  upload
+  create
 };
+
+//duplicate code
+// async function create(req, res, next) {
+//   try {
+//     let { title, description, video, expiry_date } = req.body;
+//     const challenge = await ChallengeModel.create({
+//       title,
+//       description,
+//       video,
+//       expiry_date
+//     });
+//     return res.json(challenge);
+//   } catch (error) {
+//     return next(error);
+//   }
+// }
 
 
 

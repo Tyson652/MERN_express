@@ -6,6 +6,9 @@ const SubmissionSchema = new Schema(
       type: String,
       required: true
     },
+    description: {
+      type: String
+    },
     video: {
       type: String,
       required: true
