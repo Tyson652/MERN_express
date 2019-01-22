@@ -2,6 +2,7 @@ const ChallengeModel = require("./../database/models/challenge_model");
 
 // API to get lists ongoing Challenges
 // @return challenges: array [{},{}] without submission subdocs
+// Stretch: filtering, search, pagination
 async function index(req, res, next) {
   try {
     const challenges = await ChallengeModel.aggregate([

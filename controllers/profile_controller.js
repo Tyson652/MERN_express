@@ -15,7 +15,7 @@ const UserModel = require("./../database/models/user_model");
 // @params first_name: string
 // @params last_name: string
 // @params nickname: string
-// @params gender: string { enum: ["male", "female", "rather not say"] }
+// @params gender: enum ["male", "female", "rather not say"]
 // @params age: number
 // @params location: string
 // @return user: object
@@ -64,7 +64,7 @@ async function avatarUpdate(req, res, next) {
   }
 }
 
-// API to get another user's details
+// API to get an user's details
 // @return user: object
 async function showUser(req, res, next) {
   try {

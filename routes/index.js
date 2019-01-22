@@ -4,6 +4,7 @@ const passport = require("passport");
 const authRoutes = require("./auth_routes");
 const profileRoutes = require("./profile_routes");
 const challengeRoutes = require("./challenge_routes");
+const submissionRoutes = require("./submission_routes");
 
 // ------ Middleware to find a challenge for controller ------
 const ChallengeModel = require("./../database/models/challenge_model");
@@ -16,23 +17,34 @@ async function challengeFindMiddleware(req, res, next) {
 }
 
 // ------ Authentication Routes ------
+
 router.use("/", authRoutes);
 
 // ------ Profile Routes (current user and other users) ------
-// --- Upload Image nested with /profile/image-upload ---
+//    --- Upload Image nested with /profile/image-upload ---
+
 router.use(
   "/profile",
   passport.authenticate("jwt", { session: false }),
   profileRoutes
 );
 
-// ------ Challenges & Submissions Routes ------
-// --- Submissions nested within /challenges/:id/submissions ---
+// ------ Challenges Routes ------
+
 router.use(
   "/challenges",
   passport.authenticate("jwt", { session: false }),
   challengeFindMiddleware,
   challengeRoutes
+);
+
+// ------ Submissions Routes ------
+//     --- Create Submissions nested within /challenges/:id/submissions ---
+router.use(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  challengeFindMiddleware,
+  submissionRoutes
 );
 
 module.exports = router;
