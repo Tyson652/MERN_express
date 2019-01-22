@@ -19,6 +19,7 @@ async function challengeFindMiddleware(req, res, next) {
 router.use("/", authRoutes);
 
 // ------ Profile Routes ------
+// --- Upload Image nested with /profile/image-upload ---
 router.use(
   "/profile",
   passport.authenticate("jwt", { session: false }),
@@ -26,7 +27,7 @@ router.use(
 );
 
 // ------ Challenges & Submissions Routes ------
-// Submissions nested within /challenges/:id/submissions
+// --- Submissions nested within /challenges/:id/submissions ---
 router.use(
   "/challenges",
   // passport.authenticate("jwt", { session: false }),
