@@ -26,7 +26,8 @@ router.use(
 
 router.use(
   "/challenges",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
+  challengeFindMiddleware,
   challengeRoutes
 );
 

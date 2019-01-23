@@ -41,14 +41,17 @@ async function create(req, res, next) {
   try {
     // Save new submission to challenge object
     const { id } = req.params;
-    const { title, description, video } = req.body;
+    const { yt_id } = req.file;
+    const { title, description } = req.body;
     const { _id, nickname, profile_image } = req.user;
 
     const challenge = await ChallengeModel.findById(id);
     challenge.submissions.push({
       title,
       description,
-      video,
+      //yt id and url saved to make it easier to delete from youtube api, but also have full video url
+      yt_id,
+      yt_url: `https://www.youtube.com/watch?v=${yt_id}`,
       user: { id: _id, nickname, profile_image }
     });
     await challenge.save();
