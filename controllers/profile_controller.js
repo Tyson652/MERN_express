@@ -69,7 +69,13 @@ async function avatarUpdate(req, res, next) {
 async function showUser(req, res, next) {
   try {
     const { id } = req.params;
-    const user = await UserModel.findById(id);
+    const user = await UserModel.findById(id, {
+      is_verified: 0,
+      is_admin: 0,
+      createdAt: 0,
+      updatedAt: 0
+    });
+
     res.json(user);
   } catch (error) {
     return next(error);

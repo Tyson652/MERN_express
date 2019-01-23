@@ -1,20 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+
 const authRoutes = require("./auth_routes");
 const profileRoutes = require("./profile_routes");
 const challengeRoutes = require("./challenge_routes");
 const submissionRoutes = require("./submission_routes");
 
-// ------ Middleware to find a challenge for controller ------
-const ChallengeModel = require("./../database/models/challenge_model");
-async function challengeFindMiddleware(req, res, next) {
-  if (req.params.id) {
-    let challenge = await ChallengeModel.findById(req.params.id);
-    req.challenge = challenge;
-  }
-  next();
-}
+const getChallengeIdMiddleware = require("./../middleware/get_challenge_id_middleware");
 
 // ------ Authentication Routes ------
 
@@ -34,7 +27,6 @@ router.use(
 router.use(
   "/challenges",
   passport.authenticate("jwt", { session: false }),
-  challengeFindMiddleware,
   challengeRoutes
 );
 
@@ -43,7 +35,7 @@ router.use(
 router.use(
   "/",
   passport.authenticate("jwt", { session: false }),
-  challengeFindMiddleware,
+  getChallengeIdMiddleware,
   submissionRoutes
 );
 

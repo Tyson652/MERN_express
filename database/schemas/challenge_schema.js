@@ -3,6 +3,17 @@ const SubmissionSchema = require("./submission_schema");
 
 const ChallengeSchema = new Schema(
   {
+    user: {
+      id: {
+        type: String
+      },
+      nickname: {
+        type: String
+      },
+      profile_image: {
+        type: String
+      }
+    },
     title: {
       type: String,
       required: true
