@@ -59,6 +59,7 @@ describe("Create a challenge", () => {
     const response = await supertest(app)
       .post("/challenges")
       .send({
+        // TODO nickname
         title: "ALS Ice Bucket",
         description: "Brr... dump a bucket of ice water on your head",
         video: "DepakUSDtQE",

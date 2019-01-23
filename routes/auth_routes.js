@@ -5,17 +5,21 @@ const AuthController = require("../controllers/auth_controller");
 
 // @Base Route '/'
 
+// Login exist user
 router.post(
   "/login",
   celebrate({
     body: {
-      email: Joi.string().email().required(),
+      email: Joi.string()
+        .email()
+        .required(),
       password: Joi.string().required()
     }
   }),
-AuthController.login
+  AuthController.login
 );
 
+// Register new user
 router.post(
   "/register",
   celebrate({
@@ -39,7 +43,7 @@ router.post(
         .min(6)
         .max(40)
         .required(),
-        terms_conditions: Joi.boolean()
+      terms_conditions: Joi.boolean()
     }
   }),
   AuthController.register
