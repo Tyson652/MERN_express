@@ -7,7 +7,7 @@ const profileRoutes = require("./profile_routes");
 const challengeRoutes = require("./challenge_routes");
 const submissionRoutes = require("./submission_routes");
 
-const getChallengeIdMiddleware = require("./../middleware/get_challenge_id_middleware");
+// const getChallengeIdMiddleware = require("./../middleware/get_challenge_id_middleware");
 
 // ------ Authentication Routes ------
 
@@ -27,7 +27,7 @@ router.use(
 router.use(
   "/challenges",
   // passport.authenticate("jwt", { session: false }),
-  challengeFindMiddleware,
+  // challengeFindMiddleware,
   challengeRoutes
 );
 
@@ -36,7 +36,7 @@ router.use(
 router.use(
   "/",
   passport.authenticate("jwt", { session: false }),
-  getChallengeIdMiddleware,
+  // getChallengeIdMiddleware,
   submissionRoutes
 );
 

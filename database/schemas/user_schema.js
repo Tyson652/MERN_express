@@ -43,16 +43,16 @@ const UserSchema = new Schema(
     submissions: [
       {
         challengeId: {
-          type: String,
-          required: true
+          type: String
+          // required: true
         },
         challengeTitle: {
-          type: String,
-          required: true
+          type: String
+          // required: true
         },
         challengeDescription: {
-          type: String,
-          required: true
+          type: String
+          // required: true
         },
         createdAt: {
           type: Date,

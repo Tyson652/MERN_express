@@ -32,12 +32,12 @@ const validateCurrentUserUpdates = celebrate({
 // user object should be already available upon authentication @ req.user
 // router.get("/", ProfileController.showCurrent);
 
-// // Update current user's profile - details
+// Update current user's profile details
 router.patch("/", validateCurrentUserUpdates, ProfileController.updateCurrent);
 router.put("/", validateCurrentUserUpdates, ProfileController.updateCurrent);
 
 // TODO: validation image file req.file?
-// Update current user's profile - avatar image
+// Update current user's avatar image
 router.post("/avatar-upload", avatarUpload, ProfileController.avatarUpdate);
 
 // Show other users' profile page

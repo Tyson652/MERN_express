@@ -44,6 +44,8 @@ router.post(
         .max(40)
         .required(),
       terms_conditions: Joi.boolean()
+        .valid(true)
+        .required()
     }
   }),
   AuthController.register

@@ -8,35 +8,38 @@ async function index(req, res, next) {
   try {
     const challenges = await ChallengeModel.aggregate([
       { $match: { expiry_date: { $gt: new Date() } } },
-      { $sort: { expiry_date: 1 } }, // most recent first
+      { $sort: { expiry_date: 1 } }, // ascending order
       { $limit: 50 }
-      // { $project: { title: 1, description: 1, video: 1, expiry_date: 1 } }
     ]);
 
     return res.json(challenges);
   } catch (error) {
-    return next(error);
+    console.log(error);
+    return next(new HTTPError(500, "Unable to get challenges"));
   }
 }
 
-// API (Admin Only) to create a new Challenge
-// @params nickname: string - of an existing user
+// (Admin Only) API to create a new Challenge
+// @params id: string - of an existing user
 // @params title: string
 // @params description: string
 // @params video:string - YouTube URL
 // @params expiry_date: date
 // @return challenge: object
-
-//challenge upload
 async function create(req, res, next) {
   try {
-    let { nickname, title, description, video, expiry_date } = req.body;
+    let { id, title, description, video, expiry_date } = req.body;
     const { yt_id } = req.file;
 
-    // Creator of the challenge will be an existing user, query on nickname
-    const existingUser = await UserModel.findOne({ nickname });
+    // Creator of the challenge will be set with details from an existing user, query on user's ID
+    const existingUser = await UserModel.findById({ id });
+
+    if (!existingUser) {
+      return next(new HTTPError(400, "User ID not found"));
+    }
+
     let user = {
-      id: existingUser._id,
+      id,
       nickname: existingUser.nickname,
       profile_image: existingUser.profile_image
     };
@@ -49,17 +52,23 @@ async function create(req, res, next) {
       expiry_date
     });
 
+    if (!challenge) {
+      return next(new HTTPError(422, "Could not create challenge"));
+    }
+
     return res.json(challenge);
   } catch (error) {
-    return next(error);
+    return next(new HTTPError(500, error.message));
   }
 }
 
-async function destroy(req, res, next) {  
+async function destroy(req, res, next) {
   const { id } = req.params;
-  
-  const challenge = await ChallengeModel.findById(id);
-  challenge.remove();
+
+  const challenge = await ChallengeModel.findByIdAndRemove(id);
+  if (!challenge) {
+    return next(new HTTPError(400, "Challenge ID not found"));
+  }
   next();
 }
 
@@ -84,8 +93,6 @@ module.exports = {
 //     return next(error);
 //   }
 // }
-
-
 
 //req body
 // { title: 'title', desc: 'desc' }

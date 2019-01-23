@@ -1,9 +1,11 @@
 const supertest = require("supertest");
 const app = require("../../app");
 const mongoose = require("mongoose");
+const HTTPError = require("./../../errors/HTTPError");
 const UserModel = require("../../database/models/user_model");
 
 beforeAll(() => {
+  global.HTTPError = HTTPError;
   mongoose.connect(
     "mongodb://localhost/1up_api_test",
     { useNewUrlParser: true }

@@ -32,19 +32,18 @@ async function updateCurrent(req, res, next) {
     location: location || req.user.location
   };
 
-  console.log(updates);
   try {
-    const updatedUser = await UserModel.findOneAndUpdate(
-      {
-        _id
-      },
-      updates,
-      { new: true }
-    );
+    const updatedUser = await UserModel.findByIdAndUpdate(_id, updates, {
+      new: true
+    });
+
+    if (!updatedUser) {
+      return next(new HTTPError(500, "Unable to update profile"));
+    }
 
     res.json(updatedUser);
   } catch (error) {
-    return next(error);
+    return next(new HTTPError(500, error.message));
   }
 }
 
@@ -60,7 +59,7 @@ async function avatarUpdate(req, res, next) {
     // Refactor: what to do with old image (delete or keep pass images?)
     return res.json(user);
   } catch (error) {
-    return next(error);
+    return next(new HTTPError(500, error.message));
   }
 }
 
@@ -69,6 +68,7 @@ async function avatarUpdate(req, res, next) {
 async function showUser(req, res, next) {
   try {
     const { id } = req.params;
+
     const user = await UserModel.findById(id, {
       is_verified: 0,
       is_admin: 0,
@@ -78,7 +78,8 @@ async function showUser(req, res, next) {
 
     res.json(user);
   } catch (error) {
-    return next(error);
+    console.log(error);
+    return next(new HTTPError(500, "User not found"));
   }
 }
 

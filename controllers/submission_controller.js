@@ -3,7 +3,6 @@ const UserModel = require("./../database/models/user_model");
 
 // API to get lists of submissions
 // @return submission: array [{ submission }]
-// Stretch: filtering, search, pagination
 async function index(req, res, next) {
   try {
     const submissions = await ChallengeModel.aggregate([
@@ -25,9 +24,11 @@ async function index(req, res, next) {
         }
       }
     ]);
+
     return res.json(submissions);
   } catch (error) {
-    return next(error);
+    console.log(error);
+    return next(new HTTPError(500, "Unable to get submissions"));
   }
 }
 
@@ -46,6 +47,11 @@ async function create(req, res, next) {
     const { _id, nickname, profile_image } = req.user;
 
     const challenge = await ChallengeModel.findById(id);
+
+    if (!challenge) {
+      return next(new HTTPError(400, "Challenge not found"));
+    }
+
     challenge.submissions.push({
       title,
       description,
@@ -66,7 +72,7 @@ async function create(req, res, next) {
 
     return res.json(challenge);
   } catch (error) {
-    return next(error);
+    return next(new HTTPError(500, error.message));
   }
 }
 
