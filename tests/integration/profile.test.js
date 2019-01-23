@@ -36,7 +36,18 @@ const userData = {
   ]
 };
 
-describe("Get an user's details", () => {
+// TODO - route required??? available from req.user
+// describe("Get current user's details", () => {
+// test("GET /profile", async () => {
+//   const newUser = await UserModel.create(userData);
+//   const response = await supertest(app)
+//     .get("/profile")
+//     .expect(200);
+//   expect(response.body.first_name).toBe("Steve2752");
+// });
+// });
+
+describe("Get an other user's details", () => {
   test("GET /profile/:id", async () => {
     const newUser = await UserModel.create(userData);
 
@@ -46,4 +57,15 @@ describe("Get an user's details", () => {
 
     expect(response.body.first_name).toBe("Steve2752");
   });
+});
+
+// TODO
+describe("Update current user's details", () => {
+  // test("PUT /profile", async () => {
+  //   const newUser = await UserModel.create(userData);
+  //   const response = await supertest(app)
+  //     .get("/profile")
+  //     .expect(200);
+  //   expect(response.body.first_name).toBe("Steve2752");
+  // });
 });

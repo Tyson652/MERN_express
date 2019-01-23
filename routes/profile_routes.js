@@ -6,14 +6,38 @@ const { avatarUpload } = require("../services/avatar_upload_service");
 
 // @Base Route '/profile'
 
-// // Show current user's profile page
+const validateCurrentUserUpdates = celebrate({
+  body: {
+    first_name: Joi.string()
+      .max(30)
+      .trim(),
+    last_name: Joi.string()
+      .max(30)
+      .trim(),
+    nickname: Joi.string()
+      .max(30)
+      .trim(),
+    gender: Joi.any().valid("male", "female", "rather not say"),
+    age: Joi.number()
+      .integer()
+      .min(0)
+      .max(150),
+    location: Joi.string()
+      .max(100)
+      .trim()
+  }
+});
+
+// Show current user's profile page
+// user object should be already available upon authentication @ req.user
 // router.get("/", ProfileController.showCurrent);
 
-// // Update current user's profile page
-// router.patch("/", ProfileController.updateCurrent);
-// router.put("/", ProfileController.updateCurrent);
+// // Update current user's profile - details
+router.patch("/", validateCurrentUserUpdates, ProfileController.updateCurrent);
+router.put("/", validateCurrentUserUpdates, ProfileController.updateCurrent);
 
-// Update current user's profile avatar image
+// TODO: validation image file req.file?
+// Update current user's profile - avatar image
 router.post("/avatar-upload", avatarUpload, ProfileController.avatarUpdate);
 
 // Show other users' profile page

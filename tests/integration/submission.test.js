@@ -36,6 +36,14 @@ const testChallenge = {
 
 let newChallenge = "";
 
+// ---------------- Index Tests ----------------
+// TODO
+describe("Get list of recent submissions", () => {
+  // test("GET /submissions returns array of recent submissions", async () => {
+  // const response = await supertest(app).get("/submissions").expect(200);;
+  // });
+});
+
 // ---------------- Create Tests ----------------
 
 describe("Create a submission", () => {

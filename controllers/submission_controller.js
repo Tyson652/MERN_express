@@ -1,6 +1,36 @@
 const ChallengeModel = require("./../database/models/challenge_model");
 const UserModel = require("./../database/models/user_model");
 
+// API to get lists of submissions
+// @return submission: array [{ submission }]
+// Stretch: filtering, search, pagination
+async function index(req, res, next) {
+  try {
+    const submissions = await ChallengeModel.aggregate([
+      { $match: { "submissions.0": { $exists: true } } },
+      { $unwind: "$submissions" },
+      { $sort: { "submissions.createdAt": -1 } }, // most recent first
+      { $limit: 50 },
+      {
+        $project: {
+          title: 1,
+          submission_id: "$submissions._id",
+          submission_title: "$submissions.title",
+          submission_description: "$submissions.description",
+          submission_video: "$submissions.video",
+          submission_createdAt: "$submissions.createdAt",
+          submission_user_id: "$submissions.user.id",
+          submission_user_nickname: "$submissions.user.nickname",
+          submission_user_profile_image: "$submissions.user.profile_image"
+        }
+      }
+    ]);
+    return res.json(submissions);
+  } catch (error) {
+    return next(error);
+  }
+}
+
 // API to create a new Submission for a Challenge
 // @params id: string - challenge ID from middleware
 // @params title: string
@@ -41,5 +71,6 @@ async function create(req, res, next) {
 }
 
 module.exports = {
+  index,
   create
 };

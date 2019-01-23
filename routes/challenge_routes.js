@@ -6,6 +6,7 @@ const SubmissionController = require("./../controllers/submission_controller");
 const upload = require ("./../config/multer");
 const yt = require ("./../services/youtube_service");
 const temp = require("./../middleware/temp_file_middleware");
+const isAdminMiddleware = require("./../middleware/is_admin_middleware");
 
 // @Base Route '/challenges'
 // @Nested Routes '/challenges/:id/submissions'
@@ -33,31 +34,26 @@ router.post(
   ChallengeController.destroy
 );
 
+router.get("/", ChallengeController.index);
+
+// Admin Only - Create a new challenge
 router.post(
   "/",
+  isAdminMiddleware,
   celebrate({
     body: {
-      title: Joi.string().required(),
-      description: Joi.string(),
-      video: Joi.string(),
+      nickname: Joi.string()
+        .trim()
+        .required(),
+      title: Joi.string()
+        .trim()
+        .required(),
+      description: Joi.string().trim(),
+      video: Joi.string().trim(),
       expiry_date: Joi.date().min("now")
     }
   }),
   ChallengeController.create
-);
-
-// @Nested Submissions Routes
-
-router.post(
-  "/:id/submissions",
-  celebrate({
-    body: {
-      title: Joi.string().required(),
-      description: Joi.string(),
-      video: Joi.string().required()
-    }
-  }),
-  SubmissionController.create
 );
 
 module.exports = router;
