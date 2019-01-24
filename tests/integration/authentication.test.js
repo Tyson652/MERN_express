@@ -1,9 +1,11 @@
 const supertest = require("supertest");
 const app = require("../../app");
 const mongoose = require("mongoose");
+const HTTPError = require("./../../errors/HTTPError");
 const UserModel = require("../../database/models/user_model");
 
 beforeAll(() => {
+  global.HTTPError = HTTPError;
   mongoose.connect(
     "mongodb://localhost/1up_api_test",
     { useNewUrlParser: true }
@@ -20,26 +22,25 @@ afterAll(async () => {
 // ---------------- Register Tests ----------------
 
 describe("Register a new user", () => {
-  //// manual tests pass
-  //// test broke - email undefined for JWT.sign()
-  // test("POST /register with valid req body", async () => {
-  //   const response = await supertest(app)
-  //     .post("/register")
-  //     .send({
-  //       first_name: "Steven2435",
-  //       last_name: "Rogers2435",
-  //       nickname: "SRogers2435",
-  //       email: "test2435@mail.com",
-  //       password: "password",
-  //       terms_conditions: "true"
-  //     })
-  //     .expect(200);
+  // test broke - email undefined for JWT.sign()
+  test("POST /register with valid req body", async () => {
+    const response = await supertest(app)
+      .post("/register")
+      .send({
+        first_name: "Steven2435",
+        last_name: "Rogers2435",
+        nickname: "SRogers2435",
+        email: "test2435@mail.com",
+        password: "password",
+        terms_conditions: "true"
+      })
+      .expect(200);
 
-  //   // const createdUser = await UserModel.findOne({ email: "test2435@mail.com" });
+    const createdUser = await UserModel.findOne({ email: "test2435@mail.com" });
 
-  //   // expect(createdUser).toBeTruthy;
-  //   // expect(createdUser.nickname).toBe("SRogers2435");
-  // });
+    expect(createdUser).toBeTruthy;
+    expect(createdUser.nickname).toBe("SRogers2435");
+  });
 
   test("POST /register with invalid req body", async () => {
     const response = await supertest(app)

@@ -9,7 +9,7 @@ const SubmissionSchema = new Schema(
     description: {
       type: String
     },
-    video: {
+    yt_id: {
       type: String,
       required: true
     },

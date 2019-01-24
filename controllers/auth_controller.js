@@ -18,11 +18,9 @@ function register(req, res, next) {
     email
   });
 
-  UserModel.register(user, password, (err, user) => {
-    if (err) {
-      // FIXME: breaks tests, custom HTTPError not defined
-      console.log(err);
-      return next(new HTTPError(500, err.message));
+  UserModel.register(user, password, (error, user) => {
+    if (error) {
+      return next(new HTTPError(500, error.message));
     }
 
     const token = JWTService.generateToken(user);
@@ -40,13 +38,15 @@ async function login(req, res, next) {
 
   try {
     const { user, error } = await UserModel.authenticate()(email, password);
-    if (error) throw error;
+    if (error) {
+      return next(new HTTPError(401, error.message));
+    }
 
     const token = JWTService.generateToken(user);
 
     return res.json({ token });
-  } catch (err) {
-    return next(err);
+  } catch (error) {
+    return next(error);
   }
 }
 

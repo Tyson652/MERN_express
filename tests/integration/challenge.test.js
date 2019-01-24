@@ -1,9 +1,11 @@
 const supertest = require("supertest");
 const app = require("../../app");
 const mongoose = require("mongoose");
+const HTTPError = require("./../../errors/HTTPError");
 const ChallengeModel = require("../../database/models/challenge_model");
 
 beforeAll(() => {
+  global.HTTPError = HTTPError;
   mongoose.connect(
     "mongodb://localhost/1up_api_test",
     { useNewUrlParser: true }
@@ -59,6 +61,7 @@ describe("Create a challenge", () => {
     const response = await supertest(app)
       .post("/challenges")
       .send({
+        // TODO nickname
         title: "ALS Ice Bucket",
         description: "Brr... dump a bucket of ice water on your head",
         video: "DepakUSDtQE",

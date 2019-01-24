@@ -3,6 +3,17 @@ const SubmissionSchema = require("./submission_schema");
 
 const ChallengeSchema = new Schema(
   {
+    user: {
+      creator_id: {
+        type: String
+      },
+      nickname: {
+        type: String
+      },
+      profile_image: {
+        type: String
+      }
+    },
     title: {
       type: String,
       required: true
@@ -10,7 +21,10 @@ const ChallengeSchema = new Schema(
     description: {
       type: String
     },
-    video: {
+    yt_id: {
+      type: String
+    },
+    yt_url: {
       type: String
     },
     expiry_date: {

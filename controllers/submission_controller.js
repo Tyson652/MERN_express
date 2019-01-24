@@ -3,7 +3,6 @@ const UserModel = require("./../database/models/user_model");
 
 // API to get lists of submissions
 // @return submission: array [{ submission }]
-// Stretch: filtering, search, pagination
 async function index(req, res, next) {
   try {
     const submissions = await ChallengeModel.aggregate([
@@ -25,9 +24,11 @@ async function index(req, res, next) {
         }
       }
     ]);
+
     return res.json(submissions);
   } catch (error) {
-    return next(error);
+    console.log(error);
+    return next(new HTTPError(500, "Unable to get submissions"));
   }
 }
 
@@ -39,16 +40,27 @@ async function index(req, res, next) {
 // @return challenge: object
 async function create(req, res, next) {
   try {
+    console.log("43");
     // Save new submission to challenge object
     const { id } = req.params;
-    const { title, description, video } = req.body;
+    // const { yt_id } = req.file;
+    const yt_id = 1;
+    const { title, description } = req.body;
     const { _id, nickname, profile_image } = req.user;
-
+    console.log(req.params.id);
+    console.log(req.body);
+    console.log(req.user);
     const challenge = await ChallengeModel.findById(id);
+    console.log("52");
+    if (!challenge) {
+      return next(new HTTPError(400, "Challenge not found"));
+    }
+    console.log("56");
     challenge.submissions.push({
       title,
       description,
-      video,
+      //yt id and url saved to make it easier to delete from youtube api, but also have full video url
+      yt_id,
       user: { id: _id, nickname, profile_image }
     });
     await challenge.save();
@@ -63,7 +75,7 @@ async function create(req, res, next) {
 
     return res.json(challenge);
   } catch (error) {
-    return next(error);
+    return next(new HTTPError(500, error.message));
   }
 }
 
