@@ -17,12 +17,16 @@ const UserSchema = new Schema(
       type: String,
       required: true
     },
+    bio: {
+      type: String
+    },
     profile_image: {
       type: String
     },
     gender: {
       type: String,
-      enum: ["male", "female", "rather not say"]
+      default: "gender-neutral",
+      enum: ["male", "female", "gender-neutral"]
     },
     age: {
       type: Number,

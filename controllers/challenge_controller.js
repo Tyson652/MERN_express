@@ -23,32 +23,26 @@ async function index(req, res, next) {
 // @params id: string - of an existing user
 // @params title: string
 // @params description: string
-// @params video:string - YouTube URL
+// @params yt_id:string - YouTube ID from youtube_service.js
 // @params expiry_date: date
 // @return challenge: object
 async function create(req, res, next) {
-  console.log("inside challenge cont");
   try {
     let { creator_id, title, description, expiry_date } = req.body;
     // const { yt_id } = req.file;
-    const yt_id = 1;
-    console.log(req.body, req.file);
-    
+    const yt_id = "9cQgQIMlwWw";
+
     // Creator of the challenge will be set with details from an existing user, query on user's ID
-    console.log(creator_id);
     const existingUser = await UserModel.findById(creator_id);
-    console.log(existingUser);
     if (!existingUser) {
       return next(new HTTPError(400, "User ID not found"));
     }
-    
 
     let user = {
       creator_id,
       nickname: existingUser.nickname,
       profile_image: existingUser.profile_image
     };
-    console.log(user);
 
     const challenge = await ChallengeModel.create({
       user: { ...user },
@@ -57,7 +51,6 @@ async function create(req, res, next) {
       yt_id,
       expiry_date
     });
-    console.log(challenge);
 
     if (!challenge) {
       return next(new HTTPError(422, "Could not create challenge"));
@@ -84,22 +77,6 @@ module.exports = {
   create,
   destroy
 };
-
-//duplicate code
-// async function create(req, res, next) {
-//   try {
-//     let { title, description, video, expiry_date } = req.body;
-//     const challenge = await ChallengeModel.create({
-//       title,
-//       description,
-//       video,
-//       expiry_date
-//     });
-//     return res.json(challenge);
-//   } catch (error) {
-//     return next(error);
-//   }
-// }
 
 //req body
 // { title: 'title', desc: 'desc' }

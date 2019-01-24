@@ -1,5 +1,8 @@
+require("dotenv").config();
 const supertest = require("supertest");
+const mongoose = require("mongoose");
 const app = require("../../app");
+const HTTPError = require("./../../errors/HTTPError");
 
 describe("POST /profile/avatar-upload - upload a new avatar image to AWS-S3", () => {
   // const filePath = `${__dirname}/testFiles/test.pdf`;

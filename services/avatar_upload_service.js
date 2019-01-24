@@ -12,6 +12,7 @@ aws.config.update({
 // create S3 instance
 const s3 = new aws.S3();
 
+// configure multer middleware
 const upload = multer({
   storage: multerS3({
     s3: s3,
@@ -26,6 +27,8 @@ const upload = multer({
   })
 });
 
+// uploads image file to S3 bucket, file from form with key 'image'
+// @returns req.file: object
 function avatarUpload(req, res, next) {
   const singleUpload = upload.single("image");
   singleUpload(req, res, error => {

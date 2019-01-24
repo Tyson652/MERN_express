@@ -14,19 +14,19 @@ async function showCurrent(req, res, next) {
 // API to update current user's profile details
 // @params first_name: string
 // @params last_name: string
-// @params nickname: string
+// @params bio: string
 // @params gender: enum ["male", "female", "rather not say"]
 // @params age: number
 // @params location: string
 // @return user: object
 async function updateCurrent(req, res, next) {
   const { _id } = req.user;
-  const { first_name, last_name, nickname, gender, age, location } = req.body;
+  const { first_name, last_name, bio, gender, age, location } = req.body;
 
   const updates = {
     first_name: first_name || req.user.first_name,
     last_name: last_name || req.user.last_name,
-    nickname: nickname || req.user.nickname,
+    bio: bio || req.user.bio,
     gender: gender || req.user.gender,
     age: age || req.user.age,
     location: location || req.user.location

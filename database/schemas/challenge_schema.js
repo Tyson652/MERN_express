@@ -24,9 +24,6 @@ const ChallengeSchema = new Schema(
     yt_id: {
       type: String
     },
-    yt_url: {
-      type: String
-    },
     expiry_date: {
       type: Date,
       min: Date.now,
