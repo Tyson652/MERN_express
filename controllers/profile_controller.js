@@ -2,14 +2,14 @@ const UserModel = require("./../database/models/user_model");
 
 // API to get current user's profile details
 // @return user: object
-// async function showCurrent(req, res, next) {
-//   try {
-//     const user = req.user;
-//     res.json(user);
-//   } catch (error) {
-//     return next(error);
-//   }
-// }
+async function showCurrent(req, res, next) {
+  try {
+    const user = req.user;
+    res.json(user);
+  } catch (error) {
+    return next(error);
+  }
+}
 
 // API to update current user's profile details
 // @params first_name: string
@@ -83,4 +83,4 @@ async function showUser(req, res, next) {
   }
 }
 
-module.exports = { updateCurrent, avatarUpdate, showUser };
+module.exports = { updateCurrent, avatarUpdate, showUser, showCurrent };

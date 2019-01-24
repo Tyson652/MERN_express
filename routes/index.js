@@ -26,7 +26,10 @@ router.use(
 
 router.use(
   "/challenges",
+
   passport.authenticate("jwt", { session: false }),
+  challengeFindMiddleware,
+
   challengeRoutes
 );
 
