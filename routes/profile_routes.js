@@ -30,7 +30,14 @@ const validateCurrentUserUpdates = celebrate({
 
 // Show current user's profile page
 // user object should be already available upon authentication @ req.user
-// router.get("/", ProfileController.showCurrent);
+router.get("/info", ProfileController.showCurrent);
+
+router.get("/test", function(req, res, next) {
+  res.json([
+    {id: 1, username: "somebody"},
+    {id: 2, username: "somebody_else"}
+  ]);
+});
 
 // // Update current user's profile - details
 router.patch("/", validateCurrentUserUpdates, ProfileController.updateCurrent);
