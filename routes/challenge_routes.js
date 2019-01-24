@@ -10,6 +10,8 @@ const isAdminMiddleware = require("./../middleware/is_admin_middleware");
 
 // @Base Route '/challenges'
 // @Nested Routes '/challenges/:id/submissions'
+
+// User uploading a challenge submission
 router.post(
   "/:id/submissions", 
   upload.single("video"),
@@ -18,42 +20,37 @@ router.post(
   SubmissionController.create
 );
 
-//challenge upload route
+router.get("/", ChallengeController.index);
+
+// Admin Only - Create a new challenge
 router.post(
-  "/upload", 
+  "/upload",
+  isAdminMiddleware,
+  // Fix me
+  // celebrate({
+  //   body: {
+  //     creator_id: Joi.string()
+  //       .trim(),
+  //       // .required(),
+  //     title: Joi.string()
+  //       .trim()
+  //       .required(),
+  //     video: Joi.any(),
+  //     description: Joi.string().trim(),
+  //     expiry_date: Joi.date().min("now")
+  //   }
+  // }),
   upload.single("video"), 
   // yt.upload,
   temp,
   ChallengeController.create
 );
 
-//challenge delete route
-router.post(
-  "/:id/delete",
-  yt.destroy,
-  ChallengeController.destroy
-);
-
-router.get("/", ChallengeController.index);
-
-// Admin Only - Create a new challenge
-router.post(
-  "/",
-  isAdminMiddleware,
-  celebrate({
-    body: {
-      nickname: Joi.string()
-        .trim()
-        .required(),
-      title: Joi.string()
-        .trim()
-        .required(),
-      description: Joi.string().trim(),
-      video: Joi.string().trim(),
-      expiry_date: Joi.date().min("now")
-    }
-  }),
-  ChallengeController.create
-);
-
 module.exports = router;
+
+//challenge delete route
+// router.post(
+//   "/:id/delete",
+//   yt.destroy,
+//   ChallengeController.destroy
+// );

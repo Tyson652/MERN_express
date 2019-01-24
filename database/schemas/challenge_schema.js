@@ -4,7 +4,7 @@ const SubmissionSchema = require("./submission_schema");
 const ChallengeSchema = new Schema(
   {
     user: {
-      id: {
+      creator_id: {
         type: String
       },
       nickname: {
