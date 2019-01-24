@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { celebrate, Joi } = require("celebrate");
 const ChallengeController = require("../controllers/challenge_controller");
-const SubmissionController = require("./../controllers/submission_controller");
 const upload = require ("./../config/multer");
 const yt = require ("./../services/youtube_service");
 const temp = require("./../middleware/temp_file_middleware");
@@ -10,15 +9,6 @@ const isAdminMiddleware = require("./../middleware/is_admin_middleware");
 
 // @Base Route '/challenges'
 // @Nested Routes '/challenges/:id/submissions'
-
-// User uploading a challenge submission
-router.post(
-  "/:id/submissions", 
-  upload.single("video"),
-  yt.upload,
-  temp,
-  SubmissionController.create
-);
 
 router.get("/", ChallengeController.index);
 
