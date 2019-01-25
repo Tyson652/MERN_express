@@ -4,6 +4,7 @@ const fs = require("fs");
 const ChallengeModel = require("./../database/models/challenge_model");
 
 function upload(req, res, next) {
+    console.log("inside upload yt service");
     youtube.videos.insert({
         resource: {
             snippet: {
@@ -24,19 +25,16 @@ function upload(req, res, next) {
     .catch(err => next(err));
 }
 
-function list(req, res, next) {
-    youtube.videos.list({ part: "contentDetails", chart: "mostPopular"})
-    .then(response => console.log(response.data.items))
-    .catch(err => next(err));
-}
-
 async function destroy(req, res, next) {
+    console.log("inside destroy yt service");
+    console.log(req.params);
     const { id } = req.params;
   
     const challenge = await ChallengeModel.findById(id);
+    console.log(challenge);
     const yt_id = challenge.yt_id;
-
-    youtube.video.delete({
+    console.log(yt_id);
+    youtube.videos.delete({
         id: yt_id
     })
     .then(response => {
@@ -47,6 +45,5 @@ async function destroy(req, res, next) {
 
 module.exports = {
     upload,
-    list,
     destroy
 }
