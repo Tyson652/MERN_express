@@ -12,15 +12,17 @@ async function index(req, res, next) {
       { $limit: 50 },
       {
         $project: {
-          title: 1,
+          _id: 0,
+          challenge_id: "$_id",
+          challenge_title: "$title",
           submission_id: "$submissions._id",
-          submission_title: "$submissions.title",
-          submission_description: "$submissions.description",
-          submission_video: "$submissions.video",
-          submission_createdAt: "$submissions.createdAt",
           submission_user_id: "$submissions.user.id",
           submission_user_nickname: "$submissions.user.nickname",
-          submission_user_profile_image: "$submissions.user.profile_image"
+          submission_user_profile_image: "$submissions.user.profile_image",
+          submission_title: "$submissions.title",
+          submission_description: "$submissions.description",
+          submission_yt_id: "$submissions.yt_id",
+          submission_createdAt: "$submissions.createdAt"
         }
       }
     ]);

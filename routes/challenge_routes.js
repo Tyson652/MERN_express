@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const passport = require("passport");
 const { celebrate, Joi } = require("celebrate");
 const ChallengeController = require("../controllers/challenge_controller");
 const upload = require("./../config/multer");
@@ -9,11 +10,13 @@ const isAdminMiddleware = require("./../middleware/is_admin_middleware");
 
 // @Base Route '/challenges'
 
+// Public - get list of challenges for feed
 router.get("/", ChallengeController.index);
 
 // Admin Only - Create a new challenge
 router.post(
   "/upload",
+  passport.authenticate("jwt", { session: false }),
   isAdminMiddleware,
   // Fix me
   // celebrate({

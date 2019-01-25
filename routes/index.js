@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
-
 const authRoutes = require("./auth_routes");
 const profileRoutes = require("./profile_routes");
 const challengeRoutes = require("./challenge_routes");
@@ -13,26 +11,14 @@ router.use("/", authRoutes);
 
 // ------ Profile Routes (current user and other users) ------
 
-router.use(
-  "/profile",
-  passport.authenticate("jwt", { session: false }),
-  profileRoutes
-);
+router.use("/profile", profileRoutes);
 
 // ------ Challenges Routes ------
 
-router.use(
-  "/challenges",
-  passport.authenticate("jwt", { session: false }),
-  challengeRoutes
-);
+router.use("/challenges", challengeRoutes);
 
 // ------ Submissions Routes ------
 
-router.use(
-  "/",
-  passport.authenticate("jwt", { session: false }),
-  submissionRoutes
-);
+router.use("/", submissionRoutes);
 
 module.exports = router;

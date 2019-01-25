@@ -7,8 +7,7 @@ module.exports = async function isAdminMiddleware(req, res, next) {
     if (user.is_admin === true) {
       return next();
     }
-
-    throw "Only Admins are authorized to do that";
+    return next(new HTTPError(401, "Only Admins are authorized to do that"));
   } catch (error) {
     return next(error);
   }

@@ -10,8 +10,8 @@ const SubmissionSchema = new Schema(
       type: String
     },
     yt_id: {
-      type: String
-      // required: true
+      type: String,
+      required: true
     },
     user: {
       id: {
