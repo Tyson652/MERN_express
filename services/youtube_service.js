@@ -5,14 +5,17 @@ const ChallengeModel = require("./../database/models/challenge_model");
 
 function upload(req, res, next) {
     youtube.videos.insert({
-        snippet: {
-            title: "testing API upload",
-            description: "test desc"
+        resource: {
+            snippet: {
+                title: req.body.title,
+                description: `${req.body.description} \n wwww.test.com`
+            }
         },
+        part: "snippet",
+
         media: {
             body: fs.createReadStream(req.file.path),
-        },
-        part: "snippet"
+        }
     })
     .then(response => {
         req.file.yt_id = response.data.id;

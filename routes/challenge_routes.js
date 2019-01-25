@@ -32,9 +32,9 @@ router.post(
   //     expiry_date: Joi.date().min("now")
   //   }
   // }),
-  // upload.single("video"),
-  // yt.upload,
-  // temp,
+  upload.single("video"), 
+  yt.upload,
+  temp,
   ChallengeController.create
 );
 

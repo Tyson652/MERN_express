@@ -28,15 +28,15 @@ async function index(req, res, next) {
 // @return challenge: object
 async function create(req, res, next) {
   try {
+    console.log("inside challenge cont");
     let { creator_id, title, description, expiry_date } = req.body;
-    // const { yt_id } = req.file;
-    const yt_id = "9cQgQIMlwWw";
-
+    const { yt_id } = req.file;
+    
     // Creator of the challenge will be set with details from an existing user, query on user's ID
     const existingUser = await UserModel.findById(creator_id);
     if (!existingUser) {
       return next(new HTTPError(400, "User ID not found"));
-    }
+    }   
 
     let user = {
       creator_id,
