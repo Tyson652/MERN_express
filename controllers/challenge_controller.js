@@ -61,6 +61,7 @@ async function create(req, res, next) {
     let challenges =  await ChallengeModel.find({});
     
     // Return all challenges
+    console.log("challenge was created in database");
     return res.json(challenges);
 
   } catch (error) {
@@ -74,6 +75,7 @@ async function destroy(req, res, next) {
   const { id } = req.params;
   console.log(req.params);
   const challenge = await ChallengeModel.findByIdAndRemove(id);
+  console.log("video was delete from database succesfully");
   if (!challenge) {
     return next(new HTTPError(400, "Challenge ID not found"));
   }

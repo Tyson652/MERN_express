@@ -33,8 +33,8 @@ router.post(
   //   }
   // }),
   upload.single("video"), 
-  // yt.upload,
-  // temp,
+  yt.upload,
+  temp,
   ChallengeController.create
 );
 

@@ -19,10 +19,14 @@ function upload(req, res, next) {
         }
     })
     .then(response => {
+        console.log("video was uploaded to YT succesfully");
         req.file.yt_id = response.data.id;
         next();
     })
-    .catch(err => next(err));
+    .catch(err => {
+        console.log("video failed upload to YT");
+        next(err);
+    })
 }
 
 async function destroy(req, res, next) {
@@ -38,9 +42,13 @@ async function destroy(req, res, next) {
         id: yt_id
     })
     .then(response => {
+        console.log("video was delete from YT succesfully");
         next();
     })
-    .catch(err => next(err));
+    .catch(err => {
+        console.log("video failed to delte from YT");
+        next(err);
+    })
 }
 
 module.exports = {
