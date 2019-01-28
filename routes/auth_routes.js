@@ -51,15 +51,16 @@ router.post(
   AuthController.register
 );
 
-router.post(
-  "/reseturl",
-  AuthController.sendPasswordResetURL
-);
-
 // Change password
 router.put(
   "/changepassword",
   AuthController.changePassword
+);
+
+// Send password reset link
+router.post(
+  "/reseturl",
+  AuthController.sendPasswordResetURL
 );
 
 // Reset password

@@ -1,8 +1,7 @@
-const nodemailer = require("nodemailer");
-const crypto = require("crypto");
-
 const UserModel = require("./../database/models/user_model");
 const JWTService = require("./../services/jwt_service");
+const generatePasswordToken = require("./../services/key_generator_service");
+const sendResetEmail = require("./../services/reset_password_service");
 
 // API to create a new User
 // @params first_name: string
@@ -60,15 +59,15 @@ async function changePassword(req, res, next) {
 
   const user = await UserModel.findOne({ email });
   
-  // Change's user's password hash and salt if password is correct, else returns an IncorrectPasswordError 
+  // Changes user's password hash and salt if password (first argument) is correct to newpassword (second argument), else returns default IncorrectPasswordError 
   await user.changePassword(password, newpassword)
     .then(res => console.log("password succesfully changed"))
     .catch(err => console.log(err))
 }
 
+// Checks if a user email exists, if so then generates a reset password token and saves on the user model. Then email is sent to the user
 async function sendPasswordResetURL(req, res, next) {
   const { email } = req.body;
-  console.log("controller line 55");
 
     const user = await UserModel.findOne({ email });
 
@@ -77,42 +76,17 @@ async function sendPasswordResetURL(req, res, next) {
     }
       console.log("user was found");
 
-      const token = crypto.randomBytes(20).toString("hex");
-      console.log(token);
+      const token = generatePasswordToken();
 
       // double check why await is required here, is it because the await above still allows following promises to be ran?
        await user.updateOne({
         resetPasswordToken: token
       });
 
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          type: "login",
-          user: process.env.EMAIL_ADDRESS,
-          pass: process.env.EMAIL_PASSWORD
-        }
-      });
+      sendResetEmail(token);
+    }
 
-      const mailOptions = {
-        from: "1up.webapp@gmail.com",
-        to: user.email,
-        subject: "Link To Reset Password",
-        text: `Hi, \n\n You are receiving this because someone has requested the reset of the password for your account.\n\n Please click on the following link to complete the process.\n http://localhost:3000/resetpassword?${token}\n\n If you did not request this, please ignore this email and your password will remain unchanged.` 
-      }
-
-      transporter.sendMail(mailOptions, function(err, response) {
-        if (err) {
-          console.log('there was an error: ', err);
-        } else {
-          console.log("here is the response: ", response);
-          res.json(token);
-          // res.status(200).json("recover email sent");
-        }
-      });
-}
-
-// 
+// If user is able to click on the reset password URL, mongo validates the token (passed via params), upon succesful validation, user is able to update the password 
 async function changePasswordViaEmail(req, res, next) {
   const { token } = req.params;
   const { password } = req.body;
@@ -128,9 +102,7 @@ async function changePasswordViaEmail(req, res, next) {
       console.log("updated");
     })
     .catch(err => console.log(err))
- 
 }
-
 
 module.exports = {
   register,
