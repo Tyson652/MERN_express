@@ -1,3 +1,5 @@
+const nodemailer = require("nodemailer");
+
 const UserModel = require("./../database/models/user_model");
 const JWTService = require("./../services/jwt_service");
 
@@ -39,6 +41,7 @@ async function login(req, res, next) {
   try {
     const { user, error } = await UserModel.authenticate()(email, password);
     if (error) {
+      console.log(error);
       return next(new HTTPError(401, error.message));
     }
 
@@ -50,7 +53,67 @@ async function login(req, res, next) {
   }
 }
 
+// Change password
+async function changePassword(req, res, next) {
+  const { email, password, newpassword } = req.body;
+
+  const user = await UserModel.findOne({ email });
+  
+  // Change's user's password hash and salt if password is correct, else returns an IncorrectPasswordError 
+  await user.changePassword(password, newpassword)
+    .then(res => console.log("password succesfully changed"))
+    .catch(err => console.log(err))
+}
+
+async function resetPassword(req, res, next) {
+  const { email } = req.body;
+  console.log("controller line 55");
+
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      console.log("email address not found");
+    }
+      console.log("user was found");
+
+      const token = crypto.randomBytes(20).toString("hex");
+      console.log(token);
+
+      user.update({
+        resetPasswordToken: token,
+        resetPasswordExpires: Date.now() + 360000
+      });
+
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_ADDRESS,
+          pass: process.env.EMAIL_PASSWORD
+        }
+      });
+
+      const mailOptions = {
+        from: "1up.webapp@gmail.com",
+        to: user.email,
+        subject: "Link To Reset Password",
+        text: `You are receiving this someone has requested the reset of the password for your account. \n Please click on the following link to complete the process within one hour of receieving it. \n http://localhost:3000/resetpassword/${token} \n
+        If you did not request this, please ignore this email and your password will remain unchanged.` 
+      }
+
+      transporter.sendEmail(mailOptions, function(err, response) {
+        if (err) {
+          console.log('there was an error: ', err);
+        } else {
+          console.log("here is the response: ", response);
+          res.status(200).json("recover email sent");
+        }
+      });
+
+}
+
 module.exports = {
   register,
-  login
+  login,
+  changePassword,
+  resetPassword
 };
