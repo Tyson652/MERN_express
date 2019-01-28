@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const crypto = require("crypto");
 
 const UserModel = require("./../database/models/user_model");
 const JWTService = require("./../services/jwt_service");
@@ -65,7 +66,7 @@ async function changePassword(req, res, next) {
     .catch(err => console.log(err))
 }
 
-async function resetPassword(req, res, next) {
+async function sendPasswordResetURL(req, res, next) {
   const { email } = req.body;
   console.log("controller line 55");
 
@@ -79,14 +80,15 @@ async function resetPassword(req, res, next) {
       const token = crypto.randomBytes(20).toString("hex");
       console.log(token);
 
-      user.update({
-        resetPasswordToken: token,
-        resetPasswordExpires: Date.now() + 360000
+      // double check why await is required here, is it because the await above still allows following promises to be ran?
+       await user.updateOne({
+        resetPasswordToken: token
       });
 
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
+          type: "login",
           user: process.env.EMAIL_ADDRESS,
           pass: process.env.EMAIL_PASSWORD
         }
@@ -96,24 +98,44 @@ async function resetPassword(req, res, next) {
         from: "1up.webapp@gmail.com",
         to: user.email,
         subject: "Link To Reset Password",
-        text: `You are receiving this someone has requested the reset of the password for your account. \n Please click on the following link to complete the process within one hour of receieving it. \n http://localhost:3000/resetpassword/${token} \n
-        If you did not request this, please ignore this email and your password will remain unchanged.` 
+        text: `Hi, \n\n You are receiving this because someone has requested the reset of the password for your account.\n\n Please click on the following link to complete the process.\n http://localhost:3000/resetpassword?${token}\n\n If you did not request this, please ignore this email and your password will remain unchanged.` 
       }
 
-      transporter.sendEmail(mailOptions, function(err, response) {
+      transporter.sendMail(mailOptions, function(err, response) {
         if (err) {
           console.log('there was an error: ', err);
         } else {
           console.log("here is the response: ", response);
-          res.status(200).json("recover email sent");
+          res.json(token);
+          // res.status(200).json("recover email sent");
         }
       });
-
 }
+
+// 
+async function changePasswordViaEmail(req, res, next) {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  const user = await UserModel.findOne({ resetPasswordToken: token });
+  if (!user) {
+    return console.log("no user");
+  }
+
+  user.setPassword(password)
+    .then(res => {
+      user.save();
+      console.log("updated");
+    })
+    .catch(err => console.log(err))
+ 
+}
+
 
 module.exports = {
   register,
   login,
   changePassword,
-  resetPassword
+  sendPasswordResetURL,
+  changePasswordViaEmail
 };

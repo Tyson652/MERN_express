@@ -44,6 +44,9 @@ const UserSchema = new Schema(
       type: Boolean,
       default: false
     },
+    resetPasswordToken: {
+      type: String
+    },
     submissions: [
       {
         challengeId: {

@@ -51,6 +51,11 @@ router.post(
   AuthController.register
 );
 
+router.post(
+  "/reseturl",
+  AuthController.sendPasswordResetURL
+);
+
 // Change password
 router.put(
   "/changepassword",
@@ -58,9 +63,9 @@ router.put(
 );
 
 // Reset password
-router.post (
-  "/resetpassword",
-  AuthController.resetPassword
+router.put(
+  "/resetpassword/:token",
+  AuthController.changePasswordViaEmail
 );
 
 module.exports = router;
