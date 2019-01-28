@@ -32,6 +32,7 @@ async function updateCurrent(req, res, next) {
     location: location || req.user.location
   };
 
+
   try {
     const updatedUser = await UserModel.findByIdAndUpdate(_id, updates, {
       new: true
@@ -40,6 +41,7 @@ async function updateCurrent(req, res, next) {
     if (!updatedUser) {
       return next(new HTTPError(500, "Unable to update profile"));
     }
+
 
     res.json(updatedUser);
   } catch (error) {

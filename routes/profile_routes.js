@@ -53,6 +53,7 @@ router.put(
   ProfileController.updateCurrent
 );
 
+
 // User - update current user's avatar image
 // TODO?: validation image file req.file?
 router.post(
