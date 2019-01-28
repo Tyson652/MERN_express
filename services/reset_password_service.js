@@ -1,11 +1,11 @@
 const transporter = require("./../config/mailer");
 
     // Uses Nodemailer to send a password reset URL
-    function resetPasswordService(token) {
+    function resetPasswordService(token, email) {
         // Mail client content options
         const mailOptions = {
             from: "1up.webapp@gmail.com",
-            to: user.email,
+            to: email,
             subject: "Link To Reset Password",
             text: `Hi, \n\n You are receiving this because someone has requested the reset of the password for your account.\n\n Please click on the following link to complete the process.\n http://localhost:3000/resetpassword?${token}\n\n If you did not request this, please ignore this email and your password will remain unchanged.` 
             }

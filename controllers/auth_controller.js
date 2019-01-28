@@ -72,18 +72,22 @@ async function sendPasswordResetURL(req, res, next) {
     const user = await UserModel.findOne({ email });
 
     if (!user) {
-      console.log("email address not found");
+      return console.log("email address not found");
     }
       console.log("user was found");
+      console.log(user);
 
       const token = generatePasswordToken();
 
-      // double check why await is required here, is it because the await above still allows following promises to be ran?
+      // Double check why await is required here, is it because the await above still allows following promises to be ran?
        await user.updateOne({
-        resetPasswordToken: token
+        resetPasswordToken: token,
+        // Valid for one hour
+        resetPasswordExpires: Date.now() + 3600000
       });
 
-      sendResetEmail(token);
+      sendResetEmail(token, user.email);
+      console.log("token emailed");
     }
 
 // If user is able to click on the reset password URL, mongo validates the token (passed via params), upon succesful validation, user is able to update the password 
@@ -91,13 +95,18 @@ async function changePasswordViaEmail(req, res, next) {
   const { token } = req.params;
   const { password } = req.body;
 
-  const user = await UserModel.findOne({ resetPasswordToken: token });
+  const user = await UserModel.findOne({ 
+    resetPasswordToken: token,
+    resetPasswordExpires : { $gt: Date.now() } });
   if (!user) {
-    return console.log("no user");
+    return console.log("password reset link is invalid or has expired");
   }
 
   user.setPassword(password)
     .then(res => {
+      // Removes token as it has been used 
+      user.resetPasswordToken = "";
+      // Saves the save password and deletes token
       user.save();
       console.log("updated");
     })
