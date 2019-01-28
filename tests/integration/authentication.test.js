@@ -1,9 +1,12 @@
+require("dotenv").config();
 const supertest = require("supertest");
-const app = require("../../app");
 const mongoose = require("mongoose");
+const app = require("../../app");
+const HTTPError = require("./../../errors/HTTPError");
 const UserModel = require("../../database/models/user_model");
 
 beforeAll(() => {
+  global.HTTPError = HTTPError;
   mongoose.connect(
     "mongodb://localhost/1up_api_test",
     { useNewUrlParser: true }
@@ -13,49 +16,78 @@ beforeAll(() => {
 });
 
 afterAll(async () => {
-  await UserModel.deleteMany({});
+  await UserModel.deleteOne({ email: "auth@mail.com" });
   mongoose.connection.close();
 });
 
 // ---------------- Register Tests ----------------
 
 describe("Register a new user", () => {
-  //// manual tests pass
-  //// test broke - email undefined for JWT.sign()
-  // test("POST /register with valid req body", async () => {
-  //   const response = await supertest(app)
-  //     .post("/register")
-  //     .send({
-  //       first_name: "Steven2435",
-  //       last_name: "Rogers2435",
-  //       nickname: "SRogers2435",
-  //       email: "test2435@mail.com",
-  //       password: "password",
-  //       terms_conditions: "true"
-  //     })
-  //     .expect(200);
+  test("POST /register with valid req body", async () => {
+    const response = await supertest(app)
+      .post("/register")
+      .send({
+        first_name: "first_auth",
+        last_name: "last_auth",
+        nickname: "nick_auth",
+        email: "auth@mail.com",
+        password: "password",
+        terms_conditions: "true"
+      })
+      .expect(200);
 
-  //   // const createdUser = await UserModel.findOne({ email: "test2435@mail.com" });
+    const createdUser = await UserModel.findOne({ email: "auth@mail.com" });
 
-  //   // expect(createdUser).toBeTruthy;
-  //   // expect(createdUser.nickname).toBe("SRogers2435");
-  // });
+    expect(createdUser).toBeTruthy;
+    expect(createdUser.nickname).toBe("nick_auth");
+  });
 
   test("POST /register with invalid req body", async () => {
     const response = await supertest(app)
       .post("/register")
       .send({
-        first_name: "Steven1111",
-        last_name: "Rogers1111",
-        nickname: "SRogers1111",
-        email: "test111@mail.com",
-        password: "password",
+        first_name: "",
+        last_name: "",
+        nickname: "",
+        email: "auth@mail.",
+        password: "",
         terms_conditions: ""
       })
       .expect(500);
 
-    const createdUser = await UserModel.findOne({ email: "test111@mail.com" });
+    const createdUser = await UserModel.findOne({ email: "auth@mail.com" });
+    expect(createdUser).toBeFalsy;
+  });
+});
 
+// ---------------- Login Tests ----------------
+
+describe("Login an existing user", () => {
+  test("POST /login with valid email and password", async () => {
+    const response = await supertest(app)
+      .post("/login")
+      .send({
+        email: "auth@mail.com",
+        password: "password"
+      })
+      .expect(200);
+
+    const createdUser = await UserModel.findOne({ email: "auth@mail.com" });
+
+    expect(createdUser).toBeTruthy;
+    expect(createdUser.nickname).toBe("nick_auth");
+  });
+
+  test("POST /login with invalid email and password", async () => {
+    const response = await supertest(app)
+      .post("/login")
+      .send({
+        email: "invalid@mail.com",
+        password: "invalid"
+      })
+      .expect(401);
+
+    const createdUser = await UserModel.findOne({ email: "auth@mail.com" });
     expect(createdUser).toBeFalsy;
   });
 });

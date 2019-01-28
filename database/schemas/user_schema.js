@@ -17,12 +17,16 @@ const UserSchema = new Schema(
       type: String,
       required: true
     },
+    bio: {
+      type: String
+    },
     profile_image: {
       type: String
     },
     gender: {
       type: String,
-      enum: ["male", "female", "rather not say"]
+      default: "gender-neutral",
+      enum: ["male", "female", "gender-neutral"]
     },
     age: {
       type: Number,
@@ -43,12 +47,16 @@ const UserSchema = new Schema(
     submissions: [
       {
         challengeId: {
-          type: String,
-          required: true
+          type: String
+          // required: true
         },
         challengeTitle: {
-          type: String,
-          required: true
+          type: String
+          // required: true
+        },
+        challengeDescription: {
+          type: String
+          // required: true
         },
         createdAt: {
           type: Date,

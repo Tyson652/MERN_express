@@ -14,35 +14,38 @@ async function showCurrent(req, res, next) {
 // API to update current user's profile details
 // @params first_name: string
 // @params last_name: string
-// @params nickname: string
+// @params bio: string
 // @params gender: enum ["male", "female", "rather not say"]
 // @params age: number
 // @params location: string
 // @return user: object
 async function updateCurrent(req, res, next) {
   const { _id } = req.user;
-  const { first_name, last_name, nickname, gender, age, location } = req.body;
+  const { first_name, last_name, bio, gender, age, location } = req.body;
 
   const updates = {
     first_name: first_name || req.user.first_name,
     last_name: last_name || req.user.last_name,
-    nickname: nickname || req.user.nickname,
+    bio: bio || req.user.bio,
     gender: gender || req.user.gender,
     age: age || req.user.age,
     location: location || req.user.location
   };
-  console.log(updates);
+
+
   try {
-    const updatedUser = await UserModel.findOneAndUpdate(
-      {
-        _id
-      },
-      updates,
-      { new: true }
-    );
+    const updatedUser = await UserModel.findByIdAndUpdate(_id, updates, {
+      new: true
+    });
+
+    if (!updatedUser) {
+      return next(new HTTPError(500, "Unable to update profile"));
+    }
+
+
     res.json(updatedUser);
   } catch (error) {
-    return next(error);
+    return next(new HTTPError(500, error.message));
   }
 }
 
@@ -58,7 +61,7 @@ async function avatarUpdate(req, res, next) {
     // Refactor: what to do with old image (delete or keep pass images?)
     return res.json(user);
   } catch (error) {
-    return next(error);
+    return next(new HTTPError(500, error.message));
   }
 }
 
@@ -67,10 +70,18 @@ async function avatarUpdate(req, res, next) {
 async function showUser(req, res, next) {
   try {
     const { id } = req.params;
-    const user = await UserModel.findById(id);
+
+    const user = await UserModel.findById(id, {
+      is_verified: 0,
+      is_admin: 0,
+      createdAt: 0,
+      updatedAt: 0
+    });
+
     res.json(user);
   } catch (error) {
-    return next(error);
+    console.log(error);
+    return next(new HTTPError(500, "User not found"));
   }
 }
 

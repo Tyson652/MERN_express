@@ -1,9 +1,12 @@
+require("dotenv").config();
 const supertest = require("supertest");
-const app = require("../../app");
 const mongoose = require("mongoose");
+const app = require("../../app");
+const HTTPError = require("./../../errors/HTTPError");
 const UserModel = require("../../database/models/user_model");
 
 beforeAll(() => {
+  global.HTTPError = HTTPError;
   mongoose.connect(
     "mongodb://localhost/1up_api_test",
     { useNewUrlParser: true }
@@ -13,7 +16,7 @@ beforeAll(() => {
 });
 
 afterAll(async () => {
-  await UserModel.deleteMany({});
+  // await UserModel.deleteMany({});
   mongoose.connection.close();
 });
 
