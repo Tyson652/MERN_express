@@ -33,7 +33,8 @@ async function create(req, res, next) {
     console.log(req.body);
     let { creator_id, title, description, expiry_date } = req.body;
     // const { yt_id } = req.file;
-    yt_id = "Gi208izwRDc";
+    // yt_id = "Gi208izwRDc";
+    console.log("37");
     console.log(yt_id);
     // Creator of the challenge will be set with details from an existing user, query on user's ID
     const existingUser = await UserModel.findById(creator_id);

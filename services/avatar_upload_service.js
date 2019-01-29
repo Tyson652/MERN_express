@@ -18,8 +18,10 @@ const upload = multer({
     s3: s3,
     bucket: process.env.S3_BUCKET,
     acl: "public-read",
+    // Allows multer-s3 to automatically determine the content type, is now able to cater to videos 
+    contentType: multerS3.AUTO_CONTENT_TYPE,
     metadata: function(req, file, cb) {
-      cb(null, { fieldName: file.fieldname });
+      cb(null, { fieldName: file.fieldname});
     },
     key: function(req, file, cb) {
       cb(null, Date.now().toString());
@@ -43,4 +45,20 @@ function avatarUpload(req, res, next) {
   });
 }
 
-module.exports = { avatarUpload };
+//function to upload video to s3. Once video is uploaded, the video url is stored to "yt_id"
+
+function videoUpload(req, res, next) {
+  const singleUpload = upload.single("video");
+  singleUpload(req, res, error => {
+    if (error) {
+      return next(new HTTPError(422, `Image Upload Error: ${error.message}`));
+    }
+    if (!req.file) {
+      return next(new HTTPError(422, "No image file was selected"));
+    }
+    yt_id = req.file.location;
+    next();
+  });
+}
+
+module.exports = { avatarUpload, videoUpload };
