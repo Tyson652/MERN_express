@@ -21,15 +21,7 @@ const corsOptions = {
   }
 };
 
-// Enabling CORS Pre-Flight
-app.options("*", cors(corsOptions));
-
-// app.use(
-//   cors({
-//     origin: process.env.PROD_FRONT_END_DOMAIN
-//     // origin: process.env.FRONT_END_DOMAIN
-//   })
-// );
+app.use(cors(corsOptions));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
