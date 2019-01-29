@@ -6,12 +6,30 @@ const passport = require("./config/passport");
 
 app.use(passport.initialize());
 
-app.use(
-  cors({
-    origin: process.env.PROD_FRONT_END_DOMAIN
-    // origin: process.env.FRONT_END_DOMAIN
-  })
-);
+// Configuring CORS w/ Dynamic Origin
+const whitelist = [
+  `${process.env.PROD_FRONT_END_DOMAIN}`,
+  `${process.env.FRONT_END_DOMAIN}`
+];
+const corsOptions = {
+  origin: function(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  }
+};
+
+// Enabling CORS Pre-Flight
+app.options("*", cors(corsOptions));
+
+// app.use(
+//   cors({
+//     origin: process.env.PROD_FRONT_END_DOMAIN
+//     // origin: process.env.FRONT_END_DOMAIN
+//   })
+// );
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
