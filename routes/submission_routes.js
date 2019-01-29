@@ -3,9 +3,7 @@ const router = express.Router();
 const passport = require("passport");
 const { celebrate, Joi } = require("celebrate");
 const SubmissionController = require("./../controllers/submission_controller");
-const upload = require("./../config/multer");
-const yt = require("./../services/youtube_service");
-const temp = require("./../middleware/temp_file_middleware");
+const { videoUpload } = require("../services/upload_service");
 
 // @Base Route '/'
 
@@ -23,9 +21,7 @@ router.post(
   //     video: Joi.string().required()
   //   }
   // }),
-  upload.single("video"),
-  // yt.upload,
-  temp,
+  videoUpload,
   SubmissionController.create
 );
 
