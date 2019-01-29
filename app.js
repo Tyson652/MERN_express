@@ -8,8 +8,8 @@ app.use(passport.initialize());
 
 app.use(
   cors({
-    // origin: process.env.PROD_FRONT_END_DOMAIN
-    origin: process.env.FRONT_END_DOMAIN
+    origin: process.env.PROD_FRONT_END_DOMAIN
+    // origin: process.env.FRONT_END_DOMAIN
   })
 );
 
