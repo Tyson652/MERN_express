@@ -4,46 +4,54 @@ const fs = require("fs");
 const ChallengeModel = require("./../database/models/challenge_model");
 
 function upload(req, res, next) {
+    console.log("inside upload yt service");
     youtube.videos.insert({
-        snippet: {
-            title: "testing API upload",
-            description: "test desc"
+        resource: {
+            snippet: {
+                title: req.body.title,
+                description: `${req.body.description} \n wwww.test.com`
+            }
         },
+        part: "snippet",
+
         media: {
             body: fs.createReadStream(req.file.path),
-        },
-        part: "snippet"
+        }
     })
     .then(response => {
+        console.log("video was uploaded to YT succesfully");
         req.file.yt_id = response.data.id;
         next();
     })
-    .catch(err => next(err));
-}
-
-function list(req, res, next) {
-    youtube.videos.list({ part: "contentDetails", chart: "mostPopular"})
-    .then(response => console.log(response.data.items))
-    .catch(err => next(err));
+    .catch(err => {
+        console.log("video failed upload to YT");
+        next(err);
+    })
 }
 
 async function destroy(req, res, next) {
+    console.log("inside destroy yt service");
+    console.log(req.params);
     const { id } = req.params;
   
     const challenge = await ChallengeModel.findById(id);
+    console.log(challenge);
     const yt_id = challenge.yt_id;
-
-    youtube.video.delete({
+    console.log(yt_id);
+    youtube.videos.delete({
         id: yt_id
     })
     .then(response => {
+        console.log("video was delete from YT succesfully");
         next();
     })
-    .catch(err => next(err));
+    .catch(err => {
+        console.log("video failed to delte from YT");
+        next(err);
+    })
 }
 
 module.exports = {
     upload,
-    list,
     destroy
 }

@@ -44,9 +44,11 @@ async function create(req, res, next) {
   try {
     const { id } = req.params;
     // const { yt_id } = req.file;
-    const yt_id = "Pi3bc9lS3rg";
     const { title, description } = req.body;
     const { _id, nickname, profile_image } = req.user;
+
+    //mock id
+    yt_id = "Gi208izwRDc";
 
     const challenge = await ChallengeModel.findById(id);
     if (!challenge) {
@@ -70,8 +72,15 @@ async function create(req, res, next) {
     });
     await user.save();
 
-    return res.json(challenge);
+    setTimeout(function() {
+      console.log("timer");
+      console.log("submission was created in database");
+      return res.json(challenge);
+    }, 3000);
+
+    // return res.json(challenge);
   } catch (error) {
+    console.log(error);
     return next(new HTTPError(500, error.message));
   }
 }

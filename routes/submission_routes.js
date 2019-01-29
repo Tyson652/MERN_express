@@ -25,8 +25,10 @@ router.post(
   // }),
   upload.single("video"),
   // yt.upload,
-  // temp,
+  temp,
   SubmissionController.create
 );
+
+
 
 module.exports = router;
