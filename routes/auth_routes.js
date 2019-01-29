@@ -51,6 +51,12 @@ router.post(
   AuthController.register
 );
 
+// Reset password token
+router.get(
+  "/resetpassword/:token",
+  AuthController.verifyPasswordToken
+);
+
 // Change password
 router.put(
   "/changepassword",

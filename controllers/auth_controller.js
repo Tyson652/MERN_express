@@ -68,14 +68,11 @@ async function changePassword(req, res, next) {
 // Checks if a user email exists, if so then generates a reset password token and saves on the user model. Then email is sent to the user
 async function sendPasswordResetURL(req, res, next) {
   const { email } = req.body;
-
     const user = await UserModel.findOne({ email });
 
     if (!user) {
-      return console.log("email address not found");
+      return res.status(400).json({email: "email address not found"});
     }
-      console.log("user was found");
-      console.log(user);
 
       const token = generatePasswordToken();
 
@@ -87,36 +84,52 @@ async function sendPasswordResetURL(req, res, next) {
       });
 
       sendResetEmail(token, user.email);
-      console.log("token emailed");
+      return res.sendStatus(200);
+    }
+
+    // Verify password token is still valid
+    async function verifyPasswordToken(req,res, next) {
+      const { token } = req.params;
+    
+      const user = await UserModel.findOne({ 
+        resetPasswordToken: token,
+        resetPasswordExpires : { $gt: Date.now() } });
+    
+      if (!user) {
+        return res.status(400).json({ token: "password reset link is invalid or has expired" });
+      }
+    
+      return res.sendStatus(200);
     }
 
 // If user is able to click on the reset password URL, mongo validates the token (passed via params), upon succesful validation, user is able to update the password 
 async function changePasswordViaEmail(req, res, next) {
   const { token } = req.params;
   const { password } = req.body;
-
+  
   const user = await UserModel.findOne({ 
     resetPasswordToken: token,
-    resetPasswordExpires : { $gt: Date.now() } });
+  });
+
   if (!user) {
-    return console.log("password reset link is invalid or has expired");
+    return res.status(400).json({ token: "password reset link is invalid or has expired" });
   }
 
   user.setPassword(password)
-    .then(res => {
-      // Removes token as it has been used 
-      user.resetPasswordToken = "";
-      // Saves the save password and deletes token
-      user.save();
-      console.log("updated");
-    })
-    .catch(err => console.log(err))
+    // Removes token as it has been used 
+    user.resetPasswordToken = "";
+    // Saves the save password and deletes token
+    user.save();
+    return res.sendStatus(200);
 }
+
+
 
 module.exports = {
   register,
   login,
   changePassword,
   sendPasswordResetURL,
+  verifyPasswordToken,
   changePasswordViaEmail
 };
