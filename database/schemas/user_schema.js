@@ -62,7 +62,9 @@ const UserSchema = new Schema(
         },
         challengeDescription: {
           type: String
-          // required: true
+        },
+        yt_id: {
+          type: String
         },
         createdAt: {
           type: Date,

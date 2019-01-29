@@ -44,6 +44,7 @@ async function create(req, res, next) {
   try {
     const { id } = req.params;
     // const { yt_id } = req.file;
+    // const yt_id = "Pi3bc9lS3rg";
     const { title, description } = req.body;
     const { _id, nickname, profile_image } = req.user;
 
@@ -68,7 +69,9 @@ async function create(req, res, next) {
     const user = await UserModel.findById(_id);
     user.submissions.push({
       challengeId: challenge.id,
-      challengeTitle: challenge.title
+      challengeTitle: challenge.title,
+      challengeDescription: challenge.description,
+      yt_id
     });
     await user.save();
 

@@ -3,7 +3,6 @@ const UserModel = require("./../database/models/user_model");
 
 // API to get lists ongoing Challenges
 // @return challenges: array [{ challenge }] with submissions subdocs
-// Stretch: filtering, search, pagination
 async function index(req, res, next) {
   try {
     const challenges = await ChallengeModel.aggregate([
@@ -20,7 +19,7 @@ async function index(req, res, next) {
 }
 
 // (Admin Only) API to create a new Challenge
-// @params id: string - of an existing user
+// @params id: string - current user
 // @params title: string
 // @params description: string
 // @params yt_id:string - YouTube ID from youtube_service.js
@@ -28,24 +27,21 @@ async function index(req, res, next) {
 // @return challenge: object
 async function create(req, res, next) {
   try {
-    console.log(req.file);
-    console.log("inside create challenge cont");
-    console.log(req.body);
-    let { creator_id, title, description, expiry_date } = req.body;
+    const { _id, nickname, profile_image } = req.user;
+    let { title, description, expiry_date } = req.body;
     // const { yt_id } = req.file;
-    // yt_id = "Gi208izwRDc";
-    console.log("37");
-    console.log(yt_id);
+    const yt_id = "9cQgQIMlwWw";
+
     // Creator of the challenge will be set with details from an existing user, query on user's ID
-    const existingUser = await UserModel.findById(creator_id);
+    const existingUser = await UserModel.findById(_id);
     if (!existingUser) {
       return next(new HTTPError(400, "User ID not found"));
-    }   
+    }
 
     let user = {
-      creator_id,
-      nickname: existingUser.nickname,
-      profile_image: existingUser.profile_image
+      creator_id: _id,
+      nickname,
+      profile_image
     };
 
     const challenge = await ChallengeModel.create({
@@ -61,10 +57,10 @@ async function create(req, res, next) {
       return next(new HTTPError(422, "Could not create challenge"));
     }
 
-    let challenges =  await ChallengeModel.find({});
-    
+    let challenges = await ChallengeModel.find({});
+
     // Return all challenges
-    
+
     //timeout
     setTimeout(function() {
       console.log("timer");
@@ -74,9 +70,7 @@ async function create(req, res, next) {
 
     // console.log("challenge was created in database");
     // return res.json(challenges);
-
   } catch (error) {
-    return console.log(error);
     return next(new HTTPError(500, error.message));
   }
 }
@@ -86,7 +80,7 @@ async function destroy(req, res, next) {
   const { id } = req.params;
   console.log(req.params);
   const challenge = await ChallengeModel.findByIdAndRemove(id);
-  console.log("video was delete from database succesfully");
+  console.log("video was delete from database successfully");
   if (!challenge) {
     return next(new HTTPError(400, "Challenge ID not found"));
   }
@@ -98,4 +92,3 @@ module.exports = {
   create,
   destroy
 };
-

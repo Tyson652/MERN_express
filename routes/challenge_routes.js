@@ -32,7 +32,7 @@ router.post(
   //     expiry_date: Joi.date().min("now")
   //   }
   // }),
-  // upload.single("video"), 
+  // upload.single("video"),
   // yt.upload,
   // temp,
   ChallengeController.create
@@ -46,5 +46,3 @@ router.delete(
 );
 
 module.exports = router;
-
-

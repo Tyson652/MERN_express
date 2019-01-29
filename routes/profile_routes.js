@@ -28,7 +28,7 @@ const validateCurrentUserUpdates = celebrate({
     bio: Joi.string()
       .max(300)
       .trim(),
-    gender: Joi.any().valid("male", "female", "rather not say"),
+    gender: Joi.any().valid("male", "female", "gender-neutral"),
     age: Joi.number()
       .integer()
       .min(0)

@@ -58,72 +58,76 @@ async function changePassword(req, res, next) {
   const { email, password, newpassword } = req.body;
 
   const user = await UserModel.findOne({ email });
-  
-  // Changes user's password hash and salt if password (first argument) is correct to newpassword (second argument), else returns default IncorrectPasswordError 
-  await user.changePassword(password, newpassword)
+
+  // Changes user's password hash and salt if password (first argument) is correct to newpassword (second argument), else returns default IncorrectPasswordError
+  await user
+    .changePassword(password, newpassword)
     .then(res => console.log("password succesfully changed"))
-    .catch(err => console.log(err))
+    .catch(err => console.log(err));
 }
 
 // Checks if a user email exists, if so then generates a reset password token and saves on the user model. Then email is sent to the user
 async function sendPasswordResetURL(req, res, next) {
   const { email } = req.body;
-    const user = await UserModel.findOne({ email });
+  const user = await UserModel.findOne({ email });
 
-    if (!user) {
-      return res.status(400).json({email: "email address not found"});
-    }
+  if (!user) {
+    return res.status(400).json({ email: "email address not found" });
+  }
 
-      const token = generatePasswordToken();
+  const token = generatePasswordToken();
 
-      // Double check why await is required here, is it because the await above still allows following promises to be ran?
-       await user.updateOne({
-        resetPasswordToken: token,
-        // Valid for one hour
-        resetPasswordExpires: Date.now() + 3600000
-      });
-
-      sendResetEmail(token, user.email);
-      return res.sendStatus(200);
-    }
-
-    // Verify password token is still valid
-    async function verifyPasswordToken(req,res, next) {
-      const { token } = req.params;
-    
-      const user = await UserModel.findOne({ 
-        resetPasswordToken: token,
-        resetPasswordExpires : { $gt: Date.now() } });
-    
-      if (!user) {
-        return res.status(400).json({ token: "password reset link is invalid or has expired" });
-      }
-    
-      return res.sendStatus(200);
-    }
-
-// If user is able to click on the reset password URL, mongo validates the token (passed via params), upon succesful validation, user is able to update the password 
-async function changePasswordViaEmail(req, res, next) {
-  const { token } = req.params;
-  const { password } = req.body;
-  
-  const user = await UserModel.findOne({ 
+  // Double check why await is required here, is it because the await above still allows following promises to be ran?
+  await user.updateOne({
     resetPasswordToken: token,
+    // Valid for one hour
+    resetPasswordExpires: Date.now() + 3600000
+  });
+
+  sendResetEmail(token, user.email);
+  return res.sendStatus(200);
+}
+
+// Verify password token is still valid
+async function verifyPasswordToken(req, res, next) {
+  const { token } = req.params;
+
+  const user = await UserModel.findOne({
+    resetPasswordToken: token,
+    resetPasswordExpires: { $gt: Date.now() }
   });
 
   if (!user) {
-    return res.status(400).json({ token: "password reset link is invalid or has expired" });
+    return res
+      .status(400)
+      .json({ token: "password reset link is invalid or has expired" });
   }
 
-  user.setPassword(password)
-    // Removes token as it has been used 
-    user.resetPasswordToken = "";
-    // Saves the save password and deletes token
-    user.save();
-    return res.sendStatus(200);
+  return res.sendStatus(200);
 }
 
+// If user is able to click on the reset password URL, mongo validates the token (passed via params), upon successful validation, user is able to update the password
+async function changePasswordViaEmail(req, res, next) {
+  const { token } = req.params;
+  const { password } = req.body;
 
+  const user = await UserModel.findOne({
+    resetPasswordToken: token
+  });
+
+  if (!user) {
+    return res
+      .status(400)
+      .json({ token: "password reset link is invalid or has expired" });
+  }
+
+  user.setPassword(password);
+  // Removes token as it has been used
+  user.resetPasswordToken = "";
+  // Saves the save password and deletes token
+  user.save();
+  return res.sendStatus(200);
+}
 
 module.exports = {
   register,

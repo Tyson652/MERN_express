@@ -25,6 +25,4 @@ router.post(
   SubmissionController.create
 );
 
-
-
 module.exports = router;
