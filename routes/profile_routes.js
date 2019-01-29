@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require("passport");
 const { celebrate, Joi } = require("celebrate");
 const ProfileController = require("../controllers/profile_controller");
-const { avatarUpload } = require("../services/avatar_upload_service");
+const { avatarUpload } = require("../services/upload_service");
 
 // @Base Route '/profile'
 
