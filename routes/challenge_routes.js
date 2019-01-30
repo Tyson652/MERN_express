@@ -14,8 +14,8 @@ router.get("/", ChallengeController.index);
 // Admin Only - Create a new challenge
 router.post(
   "/upload",
-  // passport.authenticate("jwt", { session: false }),
-  // isAdminMiddleware,
+  passport.authenticate("jwt", { session: false }),
+  isAdminMiddleware,
   videoUpload,
 
   // Fix me

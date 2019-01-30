@@ -22,17 +22,16 @@ async function index(req, res, next) {
 // @params id: string - current user
 // @params title: string
 // @params description: string
-// @params yt_id:string - YouTube ID from youtube_service.js
+// @params yt_id:string - video url on AWS S3
 // @params expiry_date: date
 // @return challenge: object
 async function create(req, res, next) {
   try {
     const { _id, nickname, profile_image } = req.user;
     let { title, description, expiry_date } = req.body;
-    // const { yt_id } = req.file;
-    const yt_id = "9cQgQIMlwWw";
+    const yt_id = req.videoUrl;
 
-    // Creator of the challenge will be set with details from an existing user, query on user's ID
+    // Creator of the challenge will be set with details from current user
     const existingUser = await UserModel.findById(_id);
     if (!existingUser) {
       return next(new HTTPError(400, "User ID not found"));

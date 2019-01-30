@@ -24,6 +24,10 @@ app.use(passport.initialize());
 // app.use(cors(corsOptions));
 
 app.use(function(req, res, next) {
+  // res.header(
+  //   "Access-Control-Allow-Origin",
+  //   `${process.env.PROD_FRONT_END_DOMAIN}`
+  // );
   // Instead of "*" you should enable only specific origins
   res.header("Access-Control-Allow-Origin", "*");
   // Supported HTTP verbs
@@ -31,7 +35,7 @@ app.use(function(req, res, next) {
   // Other custom headers
   res.header(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
+    "Origin, X-Requested-With, Authorization, Content-Length, Content-Type, Accept"
   );
   next();
 });

@@ -18,10 +18,10 @@ const upload = multer({
     s3: s3,
     bucket: process.env.S3_BUCKET,
     acl: "public-read",
-    // Allows multer-s3 to automatically determine the content type, is now able to cater to videos 
+    // Allows multer-s3 to automatically determine the content type, is now able to cater to videos
     contentType: multerS3.AUTO_CONTENT_TYPE,
     metadata: function(req, file, cb) {
-      cb(null, { fieldName: file.fieldname});
+      cb(null, { fieldName: file.fieldname });
     },
     key: function(req, file, cb) {
       cb(null, Date.now().toString());
@@ -55,12 +55,13 @@ function videoUpload(req, res, next) {
     if (!req.file) {
       return next(new HTTPError(422, "No video file was selected"));
     }
-    yt_id = req.file.location;
+    // yt_id = req.file.location; - ask James about this line
+    req.videoUrl = req.file.location;
     next();
   });
 }
 
-module.exports = { 
-  avatarUpload, 
-  videoUpload 
+module.exports = {
+  avatarUpload,
+  videoUpload
 };
