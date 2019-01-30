@@ -26,7 +26,8 @@ app.use(passport.initialize());
 app.use(function(req, res, next) {
   res.header(
     "Access-Control-Allow-Origin",
-    `${process.env.PROD_FRONT_END_DOMAIN}`
+    "http://1up-app.s3-website-ap-southeast-2.amazonaws.com/"
+    // `${process.env.PROD_FRONT_END_DOMAIN}`
   );
   // Instead of "*" you should enable only specific origins
   // res.header("Access-Control-Allow-Origin", "*");
