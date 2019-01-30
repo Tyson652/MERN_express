@@ -24,12 +24,12 @@ app.use(passport.initialize());
 // app.use(cors(corsOptions));
 
 app.use(function(req, res, next) {
-  // res.header(
-  //   "Access-Control-Allow-Origin",
-  //   `${process.env.PROD_FRONT_END_DOMAIN}`
-  // );
+  res.header(
+    "Access-Control-Allow-Origin",
+    `${process.env.PROD_FRONT_END_DOMAIN}`
+  );
   // Instead of "*" you should enable only specific origins
-  res.header("Access-Control-Allow-Origin", "*");
+  // res.header("Access-Control-Allow-Origin", "*");
   // Supported HTTP verbs
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
   // Other custom headers
