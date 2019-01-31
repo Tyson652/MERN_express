@@ -26,11 +26,10 @@ async function index(req, res, next) {
 // @params expiry_date: date
 // @return challenge: object
 async function create(req, res, next) {
+  console.log("29");
   try {
     const { _id, nickname, profile_image } = req.user;
     let { title, description, expiry_date } = req.body;
-    // const { yt_id } = req.file;
-    const yt_id = "9cQgQIMlwWw";
 
     // Creator of the challenge will be set with details from an existing user, query on user's ID
     const existingUser = await UserModel.findById(_id);
@@ -54,6 +53,7 @@ async function create(req, res, next) {
     console.log(challenge);
 
     if (!challenge) {
+      console.log("55")
       return next(new HTTPError(422, "Could not create challenge"));
     }
 
@@ -62,15 +62,16 @@ async function create(req, res, next) {
     // Return all challenges
 
     //timeout
-    setTimeout(function() {
-      console.log("timer");
-      console.log("challenge was created in database");
+    // setTimeout(function() {
+    //   console.log("timer");
+    //   console.log("challenge was created in database");
       return res.json(challenges);
-    }, 3000);
+    // }, 3000);
 
     // console.log("challenge was created in database");
     // return res.json(challenges);
   } catch (error) {
+    console.log(error);
     return next(new HTTPError(500, error.message));
   }
 }
