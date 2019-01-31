@@ -2,10 +2,11 @@ const UserModel = require("./../database/models/user_model");
 
 // API to get current user's profile details
 // @return user: object
-async function showCurrent(req, res, next) {
+function showCurrent(req, res, next) {
+  console.log("6");
   try {
     const user = req.user;
-    res.json(user);
+    return res.json(user);
   } catch (error) {
     return next(error);
   }

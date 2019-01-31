@@ -42,17 +42,14 @@ async function index(req, res, next) {
 // @return challenge: object
 async function create(req, res, next) {
   try {
+    console.log("45");
     const { id } = req.params;
-    // const { yt_id } = req.file;
-    // const yt_id = "Pi3bc9lS3rg";
     const { title, description } = req.body;
     const { _id, nickname, profile_image } = req.user;
 
-    //mock id
-    yt_id = "Gi208izwRDc";
-
     const challenge = await ChallengeModel.findById(id);
     if (!challenge) {
+      console.log("53");
       return next(new HTTPError(400, "Challenge not found"));
     }
 
@@ -67,6 +64,7 @@ async function create(req, res, next) {
 
     // Save challenge details to user
     const user = await UserModel.findById(_id);
+    console.log("68");
     user.submissions.push({
       challengeId: challenge.id,
       challengeTitle: challenge.title,
@@ -74,12 +72,12 @@ async function create(req, res, next) {
       yt_id
     });
     await user.save();
-
-    setTimeout(function() {
-      console.log("timer");
-      console.log("submission was created in database");
+    console.log("76");
+    // setTimeout(function() {
+    //   console.log("timer");
+    //   console.log("submission was created in database");
       return res.json(challenge);
-    }, 3000);
+    // }, 3000);
 
     // return res.json(challenge);
   } catch (error) {

@@ -56,11 +56,12 @@ function videoUpload(req, res, next) {
       return next(new HTTPError(422, "No video file was selected"));
     }
     yt_id = req.file.location;
+    console.log("video upload ran");
     next();
   });
 }
 
 module.exports = { 
   avatarUpload, 
-  videoUpload 
+  videoUpload,
 };
