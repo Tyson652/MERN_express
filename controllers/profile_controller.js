@@ -2,10 +2,10 @@ const UserModel = require("./../database/models/user_model");
 
 // API to get current user's profile details
 // @return user: object
-async function showCurrent(req, res, next) {
+function showCurrent(req, res, next) {
   try {
     const user = req.user;
-    res.json(user);
+    return res.json(user);
   } catch (error) {
     return next(error);
   }
@@ -21,17 +21,25 @@ async function showCurrent(req, res, next) {
 // @return user: object
 async function updateCurrent(req, res, next) {
   const { _id } = req.user;
-  const { first_name, last_name, bio, gender, age, location } = req.body;
+  const {
+    first_name,
+    last_name,
+    nickname,
+    bio,
+    gender,
+    age,
+    location
+  } = req.body;
 
   const updates = {
     first_name: first_name || req.user.first_name,
     last_name: last_name || req.user.last_name,
+    nickname: nickname || req.user.nickname,
     bio: bio || req.user.bio,
     gender: gender || req.user.gender,
     age: age || req.user.age,
     location: location || req.user.location
   };
-
 
   try {
     const updatedUser = await UserModel.findByIdAndUpdate(_id, updates, {
@@ -41,7 +49,6 @@ async function updateCurrent(req, res, next) {
     if (!updatedUser) {
       return next(new HTTPError(500, "Unable to update profile"));
     }
-
 
     res.json(updatedUser);
   } catch (error) {

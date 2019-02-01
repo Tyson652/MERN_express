@@ -43,13 +43,8 @@ async function index(req, res, next) {
 async function create(req, res, next) {
   try {
     const { id } = req.params;
-    // const { yt_id } = req.file;
-    // const yt_id = "Pi3bc9lS3rg";
     const { title, description } = req.body;
     const { _id, nickname, profile_image } = req.user;
-
-    //mock id
-    yt_id = "Gi208izwRDc";
 
     const challenge = await ChallengeModel.findById(id);
     if (!challenge) {
@@ -74,21 +69,28 @@ async function create(req, res, next) {
       yt_id
     });
     await user.save();
-
-    setTimeout(function() {
-      console.log("timer");
-      console.log("submission was created in database");
       return res.json(challenge);
-    }, 3000);
-
-    // return res.json(challenge);
   } catch (error) {
     console.log(error);
     return next(new HTTPError(500, error.message));
   }
 }
 
+async function destroy(req, res, next) { 
+  try {
+    const { id, sub_id } = req.params;
+    const challenge = await ChallengeModel.findById(id);
+    challenge.submissions.id(sub_id).remove();
+    challenge.save();
+    console.log("returned");
+    return res.status(200).send();
+  } catch (error) {
+    return next(new HTTPError(500, error.message));
+  }
+}
+
 module.exports = {
   index,
-  create
+  create,
+  destroy
 };

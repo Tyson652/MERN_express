@@ -26,6 +26,7 @@ async function index(req, res, next) {
 // @params expiry_date: date
 // @return challenge: object
 async function create(req, res, next) {
+  console.log("29");
   try {
     const { _id, nickname, profile_image } = req.user;
     let { title, description, expiry_date } = req.body;
@@ -53,37 +54,29 @@ async function create(req, res, next) {
     console.log(challenge);
 
     if (!challenge) {
+      console.log("55");
       return next(new HTTPError(422, "Could not create challenge"));
     }
 
     let challenges = await ChallengeModel.find({});
 
     // Return all challenges
-
-    //timeout
-    setTimeout(function() {
-      console.log("timer");
-      console.log("challenge was created in database");
-      return res.json(challenges);
-    }, 3000);
-
-    // console.log("challenge was created in database");
-    // return res.json(challenges);
+    return res.json(challenges);
   } catch (error) {
+    console.log(error);
     return next(new HTTPError(500, error.message));
   }
 }
 
 async function destroy(req, res, next) {
-  console.log("inside delete challenge controller");
-  const { id } = req.params;
-  console.log(req.params);
-  const challenge = await ChallengeModel.findByIdAndRemove(id);
-  console.log("video was delete from database successfully");
-  if (!challenge) {
-    return next(new HTTPError(400, "Challenge ID not found"));
+  try {
+    console.log("inside delete challenge controller");
+    const { id } = req.params;
+    await ChallengeModel.findByIdAndRemove(id);
+    return res.status(200).send();
+  } catch (error) {
+    return next(new HTTPError(400, error.message));
   }
-  next();
 }
 
 module.exports = {

@@ -33,16 +33,10 @@ router.post(
   //   }
   // }),
   // upload.single("video"),
-  // yt.upload,
-  // temp,
   ChallengeController.create
 );
 
 // Challenge delete route
-router.delete(
-  "/submissions/:id",
-  // yt.destroy,
-  ChallengeController.destroy
-);
+router.delete("/submissions/:id", ChallengeController.destroy);
 
 module.exports = router;
