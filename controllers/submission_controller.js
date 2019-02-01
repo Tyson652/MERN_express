@@ -93,6 +93,6 @@ async function destroy(req, res, next) {
 
 module.exports = {
   index,
-  create,
-  destroy
+  create
+  // destroy
 };
