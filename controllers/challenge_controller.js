@@ -1,7 +1,7 @@
 const ChallengeModel = require("./../database/models/challenge_model");
 const UserModel = require("./../database/models/user_model");
 
-// API to get lists ongoing Challenges
+//// API to get lists ongoing Challenges
 // @return challenges: array [{ challenge }] with submissions subdocs
 async function index(req, res, next) {
   try {
@@ -18,7 +18,7 @@ async function index(req, res, next) {
   }
 }
 
-// (Admin Only) API to create a new Challenge
+//// (Admin Only) API to create a new Challenge
 // @params id: string - current user
 // @params title: string
 // @params description: string
@@ -26,7 +26,6 @@ async function index(req, res, next) {
 // @params expiry_date: date
 // @return challenge: object
 async function create(req, res, next) {
-  console.log("29");
   try {
     const { _id, nickname, profile_image } = req.user;
     let { title, description, expiry_date } = req.body;
@@ -54,7 +53,6 @@ async function create(req, res, next) {
     console.log(challenge);
 
     if (!challenge) {
-      console.log("55");
       return next(new HTTPError(422, "Could not create challenge"));
     }
 

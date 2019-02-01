@@ -1,6 +1,6 @@
 const UserModel = require("./../database/models/user_model");
 
-// API to get current user's profile details
+//// API to get current user's profile details
 // @return user: object
 function showCurrent(req, res, next) {
   try {
@@ -11,7 +11,7 @@ function showCurrent(req, res, next) {
   }
 }
 
-// API to update current user's profile details
+//// API to update current user's profile details
 // @params first_name: string
 // @params last_name: string
 // @params bio: string
@@ -56,7 +56,7 @@ async function updateCurrent(req, res, next) {
   }
 }
 
-// API to update current user's profile image
+//// API to update current user's profile image
 // @params profile_image:string - AWS_S3 Image URL
 // @return user: object
 async function avatarUpdate(req, res, next) {
@@ -72,7 +72,7 @@ async function avatarUpdate(req, res, next) {
   }
 }
 
-// API to get an user's details
+//// API to get an user's details
 // @return user: object
 async function showUser(req, res, next) {
   try {
