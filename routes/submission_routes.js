@@ -25,4 +25,10 @@ router.post(
   SubmissionController.create
 );
 
+router.delete(
+  "/challenges/:id/submission/:sub_id",
+  passport.authenticate("jwt", { session: false }),
+  SubmissionController.destroy
+)
+
 module.exports = router;

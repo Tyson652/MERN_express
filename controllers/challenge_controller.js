@@ -60,16 +60,7 @@ async function create(req, res, next) {
     let challenges = await ChallengeModel.find({});
 
     // Return all challenges
-
-    //timeout
-    // setTimeout(function() {
-    //   console.log("timer");
-    //   console.log("challenge was created in database");
       return res.json(challenges);
-    // }, 3000);
-
-    // console.log("challenge was created in database");
-    // return res.json(challenges);
   } catch (error) {
     console.log(error);
     return next(new HTTPError(500, error.message));
@@ -77,15 +68,15 @@ async function create(req, res, next) {
 }
 
 async function destroy(req, res, next) {
-  console.log("inside delete challenge controller");
-  const { id } = req.params;
-  console.log(req.params);
-  const challenge = await ChallengeModel.findByIdAndRemove(id);
-  console.log("video was delete from database successfully");
-  if (!challenge) {
-    return next(new HTTPError(400, "Challenge ID not found"));
+  try {
+    console.log("inside delete challenge controller");
+    const { id } = req.params;
+    await ChallengeModel.findByIdAndRemove(id);
+    return res.status(200).send();
+
+  } catch (error) {
+    return next(new HTTPError(400, error.message));
   }
-  next();
 }
 
 module.exports = {
