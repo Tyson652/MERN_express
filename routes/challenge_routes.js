@@ -4,7 +4,7 @@ const passport = require("passport");
 const { celebrate, Joi } = require("celebrate");
 const ChallengeController = require("../controllers/challenge_controller");
 const isAdminMiddleware = require("./../middleware/is_admin_middleware");
-const { videoUpload, deleteVideo } = require("../services/upload_service");
+const { videoUpload } = require("../services/upload_service");
 
 // @Base Route '/challenges'
 
