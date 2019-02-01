@@ -76,21 +76,31 @@ async function create(req, res, next) {
   }
 }
 
-async function destroy(req, res, next) { 
-  try {
-    const { id, sub_id } = req.params;
-    const challenge = await ChallengeModel.findById(id);
-    challenge.submissions.id(sub_id).remove();
-    challenge.save();
-    console.log("returned");
-    return res.status(200).send();
-  } catch (error) {
-    return next(new HTTPError(500, error.message));
-  }
-}
+// async function destroy(req, res, next) { 
+//   try {
+//     console.log("here");
+//     // Deleting submission from challenge
+//     const { id, _id, sub_id } = req.params;
+//     console.log(req.params);
+//     const challenge = await ChallengeModel.findById(id);
+//     console.log(challenge);
+//     challenge.submissions.id(sub_id).remove();
+//     challenge.save();
+//     console.log("86");
+
+//     // Delete submission from user
+//     const user = await UserModel.findById(_id);
+//     user.submissions.id(sub_id).remove();
+//     user.save();
+//     return res.status(200).send();
+//     console.log("93");
+//   } catch (error) {
+//     return next(new HTTPError(500, error.message));
+//   }
+// }
 
 module.exports = {
   index,
   create,
-  destroy
+  // destroy
 };
