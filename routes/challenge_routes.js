@@ -6,12 +6,12 @@ const ChallengeController = require("../controllers/challenge_controller");
 const isAdminMiddleware = require("./../middleware/is_admin_middleware");
 const { videoUpload } = require("../services/upload_service");
 
-// @Base Route '/challenges'
+//// @Base Route '/challenges'
 
-// Public - get list of challenges for feed
+//// Public - get list of challenges for feed
 router.get("/", ChallengeController.index);
 
-// Admin Only - Create a new challenge
+//// Admin Only - Create a new challenge
 router.post(
   "/upload",
   passport.authenticate("jwt", { session: false }),
@@ -36,9 +36,10 @@ router.post(
   ChallengeController.create
 );
 
-// Challenge delete route
+//// Challenge delete route
 router.delete(
   "/submissions/:id",
+  passport.authenticate("jwt", { session: false }),
   ChallengeController.destroy
 );
 

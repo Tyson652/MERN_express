@@ -1,6 +1,6 @@
 const UserModel = require("./../database/models/user_model");
 
-// API to get current user's profile details
+//// API to get current user's profile details
 // @return user: object
 function showCurrent(req, res, next) {
   console.log("6");
@@ -12,7 +12,7 @@ function showCurrent(req, res, next) {
   }
 }
 
-// API to update current user's profile details
+//// API to update current user's profile details
 // @params first_name: string
 // @params last_name: string
 // @params bio: string
@@ -23,7 +23,15 @@ function showCurrent(req, res, next) {
 async function updateCurrent(req, res, next) {
   const { _id } = req.user;
   console.log(req.user);
-  const { first_name, last_name, nickname, bio, gender, age, location } = req.body;
+  const {
+    first_name,
+    last_name,
+    nickname,
+    bio,
+    gender,
+    age,
+    location
+  } = req.body;
   console.log(req.body);
 
   const updates = {
@@ -36,7 +44,6 @@ async function updateCurrent(req, res, next) {
     location: location || req.user.location
   };
 
-
   try {
     const updatedUser = await UserModel.findByIdAndUpdate(_id, updates, {
       new: true
@@ -46,14 +53,13 @@ async function updateCurrent(req, res, next) {
       return next(new HTTPError(500, "Unable to update profile"));
     }
 
-
     res.json(updatedUser);
   } catch (error) {
     return next(new HTTPError(500, error.message));
   }
 }
 
-// API to update current user's profile image
+//// API to update current user's profile image
 // @params profile_image:string - AWS_S3 Image URL
 // @return user: object
 async function avatarUpdate(req, res, next) {
@@ -69,7 +75,7 @@ async function avatarUpdate(req, res, next) {
   }
 }
 
-// API to get an user's details
+//// API to get an user's details
 // @return user: object
 async function showUser(req, res, next) {
   try {

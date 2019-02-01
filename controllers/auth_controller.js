@@ -3,7 +3,7 @@ const JWTService = require("./../services/jwt_service");
 const generatePasswordToken = require("./../services/key_generator_service");
 const sendResetEmail = require("./../services/reset_password_service");
 
-// API to create a new User
+//// API to create a new User
 // @params first_name: string
 // @params last_name: string
 // @params nickname:string
@@ -31,7 +31,7 @@ function register(req, res, next) {
   });
 }
 
-// API to log in a existing user via local strategy
+//// API to log in a existing user via local strategy
 // @params email: string - passport-local-mongoose requires to be unique by default
 // @params password: string
 // @return  JWT
@@ -53,7 +53,7 @@ async function login(req, res, next) {
   }
 }
 
-// Change password
+//// Change password while logged in App
 async function changePassword(req, res, next) {
   const { email, password, newpassword } = req.body;
 
@@ -66,6 +66,9 @@ async function changePassword(req, res, next) {
     .catch(err => console.log(err));
 }
 
+//// Forget Password Feature:
+
+//// Forget Password 1: Send password reset link
 // Checks if a user email exists, if so then generates a reset password token and saves on the user model. Then email is sent to the user
 async function sendPasswordResetURL(req, res, next) {
   const { email } = req.body;
@@ -88,6 +91,7 @@ async function sendPasswordResetURL(req, res, next) {
   return res.sendStatus(200);
 }
 
+//// Forget Password 2: Reset password token
 // Verify password token is still valid
 async function verifyPasswordToken(req, res, next) {
   const { token } = req.params;
@@ -106,6 +110,7 @@ async function verifyPasswordToken(req, res, next) {
   return res.sendStatus(200);
 }
 
+//// Forget Password 3: Reset password
 // If user is able to click on the reset password URL, mongo validates the token (passed via params), upon successful validation, user is able to update the password
 async function changePasswordViaEmail(req, res, next) {
   const { token } = req.params;

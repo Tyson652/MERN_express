@@ -1,7 +1,7 @@
 const ChallengeModel = require("./../database/models/challenge_model");
 const UserModel = require("./../database/models/user_model");
 
-// API to get lists of submissions
+//// API to get lists of submissions
 // @return submission: array [{ submission }]
 async function index(req, res, next) {
   try {
@@ -34,7 +34,7 @@ async function index(req, res, next) {
   }
 }
 
-// API to create a new Submission for a Challenge
+//// API to create a new Submission for a Challenge
 // @params id: string - challenge ID
 // @params title: string
 // @params description: string
@@ -44,6 +44,7 @@ async function create(req, res, next) {
   try {
     const { id } = req.params;
     const { title, description } = req.body;
+    const yt_id = req.videoUrl;
     const { _id, nickname, profile_image } = req.user;
 
     const challenge = await ChallengeModel.findById(id);
@@ -69,14 +70,15 @@ async function create(req, res, next) {
       yt_id
     });
     await user.save();
-      return res.json(challenge);
+    return res.json(challenge);
   } catch (error) {
     console.log(error);
     return next(new HTTPError(500, error.message));
   }
 }
 
-async function destroy(req, res, next) { 
+//// API to delete a submission
+async function destroy(req, res, next) {
   try {
     const { id, sub_id } = req.params;
     const challenge = await ChallengeModel.findById(id);

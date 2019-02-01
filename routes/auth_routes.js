@@ -3,9 +3,9 @@ const router = express.Router();
 const { celebrate, Joi } = require("celebrate");
 const AuthController = require("../controllers/auth_controller");
 
-// @Base Route '/'
+//// @Base Route '/'
 
-// Login exist user
+//// Login exist user
 router.post(
   "/login",
   celebrate({
@@ -19,7 +19,7 @@ router.post(
   AuthController.login
 );
 
-// Register new user
+//// Register new user
 router.post(
   "/register",
   // celebrate({
@@ -51,28 +51,18 @@ router.post(
   AuthController.register
 );
 
-// Reset password token
-router.get(
-  "/resetpassword/:token",
-  AuthController.verifyPasswordToken
-);
+//// Change password while logged in App
+router.put("/changepassword", AuthController.changePassword);
 
-// Change password
-router.put(
-  "/changepassword",
-  AuthController.changePassword
-);
+//// Forget Password Feature:
 
-// Send password reset link
-router.post(
-  "/reseturl",
-  AuthController.sendPasswordResetURL
-);
+//// Forget Password 1: Send password reset link
+router.post("/reseturl", AuthController.sendPasswordResetURL);
 
-// Reset password
-router.put(
-  "/resetpassword/:token",
-  AuthController.changePasswordViaEmail
-);
+//// Forget Password 2: Reset password token
+router.get("/resetpassword/:token", AuthController.verifyPasswordToken);
+
+//// Forget Password 3: Reset password
+router.put("/resetpassword/:token", AuthController.changePasswordViaEmail);
 
 module.exports = router;
