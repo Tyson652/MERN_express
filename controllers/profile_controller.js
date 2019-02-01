@@ -22,11 +22,14 @@ function showCurrent(req, res, next) {
 // @return user: object
 async function updateCurrent(req, res, next) {
   const { _id } = req.user;
-  const { first_name, last_name, bio, gender, age, location } = req.body;
+  console.log(req.user);
+  const { first_name, last_name, nickname, bio, gender, age, location } = req.body;
+  console.log(req.body);
 
   const updates = {
     first_name: first_name || req.user.first_name,
     last_name: last_name || req.user.last_name,
+    nickname: nickname || req.user.nickname,
     bio: bio || req.user.bio,
     gender: gender || req.user.gender,
     age: age || req.user.age,
