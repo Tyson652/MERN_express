@@ -21,7 +21,7 @@ async function index(req, res, next) {
           submission_user_profile_image: "$submissions.user.profile_image",
           submission_title: "$submissions.title",
           submission_description: "$submissions.description",
-          submission_yt_id: "$submissions.yt_id",
+          submission_video_url: "$submissions.video_url",
           submission_createdAt: "$submissions.createdAt"
         }
       }
@@ -38,13 +38,13 @@ async function index(req, res, next) {
 // @params id: string - challenge ID
 // @params title: string
 // @params description: string
-// @params yt_id:string - YouTube ID from youtube_service.js
+// @params video_url:string - video url on AWS S3
 // @return challenge: object
 async function create(req, res, next) {
   try {
     const { id } = req.params;
     const { title, description } = req.body;
-    const yt_id = req.videoUrl;
+    const video_url = req.videoUrl;
     const { _id, nickname, profile_image } = req.user;
 
     const challenge = await ChallengeModel.findById(id);
@@ -56,7 +56,7 @@ async function create(req, res, next) {
     challenge.submissions.push({
       title,
       description,
-      yt_id,
+      video_url,
       user: { id: _id, nickname, profile_image }
     });
     await challenge.save();
@@ -66,11 +66,8 @@ async function create(req, res, next) {
     user.submissions.push({
       challengeId: challenge.id,
       challengeTitle: challenge.title,
-<<<<<<< Updated upstream
       challengeDescription: challenge.description,
-=======
->>>>>>> Stashed changes
-      yt_id
+      video_url
     });
     await user.save();
     return res.json(challenge);
@@ -80,19 +77,20 @@ async function create(req, res, next) {
   }
 }
 
+// On hold - requires testing
 //// API to delete a submission
-async function destroy(req, res, next) {
-  try {
-    const { id, sub_id } = req.params;
-    const challenge = await ChallengeModel.findById(id);
-    challenge.submissions.id(sub_id).remove();
-    challenge.save();
-    console.log("returned");
-    return res.status(200).send();
-  } catch (error) {
-    return next(new HTTPError(500, error.message));
-  }
-}
+// async function destroy(req, res, next) {
+//   try {
+//     const { id, sub_id } = req.params;
+//     const challenge = await ChallengeModel.findById(id);
+//     challenge.submissions.id(sub_id).remove();
+//     challenge.save();
+//     console.log("returned");
+//     return res.status(200).send();
+//   } catch (error) {
+//     return next(new HTTPError(500, error.message));
+//   }
+// }
 
 module.exports = {
   index,

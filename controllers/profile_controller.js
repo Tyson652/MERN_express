@@ -15,7 +15,7 @@ function showCurrent(req, res, next) {
 // @params first_name: string
 // @params last_name: string
 // @params bio: string
-// @params gender: enum ["male", "female", "rather not say"]
+// @params gender: enum ["male", "female", "gender-neutral"]
 // @params age: number
 // @params location: string
 // @return user: object

@@ -14,17 +14,18 @@ router.get("/submissions", SubmissionController.index);
 router.post(
   "/challenges/:id/submissions",
   passport.authenticate("jwt", { session: false }),
-  // celebrate({
-  //   body: {
-  //     title: Joi.string().required(),
-  //     description: Joi.string(),
-  //     video: Joi.string().required()
-  //   }
-  // }),
+  celebrate({
+    body: {
+      title: Joi.string().required(),
+      description: Joi.string(),
+      video: Joi.string().required()
+    }
+  }),
   videoUpload,
   SubmissionController.create
 );
 
+// On hold - requires testing
 // router.delete(
 //   "/challenges/:id/submission/:sub_id",
 //   passport.authenticate("jwt", { session: false }),

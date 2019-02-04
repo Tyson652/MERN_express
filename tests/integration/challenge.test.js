@@ -13,10 +13,9 @@ let created_challenge = undefined;
 
 beforeAll(async () => {
   global.HTTPError = HTTPError;
-  mongoose.connect(
-    "mongodb://localhost/1up_api_test",
-    { useNewUrlParser: true }
-  );
+  mongoose.connect("mongodb://localhost/1up_api_test", {
+    useNewUrlParser: true
+  });
   mongoose.Promise = global.Promise;
   mongoose.connection.on("error", err => console.log(err));
 
@@ -47,14 +46,14 @@ const created_challenge_data = {
   },
   title: "title_challenge",
   description: "description_challenge",
-  yt_id: "yt_id_challenge"
+  video_url: "video_url_challenge"
 };
 
 // ---------------- Create Tests ----------------
 
 describe("Admin can create a new challenge", () => {
   //   test("POST /challenges with valid req body", async () => {
-  //     const yt_id = "DepakUSDtQE";
+  //     const video_url = "DepakUSDtQE";
 
   //     const response = await supertest(app)
   //       .post("/challenges")

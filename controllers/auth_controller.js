@@ -66,9 +66,9 @@ async function changePassword(req, res, next) {
     .catch(err => console.log(err));
 }
 
-//// Forget Password Feature:
+//// Forget Password / Reset Password via Email:
 
-//// Forget Password 1: Send password reset link
+//// Forget Password 1: Send password reset via email with link
 // Checks if a user email exists, if so then generates a reset password token and saves on the user model. Then email is sent to the user
 async function sendPasswordResetURL(req, res, next) {
   const { email } = req.body;

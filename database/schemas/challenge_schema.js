@@ -24,7 +24,7 @@ const ChallengeSchema = new Schema(
       type: String,
       uppercase: true
     },
-    yt_id: {
+    video_url: {
       type: String
     },
     expiry_date: {

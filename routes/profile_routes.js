@@ -10,7 +10,7 @@ const { avatarUpload } = require("../services/upload_service");
 //// Public - show an user's profile page
 router.get("/:id", ProfileController.showUser);
 
-//// User- show current user's own profile page
+//// Current User - show current user's own profile page
 router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
@@ -42,7 +42,7 @@ const validateCurrentUserUpdates = celebrate({
   }
 });
 
-//// User - update current user's profile details
+//// Current User - update user's own profile details
 router.patch(
   "/",
   passport.authenticate("jwt", { session: false }),
@@ -56,7 +56,7 @@ router.put(
   ProfileController.updateCurrent
 );
 
-//// User - update current user's avatar image
+//// Current User - update current user's avatar image
 // TODO?: validation image file req.file?
 router.post(
   "/",

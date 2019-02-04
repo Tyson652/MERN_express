@@ -1,5 +1,5 @@
 const JWT = require("jsonwebtoken");
-// TODO: expiry set at 30 days for development, review for production
+// expiry set at 30 days
 const expiry = "30d";
 
 function generateToken(user) {
