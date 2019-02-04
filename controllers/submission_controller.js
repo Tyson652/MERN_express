@@ -66,7 +66,10 @@ async function create(req, res, next) {
     user.submissions.push({
       challengeId: challenge.id,
       challengeTitle: challenge.title,
+<<<<<<< Updated upstream
       challengeDescription: challenge.description,
+=======
+>>>>>>> Stashed changes
       yt_id
     });
     await user.save();

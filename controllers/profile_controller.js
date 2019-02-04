@@ -68,7 +68,7 @@ async function avatarUpdate(req, res, next) {
     const user = await UserModel.findById(_id);
     user.profile_image = req.imageUrl;
     await user.save();
-    // Refactor: what to do with old image (delete or keep pass images?)
+    // Refactor: what to do with old image (delete or keep past images?)
     return res.json(user);
   } catch (error) {
     return next(new HTTPError(500, error.message));
