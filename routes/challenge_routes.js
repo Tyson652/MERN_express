@@ -15,7 +15,7 @@ router.get("/", ChallengeController.index);
 router.post(
   "/upload",
   passport.authenticate("jwt", { session: false }),
-  // isAdminMiddleware,
+  isAdminMiddleware,
   videoUpload,
 
   // Fix me

@@ -6,12 +6,37 @@ const passport = require("./config/passport");
 
 app.use(passport.initialize());
 
-app.use(
-  cors({
-    // origin: process.env.PROD_FRONT_END_DOMAIN
-    origin: process.env.FRONT_END_DOMAIN
-  })
-);
+// // Configuring CORS w/ Dynamic Origin
+// const whitelist = [
+//   `${process.env.PROD_FRONT_END_DOMAIN}`,
+//   `${process.env.FRONT_END_DOMAIN}`
+// ];
+// const corsOptions = {
+//   origin: function(origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   }
+// };
+
+// app.use(cors(corsOptions));
+
+app.use(function(req, res, next) {
+  // Instead of "*" you should enable only specific origins
+  res.header("Access-Control-Allow-Origin", "*");
+  // FIXME: URL locked by CORS policy: Response to preflight request doesn't pass access control check
+  // res.header("Access-Control-Allow-Origin", `${process.env.PROD_FRONT_END_DOMAIN}`);
+  // Supported HTTP verbs
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  // Other custom headers
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Authorization, Content-Length, Content-Type, Accept"
+  );
+  next();
+});
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

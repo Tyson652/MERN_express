@@ -3,7 +3,6 @@ const UserModel = require("./../database/models/user_model");
 //// API to get current user's profile details
 // @return user: object
 function showCurrent(req, res, next) {
-  console.log("6");
   try {
     const user = req.user;
     return res.json(user);
@@ -22,7 +21,6 @@ function showCurrent(req, res, next) {
 // @return user: object
 async function updateCurrent(req, res, next) {
   const { _id } = req.user;
-  console.log(req.user);
   const {
     first_name,
     last_name,
@@ -32,7 +30,6 @@ async function updateCurrent(req, res, next) {
     age,
     location
   } = req.body;
-  console.log(req.body);
 
   const updates = {
     first_name: first_name || req.user.first_name,
