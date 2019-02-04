@@ -68,7 +68,7 @@ async function create(req, res, next) {
 async function destroy(req, res, next) {
   try {
     const { id } = req.params;
-    // TODO: check req.user._id matches challenge.user_creator._id
+    // TODO: check req.user._id matches challenge.user_creator._id & Tests
     const challenge = await ChallengeModel.findByIdAndRemove(id);
     return res.status(200).json(challenge);
   } catch (error) {

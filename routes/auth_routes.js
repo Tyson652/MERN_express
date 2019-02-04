@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const passport = require("passport");
 const { celebrate, Joi } = require("celebrate");
 const AuthController = require("../controllers/auth_controller");
 
@@ -87,14 +88,21 @@ router.put(
 router.put(
   "/changepassword",
   passport.authenticate("jwt", { session: false }),
-  // celebrate({
-  //   body: {
-  //     password: Joi.string()
-  //       .min(6)
-  //       .max(40)
-  //       .required()
-  //   }
-  // }),
+  celebrate({
+    body: {
+      email: Joi.string()
+        .email()
+        .required(),
+      password: Joi.string()
+        .min(6)
+        .max(40)
+        .required(),
+      newPassword: Joi.string()
+        .min(6)
+        .max(40)
+        .required()
+    }
+  }),
   AuthController.changePassword
 );
 

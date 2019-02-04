@@ -18,16 +18,12 @@ router.post(
   // isAdminMiddleware,
   videoUpload,
 
-  // Fix me
+  // Fix me - how to handle video_url = req.videoUrl?
   // celebrate({
   //   body: {
-  //     creator_id: Joi.string()
-  //       .trim(),
-  //       // .required(),
   //     title: Joi.string()
   //       .trim()
   //       .required(),
-  //     video: Joi.any(),
   //     description: Joi.string().trim(),
   //     expiry_date: Joi.date().min("now")
   //   }

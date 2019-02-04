@@ -55,15 +55,21 @@ async function login(req, res, next) {
 
 //// Change password while logged in App
 async function changePassword(req, res, next) {
-  const { email, password, newpassword } = req.body;
+  const { email, password, newPassword } = req.body;
 
-  const user = await UserModel.findOne({ email });
+  try {
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return next(new HTTPError(400, "email address not found"));
+    }
 
-  // Changes user's password hash and salt if password (first argument) is correct to newpassword (second argument), else returns default IncorrectPasswordError
-  await user
-    .changePassword(password, newpassword)
-    .then(res => console.log("password succesfully changed"))
-    .catch(err => console.log(err));
+    // Changes user's password hash and salt if password (first argument) is correct to newpassword (second argument), else returns default IncorrectPasswordError
+    const updatedUser = await user.changePassword(password, newPassword);
+
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    return next(new HTTPError(401, "Password incorrect"));
+  }
 }
 
 //// Forget Password / Reset Password via Email:
