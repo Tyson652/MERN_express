@@ -2,10 +2,10 @@
 
 # OneUp MVP
 
-* A link (URL) to your published App
+### App URL
   * http://1up-app.s3-website-ap-southeast-2.amazonaws.com/
 
-* A link to your GitHub repository
+### Github
   * Front-End (React): https://github.com/Tyson652/MERN_react
   * Back-End (Node): https://github.com/Tyson652/MERN_express
 
@@ -44,10 +44,27 @@
 
 
 
-* Design documentation including,
-  * Design process
-  * User stories
-  * A workflow diagram of the user journey/s.
+## Design Documentation
+  ### Design Process
+  The design process was pretty straight foward as our client OneUp already had a styled mockup of the mobile version of the app. We used this when it came to making our design decisions and we tried to get our design as close to the mockup as possible. We created some wireframes for the web version of our app and kept the design very similar to the mobile version. For our styling libary we decided to use Material Ui as we liked the way it looked and it was easy to implement.
+
+  ### User stories
+  * As a user, I want to create an account to save relevant information and my submissions.
+  * As a user, I want to be able to change my account details.
+  * As a user, I want to be able to see all the most recent submissons from other users.
+  * As a user, I want to be able to see all the most recent challenges.
+  * As a user, I want to be able to make a new submission to a challenge.
+  * As a user, I want to be able to share my submissions on other social media applications.
+  * As a user, I want to be able to view a challenge and all the submissions made to that challenge.
+  * As a user, I want to be able to delete my submissions.
+  * As a user, I want to be able to log in and sign out of my account.
+  * As a user, I want to be able to view the site even if I don't have an account.
+
+### Workflow Diagram
+![require](docs/images/OneUpWorkflowDiagram.png)
+
+
+  
   * Wireframes
     * Balsamiq
   * Database Entity Relationship Diagrams
