@@ -11,34 +11,30 @@ const { videoUpload } = require("../services/upload_service");
 //// Public - get list of challenges for feed
 router.get("/", ChallengeController.index);
 
-//// Admin Only - Create a new challenge
+//// Public - Create a new challenge
 router.post(
   "/upload",
   passport.authenticate("jwt", { session: false }),
   // isAdminMiddleware,
   videoUpload,
 
-  // Fix me
+  // Fix me - how to handle video_url = req.videoUrl?
   // celebrate({
   //   body: {
-  //     creator_id: Joi.string()
-  //       .trim(),
-  //       // .required(),
   //     title: Joi.string()
   //       .trim()
   //       .required(),
-  //     video: Joi.any(),
   //     description: Joi.string().trim(),
   //     expiry_date: Joi.date().min("now")
   //   }
   // }),
-  // upload.single("video"),
+
   ChallengeController.create
 );
 
-//// Challenge delete route
+//// Challenge creator - delete challenge
 router.delete(
-  "/submissions/:id",
+  "/:id",
   passport.authenticate("jwt", { session: false }),
   ChallengeController.destroy
 );

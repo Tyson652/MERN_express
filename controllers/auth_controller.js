@@ -61,7 +61,10 @@ async function changePassword(req, res, next) {
   const { email, password, new_password } = req.body;
   console.log(req.body);
 
-  const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return next(new HTTPError(400, "email address not found"));
+    }
 
   // Changes user's password hash and salt if password (first argument) is correct to newpassword (second argument), else returns default IncorrectPasswordError
   await user
@@ -73,11 +76,11 @@ async function changePassword(req, res, next) {
         res.sendStatus(200);
       }
     });
-  };
+  }
 
-//// Forget Password Feature:
+//// Forget Password / Reset Password via Email:
 
-//// Forget Password 1: Send password reset link
+//// Forget Password 1: Send password reset via email with link
 // Checks if a user email exists, if so then generates a reset password token and saves on the user model. Then email is sent to the user
 async function sendPasswordResetURL(req, res, next) {
   const { email } = req.body;
@@ -104,16 +107,11 @@ async function sendPasswordResetURL(req, res, next) {
 // Verify password token is still valid
 async function verifyPasswordToken(req, res, next) {
   const { token } = req.params;
-  console.log(req.params);
-  console.log("98");
-  console.log(token);
   const user = await UserModel.findOne({
     resetPasswordToken: token,
     resetPasswordExpires: { $gt: Date.now() }
   });
-console.log("103");
   if (!user) {
-    console.log("no user");
     return res
       .status(400)
       .json({ token: "password reset link is invalid or has expired" });

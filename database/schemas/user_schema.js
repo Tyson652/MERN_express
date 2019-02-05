@@ -63,7 +63,7 @@ const UserSchema = new Schema(
         challengeDescription: {
           type: String
         },
-        yt_id: {
+        video_url: {
           type: String
         },
         createdAt: {

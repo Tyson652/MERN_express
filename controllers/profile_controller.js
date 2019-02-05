@@ -3,7 +3,6 @@ const UserModel = require("./../database/models/user_model");
 //// API to get current user's profile details
 // @return user: object
 function showCurrent(req, res, next) {
-  console.log("6");
   try {
     const user = req.user;
     return res.json(user);
@@ -16,13 +15,12 @@ function showCurrent(req, res, next) {
 // @params first_name: string
 // @params last_name: string
 // @params bio: string
-// @params gender: enum ["male", "female", "rather not say"]
+// @params gender: enum ["male", "female", "gender-neutral"]
 // @params age: number
 // @params location: string
 // @return user: object
 async function updateCurrent(req, res, next) {
   const { _id } = req.user;
-  console.log(req.user);
   const {
     first_name,
     last_name,
@@ -32,7 +30,6 @@ async function updateCurrent(req, res, next) {
     age,
     location
   } = req.body;
-  console.log(req.body);
 
   const updates = {
     first_name: first_name || req.user.first_name,
@@ -68,7 +65,7 @@ async function avatarUpdate(req, res, next) {
     const user = await UserModel.findById(_id);
     user.profile_image = req.imageUrl;
     await user.save();
-    // Refactor: what to do with old image (delete or keep pass images?)
+    // Refactor: what to do with old image (delete or keep past images?)
     return res.json(user);
   } catch (error) {
     return next(new HTTPError(500, error.message));

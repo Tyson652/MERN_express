@@ -18,20 +18,20 @@ async function index(req, res, next) {
   }
 }
 
-//// (Admin Only) API to create a new Challenge
+//// API to create a new Challenge
 // @params id: string - current user
 // @params title: string
 // @params description: string
-// @params yt_id:string - YouTube ID from youtube_service.js
+// @params video_url:string - video url on AWS S3
 // @params expiry_date: date
 // @return challenge: object
 async function create(req, res, next) {
   try {
     const { _id, nickname, profile_image } = req.user;
     let { title, description, expiry_date } = req.body;
-    const yt_id = req.videoUrl;
+    const video_url = req.videoUrl;
 
-    // Creator of the challenge will be set with details from an existing user, query on user's ID
+    // Creator of the challenge will be set with details from current user
     const existingUser = await UserModel.findById(_id);
     if (!existingUser) {
       return next(new HTTPError(400, "User ID not found"));
@@ -47,7 +47,7 @@ async function create(req, res, next) {
       user: { ...user },
       title,
       description,
-      yt_id,
+      video_url,
       expiry_date
     });
     console.log(challenge);
@@ -56,22 +56,21 @@ async function create(req, res, next) {
       return next(new HTTPError(422, "Could not create challenge"));
     }
 
-    let challenges = await ChallengeModel.find({});
-
-    // Return all challenges
-    return res.json(challenges);
+    return res.status(200).json(challenge);
   } catch (error) {
     console.log(error);
     return next(new HTTPError(500, error.message));
   }
 }
 
+//// API to permanently delete Challenge and all attached submissions
+// @return challenge: object - deleted
 async function destroy(req, res, next) {
   try {
-    console.log("inside delete challenge controller");
     const { id } = req.params;
-    await ChallengeModel.findByIdAndRemove(id);
-    return res.status(200).send();
+    // TODO: check req.user._id matches challenge.user_creator._id & Tests
+    const challenge = await ChallengeModel.findByIdAndRemove(id);
+    return res.status(200).json(challenge);
   } catch (error) {
     return next(new HTTPError(400, error.message));
   }

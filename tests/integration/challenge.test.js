@@ -8,132 +8,124 @@ const UserModel = require("../../database/models/user_model");
 const JWTService = require("./../../services/jwt_service");
 
 let token = undefined;
-let user_admin = undefined;
+let userChallenge = undefined;
 let created_challenge = undefined;
+let created_challenge_id = undefined;
 
 beforeAll(async () => {
   global.HTTPError = HTTPError;
-  mongoose.connect(
-    "mongodb://localhost/1up_api_test",
-    { useNewUrlParser: true }
-  );
+  mongoose.connect("mongodb://localhost/1up_api_test", {
+    useNewUrlParser: true
+  });
   mongoose.Promise = global.Promise;
   mongoose.connection.on("error", err => console.log(err));
 
-  user_admin = new UserModel({
-    first_name: "first_admin",
-    last_name: "last_admin",
-    nickname: "nick_admin",
-    email: "challenge_admin@mail.com",
-    profile_image: "profile_url",
-    is_admin: true
+  // create user
+  userChallenge = new UserModel({
+    first_name: "firstChallenge",
+    last_name: "lastChallenge",
+    nickname: "nickChallenge",
+    email: "challenge@mail.com"
   });
-  await user_admin.setPassword("password");
-  await user_admin.save();
-  token = JWTService.generateToken(user_admin);
+  await userChallenge.setPassword("password");
+  await userChallenge.save();
+  token = JWTService.generateToken(userChallenge);
+
+  // create challenge
+  let user = {
+    creator_id: "5c49b3a48f57c846b66145fd",
+    nickname: "challenger",
+    profile_image:
+      "https://s3-ap-southeast-2.amazonaws.com/1up.webapp/1549008995079"
+  };
+  created_challenge = await ChallengeModel.create({
+    user: { ...user },
+    title: "challenge_title",
+    description: "challenge_description",
+    video_url:
+      "https://s3-ap-southeast-2.amazonaws.com/1up.webapp/1549008995079"
+  });
+  created_challenge_id = created_challenge._id;
 });
 
 afterAll(async () => {
-  // await ChallengeModel.deleteOne({  title: "title_challenge" });
-  await UserModel.deleteOne({ email: "challenge_admin@mail.com" });
+  await ChallengeModel.deleteOne({ title: "challenge_title" });
+  await UserModel.deleteOne({ email: "challenge@mail.com" });
   mongoose.connection.close();
 });
 
-const created_challenge_data = {
-  user: {
-    creator_id: "123create_id789",
-    nickname: "123nickname789",
-    profile_image: "123profile_image789"
-  },
-  title: "title_challenge",
-  description: "description_challenge",
-  yt_id: "yt_id_challenge"
-};
+// ---------------- Create API ----------------
 
-// ---------------- Create Tests ----------------
+describe("Can create a new challenge", () => {
+  // test("POST /challenges/upload with valid req body", async () => {
+  //   const video_url =
+  //     "https://s3-ap-southeast-2.amazonaws.com/1up.webapp/1549008995079";
 
-describe("Admin can create a new challenge", () => {
-  //   test("POST /challenges with valid req body", async () => {
-  //     const yt_id = "DepakUSDtQE";
+  //   const response = await supertest(app)
+  //     .post("/challenges/upload")
+  //     .set("Authorization", `Bearer ${token}`)
+  //     // .send({
+  //     //   title: "Challenge_title",
+  //     //   description: "Challenge_description",
+  //     // })
+  //     .field("title", "Challenge_title")
+  //     .field("description", "Challenge_description")
+  //     .attach("attachment", "./tests/data/test_video.mp4");
+  //   // .attach("attachment", `${video_url}`)
+  //   expect(200);
 
-  //     const response = await supertest(app)
-  //       .post("/challenges")
-  //       .set("Authorization", `Bearer ${token}`)
-  //       // .send({
-  //       //   creator_id: user_admin._id,
-  //       //   title: "Challenge_title",
-  //       //   description: "Challenge_description",
-  //       //   expiry_date: 1550207394430
-  //       // })
-  //      .field("creator_id", `${user_admin._id}`)
-  //       .field("title", "Challenge_title")
-  //       .field("description", "Challenge_description")
-  //       .field("expiry_date", 1550207394430)
-  //       .attach("attachment", "./tests/data/test_video.mp4")
-  //       .expect(200);
-  //     console.log("create chaleenge", response);
-  //     const createdChallenge = await ChallengeModel.findOne({
-  //       description: "Challenge_description"
-  //     });
-
-  //     expect(createdChallenge).toBeTruthy;
-  //     expect(createdChallenge.title).toBe("Challenge_title");
+  //   const createdChallenge = await ChallengeModel.findOne({
+  //     description: "Challenge_description"
   //   });
 
-  test("POST /challenges with invalid creator_id", async () => {
+  //   expect(createdChallenge).toBeTruthy;
+  //   expect(createdChallenge.title).toBe("Challenge_title");
+  // });
+
+  test("POST /challenges/upload without video file", async () => {
     const response = await supertest(app)
-      .post("/challenges")
+      .post("/challenges/upload")
       .set("Authorization", `Bearer ${token}`)
-      .field("creator_id", "invalid")
-      .field("title", "invalid_title")
-      .field("description", "invalid_description")
-      .field("expiry_date", "invalid")
-      .attach("attachment", "./tests/data/test_video.mp4")
-      .expect(404);
-
-    const invalidChallenge = await ChallengeModel.findOne({
-      description: "invalid_description"
-    });
-
-    expect(invalidChallenge).toBeFalsy;
-  });
-
-  test("POST /challenges with invalid body", async () => {
-    const response = await supertest(app)
-      .post("/challenges")
-      .set("Authorization", `Bearer ${token}`)
-      .field("creator_id", `${user_admin._id}`)
-      .field("title", "invalid_title")
-      .field("description", "invalid_description")
-      .field("expiry_date", "invalid")
-      .attach("attachment", "./tests/data/test_video.mp4")
-      .expect(500);
-
-    const invalidChallenge = await ChallengeModel.findOne({
-      description: "invalid_description"
-    });
-
-    expect(invalidChallenge).toBeFalsy;
+      // .field("title", "title")
+      // .field("description", "description");
+      .send({
+        title: "title",
+        description: "description"
+      });
+    expect(422);
+    expect(response.text).toEqual("No video file was selected");
   });
 });
 
-// ---------------- Index Tests ----------------
+// ---------------- Index API ----------------
 
 describe("Get list of challenges", () => {
   test("GET /challenges expect status 200", async () => {
-    created_challenge = await ChallengeModel.create(created_challenge_data);
     const response = await supertest(app)
       .get("/challenges")
-      .set("Authorization", `Bearer ${token}`)
       .expect(200);
   });
 
   test("GET /challenges returns an array with values", async () => {
-    const response = await supertest(app)
-      .get("/challenges")
-      .set("Authorization", `Bearer ${token}`);
+    const response = await supertest(app).get("/challenges");
 
     const isArray = typeof response.body;
     expect(isArray[0]).toBeTruthy();
+  });
+});
+
+// ---------------- Destroy API ----------------
+
+describe("Current user can delete their challenge", async () => {
+  test("DELETE /challenges/:id expect status 200", async () => {
+    const response = await supertest(app)
+      .delete(`/challenges/${created_challenge_id}`)
+      .set("Authorization", `Bearer ${token}`);
+    expect(200);
+
+    const deletedChallenge = await ChallengeModel.findById(
+      created_challenge_id
+    );
+    expect(deletedChallenge).toBeNull();
   });
 });
