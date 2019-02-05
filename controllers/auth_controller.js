@@ -61,16 +61,14 @@ async function changePassword(req, res, next) {
     }
 
   // Changes user's password hash and salt if password (first argument) is correct to newpassword (second argument), else returns default IncorrectPasswordError
-  await user
-    .changePassword(password, new_password, function(err) {
-      if (err) {
-        res.status(400).send(err);
-      }
-      else {
-        res.sendStatus(200);
-      }
-    });
-  }
+  await existingUser.changePassword(password, new_password, function(err) {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      res.sendStatus(200);
+    }
+  });
+}
 
 //// Forget Password / Reset Password via Email:
 
@@ -130,13 +128,12 @@ async function changePasswordViaToken(req, res, next) {
   user.setPassword(password, function(err) {
     if (err) {
       res.status(400).send(err);
-    }
-    else {
-    // Removes token as it has been used
-    user.resetPasswordToken = "";
-    // Saves the save password and deletes token
-    user.save();
-    return res.sendStatus(200);
+    } else {
+      // Removes token as it has been used
+      user.resetPasswordToken = "";
+      // Saves the save password and deletes token
+      user.save();
+      return res.sendStatus(200);
     }
   })
 };
