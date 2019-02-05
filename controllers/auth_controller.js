@@ -36,15 +36,11 @@ function register(req, res, next) {
 // @params password: string
 // @return  JWT
 async function login(req, res, next) {
-  console.log("39");
   const { email, password } = req.body;
-  console.log("login");
   console.log(email, password);
   try {
     const { user, error } = await UserModel.authenticate()(email, password);
     if (error) {
-      console.log("47");
-      console.log(error);
       return next(new HTTPError(401, error.message));
     }
 
@@ -58,25 +54,22 @@ async function login(req, res, next) {
 
 //// Change password while logged in App
 async function changePassword(req, res, next) {
-  const { email, password, new_password } = req.body;
-  console.log(req.body);
-
-    const user = await UserModel.findOne({ email });
-    if (!user) {
-      return next(new HTTPError(400, "email address not found"));
-    }
+  const { password, new_password } = req.body;
+  const { _id } = req.user;
+  const existingUser = await UserModel.findById(_id);
+  if (!existingUser) {
+    return next(new HTTPError(400, "User not found"));
+  }
 
   // Changes user's password hash and salt if password (first argument) is correct to newpassword (second argument), else returns default IncorrectPasswordError
-  await user
-    .changePassword(password, new_password, function(err) {
-      if (err) {
-        res.status(400).send(err);
-      }
-      else {
-        res.sendStatus(200);
-      }
-    });
-  }
+  await existingUser.changePassword(password, new_password, function(err) {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      res.sendStatus(200);
+    }
+  });
+}
 
 //// Forget Password / Reset Password via Email:
 
@@ -137,17 +130,16 @@ async function changePasswordViaToken(req, res, next) {
   user.setPassword(password, function(err) {
     if (err) {
       res.status(400).send(err);
+    } else {
+      // Removes token as it has been used
+      user.resetPasswordToken = "";
+      // Saves the save password and deletes token
+      console.log(password);
+      user.save();
+      return res.sendStatus(200);
     }
-    else {
-    // Removes token as it has been used
-    user.resetPasswordToken = "";
-    // Saves the save password and deletes token
-    console.log(password);
-    user.save();
-    return res.sendStatus(200);
-    }
-  })
-};
+  });
+}
 
 module.exports = {
   register,

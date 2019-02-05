@@ -55,6 +55,25 @@ router.post(
   AuthController.register
 );
 
+//// Change password while logged in App
+router.put(
+  "/changepassword",
+  passport.authenticate("jwt", { session: false }),
+  celebrate({
+    body: {
+      password: Joi.string()
+        .min(6)
+        .max(40)
+        .required(),
+      new_password: Joi.string()
+        .min(6)
+        .max(40)
+        .required()
+    }
+  }),
+  AuthController.changePassword
+);
+
 //// Forget Password Feature:
 
 //// Forget Password 1: Send password reset link

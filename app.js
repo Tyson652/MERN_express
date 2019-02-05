@@ -11,7 +11,7 @@ app.use(function(req, res, next) {
   // FIXME: URL locked by CORS policy: Response to preflight request doesn't pass access control check
   // res.header("Access-Control-Allow-Origin", `${process.env.PROD_FRONT_END_DOMAIN}`);
   // Supported HTTP verbs
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
   // Other custom headers
   res.header(
     "Access-Control-Allow-Headers",
