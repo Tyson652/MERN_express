@@ -36,11 +36,14 @@ function register(req, res, next) {
 // @params password: string
 // @return  JWT
 async function login(req, res, next) {
+  console.log("39");
   const { email, password } = req.body;
-
+  console.log("login");
+  console.log(email, password);
   try {
     const { user, error } = await UserModel.authenticate()(email, password);
     if (error) {
+      console.log("47");
       console.log(error);
       return next(new HTTPError(401, error.message));
     }
@@ -55,16 +58,22 @@ async function login(req, res, next) {
 
 //// Change password while logged in App
 async function changePassword(req, res, next) {
-  const { email, password, newpassword } = req.body;
+  const { email, password, new_password } = req.body;
+  console.log(req.body);
 
   const user = await UserModel.findOne({ email });
 
   // Changes user's password hash and salt if password (first argument) is correct to newpassword (second argument), else returns default IncorrectPasswordError
   await user
-    .changePassword(password, newpassword)
-    .then(res => console.log("password succesfully changed"))
-    .catch(err => console.log(err));
-}
+    .changePassword(password, new_password, function(err) {
+      if (err) {
+        res.status(400).send(err);
+      }
+      else {
+        res.sendStatus(200);
+      }
+    });
+  };
 
 //// Forget Password Feature:
 
@@ -95,13 +104,16 @@ async function sendPasswordResetURL(req, res, next) {
 // Verify password token is still valid
 async function verifyPasswordToken(req, res, next) {
   const { token } = req.params;
-
+  console.log(req.params);
+  console.log("98");
+  console.log(token);
   const user = await UserModel.findOne({
     resetPasswordToken: token,
     resetPasswordExpires: { $gt: Date.now() }
   });
-
+console.log("103");
   if (!user) {
+    console.log("no user");
     return res
       .status(400)
       .json({ token: "password reset link is invalid or has expired" });
@@ -115,7 +127,9 @@ async function verifyPasswordToken(req, res, next) {
 async function changePasswordViaEmail(req, res, next) {
   const { token } = req.params;
   const { password } = req.body;
-
+  console.log("auth con");
+  console.log(token);
+  console.log(password);
   const user = await UserModel.findOne({
     resetPasswordToken: token
   });
@@ -125,11 +139,12 @@ async function changePasswordViaEmail(req, res, next) {
       .status(400)
       .json({ token: "password reset link is invalid or has expired" });
   }
-
+  console.log("saving");
   user.setPassword(password);
   // Removes token as it has been used
   user.resetPasswordToken = "";
   // Saves the save password and deletes token
+  console.log(password);
   user.save();
   return res.sendStatus(200);
 }

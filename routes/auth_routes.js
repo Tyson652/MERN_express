@@ -8,6 +8,9 @@ const AuthController = require("../controllers/auth_controller");
 //// Login exist user
 router.post(
   "/login",
+  // function(req, res, next) {
+  //   console.log("inside f");
+  // },
   celebrate({
     body: {
       email: Joi.string()
