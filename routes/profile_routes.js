@@ -22,15 +22,15 @@ const validateCurrentUserUpdates = celebrate({
     first_name: Joi.string()
       .trim()
       .min(1)
-      .max(30),
+      .max(20),
     last_name: Joi.string()
       .trim()
       .min(1)
-      .max(30),
+      .max(20),
     nickname: Joi.string()
       .trim()
       .min(1)
-      .max(30),
+      .max(20),
     bio: Joi.string()
       .trim()
       .min(1)
@@ -42,7 +42,7 @@ const validateCurrentUserUpdates = celebrate({
       .max(150),
     location: Joi.string()
       .trim()
-      .max(100)
+      .max(30)
   }
 });
 

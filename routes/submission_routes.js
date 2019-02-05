@@ -19,8 +19,12 @@ router.post(
     body: {
       title: Joi.string()
         .trim()
+        .min(1)
+        .max(60)
         .required(),
-      description: Joi.string().trim(),
+      description: Joi.string()
+        .trim()
+        .max(360),
       video_url: Joi.string().required()
     }
   }),

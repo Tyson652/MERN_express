@@ -47,7 +47,7 @@ async function login(req, res, next) {
 
     return res.json({ token });
   } catch (error) {
-    return next(error);
+    return next(new HTTPError(401, "Incorrect email or password"));
   }
 }
 
@@ -55,10 +55,10 @@ async function login(req, res, next) {
 async function changePassword(req, res, next) {
   const { email, password, new_password } = req.body;
 
-    const user = await UserModel.findOne({ email });
-    if (!user) {
-      return next(new HTTPError(400, "email address not found"));
-    }
+  const user = await UserModel.findOne({ email });
+  if (!user) {
+    return next(new HTTPError(400, "email address not found"));
+  }
 
   // Changes user's password hash and salt if password (first argument) is correct to newpassword (second argument), else returns default IncorrectPasswordError
   await existingUser.changePassword(password, new_password, function(err) {
@@ -135,8 +135,8 @@ async function changePasswordViaToken(req, res, next) {
       user.save();
       return res.sendStatus(200);
     }
-  })
-};
+  });
+}
 
 module.exports = {
   register,
