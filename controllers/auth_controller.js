@@ -124,12 +124,9 @@ console.log("103");
 
 //// Forget Password 3: Reset password
 // If user is able to click on the reset password URL, mongo validates the token (passed via params), upon successful validation, user is able to update the password
-async function changePasswordViaEmail(req, res, next) {
+async function changePasswordViaToken(req, res, next) {
   const { token } = req.params;
   const { password } = req.body;
-  console.log("auth con");
-  console.log(token);
-  console.log(password);
   const user = await UserModel.findOne({
     resetPasswordToken: token
   });
@@ -139,15 +136,20 @@ async function changePasswordViaEmail(req, res, next) {
       .status(400)
       .json({ token: "password reset link is invalid or has expired" });
   }
-  console.log("saving");
-  user.setPassword(password);
-  // Removes token as it has been used
-  user.resetPasswordToken = "";
-  // Saves the save password and deletes token
-  console.log(password);
-  user.save();
-  return res.sendStatus(200);
-}
+  user.setPassword(password, function(err) {
+    if (err) {
+      res.status(400).send(err);
+    }
+    else {
+    // Removes token as it has been used
+    user.resetPasswordToken = "";
+    // Saves the save password and deletes token
+    console.log(password);
+    user.save();
+    return res.sendStatus(200);
+    }
+  })
+};
 
 module.exports = {
   register,
@@ -155,5 +157,5 @@ module.exports = {
   changePassword,
   sendPasswordResetURL,
   verifyPasswordToken,
-  changePasswordViaEmail
+  changePasswordViaToken
 };

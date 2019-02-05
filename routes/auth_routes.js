@@ -66,6 +66,6 @@ router.post("/reseturl", AuthController.sendPasswordResetURL);
 router.get("/resetpassword/:token", AuthController.verifyPasswordToken);
 
 //// Forget Password 3: Reset password
-router.put("/resetpassword/:token", AuthController.changePasswordViaEmail);
+router.put("/resetpassword/:token", AuthController.changePasswordViaToken);
 
 module.exports = router;
