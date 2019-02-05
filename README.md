@@ -61,7 +61,7 @@
   * As a user, I want to be able to view the site even if I don't have an account.
 
 ### Workflow Diagram
-![require](docs/images/OneUpWorkflowDiagram.png)
+![require](docs/OneUpWorkflowDiagram.png)
 
 
   
