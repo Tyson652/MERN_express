@@ -36,15 +36,10 @@ function register(req, res, next) {
 // @params password: string
 // @return  JWT
 async function login(req, res, next) {
-  console.log("39");
   const { email, password } = req.body;
-  console.log("login");
-  console.log(email, password);
   try {
     const { user, error } = await UserModel.authenticate()(email, password);
     if (error) {
-      console.log("47");
-      console.log(error);
       return next(new HTTPError(401, error.message));
     }
 
@@ -59,7 +54,6 @@ async function login(req, res, next) {
 //// Change password while logged in App
 async function changePassword(req, res, next) {
   const { email, password, new_password } = req.body;
-  console.log(req.body);
 
     const user = await UserModel.findOne({ email });
     if (!user) {
@@ -92,7 +86,6 @@ async function sendPasswordResetURL(req, res, next) {
 
   const token = generatePasswordToken();
 
-  // Double check why await is required here, is it because the await above still allows following promises to be ran?
   await user.updateOne({
     resetPasswordToken: token,
     // Valid for one hour
@@ -114,7 +107,7 @@ async function verifyPasswordToken(req, res, next) {
   if (!user) {
     return res
       .status(400)
-      .json({ token: "password reset link is invalid or has expired" });
+      .send("Password reset link is invalid or has expired");
   }
 
   return res.sendStatus(200);
@@ -132,7 +125,7 @@ async function changePasswordViaToken(req, res, next) {
   if (!user) {
     return res
       .status(400)
-      .json({ token: "password reset link is invalid or has expired" });
+      .send("Password reset link is invalid or has expired");
   }
   user.setPassword(password, function(err) {
     if (err) {
@@ -142,7 +135,6 @@ async function changePasswordViaToken(req, res, next) {
     // Removes token as it has been used
     user.resetPasswordToken = "";
     // Saves the save password and deletes token
-    console.log(password);
     user.save();
     return res.sendStatus(200);
     }

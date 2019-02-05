@@ -13,7 +13,6 @@ async function index(req, res, next) {
 
     return res.json(challenges);
   } catch (error) {
-    console.log(error);
     return next(new HTTPError(500, "Unable to get challenges"));
   }
 }
@@ -50,7 +49,6 @@ async function create(req, res, next) {
       video_url,
       expiry_date
     });
-    console.log(challenge);
 
     if (!challenge) {
       return next(new HTTPError(422, "Could not create challenge"));
