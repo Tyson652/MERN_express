@@ -30,7 +30,7 @@ const upload = multer({
 });
 
 //// Uploads image file to S3 bucket, file from form with key 'image'
-// @returns req.imageUrl: S3 url
+// @returns req.image_url: S3 url
 function avatarUpload(req, res, next) {
   const singleUpload = upload.single("image");
   singleUpload(req, res, error => {
@@ -40,13 +40,13 @@ function avatarUpload(req, res, next) {
     if (!req.file) {
       return next(new HTTPError(422, "No image file was selected"));
     }
-    req.imageUrl = req.file.location;
+    req.body.image_url = req.file.location;
     next();
   });
 }
 
 //// Upload video to s3. Once video is uploaded, the video url is stored to "video_url"
-// @returns req.videoUrl: S3 url
+// @returns req.body.video_url: S3 url
 function videoUpload(req, res, next) {
   const singleUpload = upload.single("video");
   singleUpload(req, res, error => {
@@ -56,7 +56,7 @@ function videoUpload(req, res, next) {
     if (!req.file) {
       return next(new HTTPError(422, "No video file was selected"));
     }
-    req.videoUrl = req.file.location;
+    req.body.video_url = req.file.location;
     next();
   });
 }

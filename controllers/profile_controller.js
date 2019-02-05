@@ -50,7 +50,7 @@ async function updateCurrent(req, res, next) {
       return next(new HTTPError(500, "Unable to update profile"));
     }
 
-    res.json(updatedUser);
+    res.status(200).json(updatedUser);
   } catch (error) {
     return next(new HTTPError(500, error.message));
   }
@@ -63,7 +63,7 @@ async function avatarUpdate(req, res, next) {
   try {
     const { _id } = req.user;
     const user = await UserModel.findById(_id);
-    user.profile_image = req.imageUrl;
+    user.profile_image = req.body.image_url;
     await user.save();
     // Refactor: what to do with old image (delete or keep past images?)
     return res.json(user);

@@ -15,6 +15,7 @@ router.post(
   celebrate({
     body: {
       email: Joi.string()
+        .trim()
         .email()
         .required(),
       password: Joi.string().required()
@@ -29,18 +30,22 @@ router.post(
   celebrate({
     body: {
       first_name: Joi.string()
+        .trim()
         .min(1)
         .max(40)
         .required(),
       last_name: Joi.string()
+        .trim()
         .min(1)
         .max(40)
         .required(),
       nickname: Joi.string()
+        .trim()
         .min(1)
         .max(40)
         .required(),
       email: Joi.string()
+        .trim()
         .email()
         .required(),
       password: Joi.string()
@@ -82,6 +87,7 @@ router.post(
   celebrate({
     body: {
       email: Joi.string()
+        .trim()
         .email()
         .required()
     }

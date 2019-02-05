@@ -20,25 +20,29 @@ router.get(
 const validateCurrentUserUpdates = celebrate({
   body: {
     first_name: Joi.string()
-      .max(30)
-      .trim(),
+      .trim()
+      .min(1)
+      .max(30),
     last_name: Joi.string()
-      .max(30)
-      .trim(),
+      .trim()
+      .min(1)
+      .max(30),
     nickname: Joi.string()
-      .max(30)
-      .trim(),
+      .trim()
+      .min(1)
+      .max(30),
     bio: Joi.string()
-      .max(300)
-      .trim(),
+      .trim()
+      .min(1)
+      .max(300),
     gender: Joi.any().valid("male", "female", "gender-neutral"),
     age: Joi.number()
       .integer()
       .min(0)
       .max(150),
     location: Joi.string()
-      .max(100)
       .trim()
+      .max(100)
   }
 });
 
@@ -57,11 +61,15 @@ router.put(
 );
 
 //// Current User - update current user's avatar image
-// TODO?: validation image file req.file?
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   avatarUpload,
+  celebrate({
+    body: {
+      image_url: Joi.string().required()
+    }
+  }),
   ProfileController.avatarUpdate
 );
 

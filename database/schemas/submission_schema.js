@@ -10,8 +10,8 @@ const SubmissionSchema = new Schema(
       type: String
     },
     video_url: {
-      type: String,
-      required: true
+      type: String
+      // required: true
     },
     user: {
       id: {

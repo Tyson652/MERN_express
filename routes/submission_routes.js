@@ -14,14 +14,16 @@ router.get("/submissions", SubmissionController.index);
 router.post(
   "/challenges/:id/submissions",
   passport.authenticate("jwt", { session: false }),
+  videoUpload,
   celebrate({
     body: {
-      title: Joi.string().required(),
-      description: Joi.string(),
-      video: Joi.string().required()
+      title: Joi.string()
+        .trim()
+        .required(),
+      description: Joi.string().trim(),
+      video_url: Joi.string().required()
     }
   }),
-  videoUpload,
   SubmissionController.create
 );
 

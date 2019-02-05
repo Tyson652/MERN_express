@@ -27,8 +27,7 @@ async function index(req, res, next) {
 async function create(req, res, next) {
   try {
     const { _id, nickname, profile_image } = req.user;
-    let { title, description, expiry_date } = req.body;
-    const video_url = req.videoUrl;
+    let { title, description, expiry_date, video_url } = req.body;
 
     // Creator of the challenge will be set with details from current user
     const existingUser = await UserModel.findById(_id);

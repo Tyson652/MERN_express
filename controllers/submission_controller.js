@@ -43,8 +43,7 @@ async function index(req, res, next) {
 async function create(req, res, next) {
   try {
     const { id } = req.params;
-    const { title, description } = req.body;
-    const video_url = req.videoUrl;
+    const { title, description, video_url } = req.body;
     const { _id, nickname, profile_image } = req.user;
 
     const challenge = await ChallengeModel.findById(id);
@@ -70,7 +69,7 @@ async function create(req, res, next) {
       video_url
     });
     await user.save();
-    return res.json(challenge);
+    return res.status(200).json(challenge);
   } catch (error) {
     console.log(error);
     return next(new HTTPError(500, error.message));

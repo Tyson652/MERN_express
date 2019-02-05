@@ -3,7 +3,6 @@ const router = express.Router();
 const passport = require("passport");
 const { celebrate, Joi } = require("celebrate");
 const ChallengeController = require("../controllers/challenge_controller");
-const isAdminMiddleware = require("./../middleware/is_admin_middleware");
 const { videoUpload } = require("../services/upload_service");
 
 //// @Base Route '/challenges'
@@ -15,20 +14,17 @@ router.get("/", ChallengeController.index);
 router.post(
   "/upload",
   passport.authenticate("jwt", { session: false }),
-  // isAdminMiddleware,
   videoUpload,
-
-  // Fix me - how to handle video_url = req.videoUrl?
-  // celebrate({
-  //   body: {
-  //     title: Joi.string()
-  //       .trim()
-  //       .required(),
-  //     description: Joi.string().trim(),
-  //     expiry_date: Joi.date().min("now")
-  //   }
-  // }),
-
+  celebrate({
+    body: {
+      title: Joi.string()
+        .trim()
+        .required(),
+      description: Joi.string().trim(),
+      expiry_date: Joi.date().min("now"),
+      video_url: Joi.string().required()
+    }
+  }),
   ChallengeController.create
 );
 
