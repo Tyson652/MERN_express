@@ -22,7 +22,7 @@ function register(req, res, next) {
 
   UserModel.register(user, password, (error, user) => {
     if (error) {
-      return next(new HTTPError(400, error.message));
+      return next(new HTTPError(400, "A user has already been registered with the given email address"));
     }
 
     const token = JWTService.generateToken(user);
@@ -61,7 +61,7 @@ async function changePassword(req, res, next) {
   }
 
   // Changes user's password hash and salt if password (first argument) is correct to newpassword (second argument), else returns default IncorrectPasswordError
-  await user.changePassword(password, new_password, function(err) {
+  await existingUser.changePassword(password, new_password, function(err) {
     if (err) {
       return res.status(400).send(err);
     } else {
