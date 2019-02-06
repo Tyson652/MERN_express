@@ -131,11 +131,13 @@
   * Enzyme - front end testing
  
 ### A team is about to engage in a project, developing a website for a small business. What knowledge and skills would they need in order to develop the project?
-  * Design (UX/UI: user stories, wire frames, user flow, mock ups, )
-  * Development (front-end, back-end, database design, version control, testing, operations)
-  * Project Management
+In order to develop the project they would need the core skills of strategy and planning, in order to effectivly plan how they are going to build the website, what web technologies will be used, how the work will be distributed among the team and how long the project will take. Project managment is also very important so everyone in the team is aware of the roles and is held accoutable for the work they do, and that the work being done is correct and will deliver real value for the client. They would also need all the necessary technical skills and knoweldge of web technologies to build the website. This would involve a strong knowledge of Web Development (front-end, back-end, database design, version control, testing, operations) and Design (UX/UI: user stories, wire frames, user flow, mock ups). 
+
 
 ### Within your own project what knowledge or skills were required to complete your project, and overcome challenges?
+To complete our project our team required a knowledge of the MERN stack. This involved a knowledge of React, Node, Express and MongoDB. Using these frameworks also required knowledge of coding langauges such as JavaScript, CSS, HTML, and JSX. A knowledge of uploading images and videos was requied as was a knoweldge of how API's work. This along with the skill of being able to learn new technologies, helped us overcome the challenge of implementing the YouTube API in our site, which allowed us to stream and upload videos. Our knowledge of coding libraries also proved very important as we used many different libraries in the development of our site. Libraries such as Passport, Material UI, jsonwebtoken, Mongoose, celebrate, etc where all imporant and each helped to fill a role in the creation of our site. Skills and knowledge when it came to the deployment of our site was also important. Heroku, MongoDB Atlas and AWS S3 where all used and where each important in overcoming the challenge of depolying our website. Having skills relating to web design, such as CSS and UI also proved important when it came to styling our site and creating the fished design.
+
+
   * MERN tech stack
   * file uploads (images and video)
   * video playback
