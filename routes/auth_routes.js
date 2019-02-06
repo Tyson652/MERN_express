@@ -32,17 +32,17 @@ router.post(
       first_name: Joi.string()
         .trim()
         .min(1)
-        .max(40)
+        .max(20)
         .required(),
       last_name: Joi.string()
         .trim()
         .min(1)
-        .max(40)
+        .max(20)
         .required(),
       nickname: Joi.string()
         .trim()
         .min(1)
-        .max(40)
+        .max(20)
         .required(),
       email: Joi.string()
         .trim()
