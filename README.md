@@ -80,8 +80,10 @@
 ### Database Entity Relationship Diagram
 ![require](docs/DatabaseEntityRelationshipDiagram.png)
   
-  * Data Flow Diagram
-  * OO design documentation
+### Data Flow Diagram
+![require](docs/DataflowDiagram.png)
+
+  <!-- * OO design documentation -->
 
 ## Project Management & Planning
   ### Project plan & timeline
