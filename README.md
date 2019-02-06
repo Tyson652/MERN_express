@@ -95,8 +95,8 @@
   ![require](docs/Trello1.png)
   ![require](docs/Trello2.png)
 
-* Answers to the Short Answer questions (Section 2.2)
-  * What are the most important aspects of quality software?
+## Answers to the Short Answer questions (Section 2.2)
+  ### What are the most important aspects of quality software?
     * Single responsibility principle / Separation of Concerns
     * Composability
     * Testability
@@ -104,7 +104,7 @@
     *
     *
 
-  * What libraries are being used in the app and why?
+  ### What libraries are being used in the app and why?
     * Express - server
     * Mongoose - wrapper around MongoDB
     * Passport - authentiction and authorization
@@ -128,15 +128,15 @@
     * Supertest - used for creating a back end environment for testing
     * Enzyme - front end testing
  
-  * A team is about to engage in a project, developing a website for a small business. What knowledge and skills would they need in order to develop the project?
+  ### A team is about to engage in a project, developing a website for a small business. What knowledge and skills would they need in order to develop the project?
     * Design (UX/UI: user stories, wire frames, user flow, mock ups, )
     * Development (front-end, back-end, database design, version control, testing, operations)
     * Project Management
 
-  * Within your own project what knowledge or skills were required to complete your project, and overcome challenges?
+  ### Within your own project what knowledge or skills were required to complete your project, and overcome challenges?
     * MERN tech stack
     * file uploads (images and video)
     * video playback
     * Deployment (Heroku, MongoDB Atlas, AWS S3)
 
-  * Evaluate how effective your knowledge and skills were this project, using examples, and suggest changes or improvements for future projects of a similar nature?
+  ### Evaluate how effective your knowledge and skills were this project, using examples, and suggest changes or improvements for future projects of a similar nature?
