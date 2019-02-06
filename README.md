@@ -97,12 +97,14 @@
 
 ## Answers to the Short Answer questions (Section 2.2)
   ### What are the most important aspects of quality software?
-    * Single responsibility principle / Separation of Concerns
+  One of the most important aspects of software is it's usability. The software needs to be able to fulfill the needs of the customer by working in the way it is intended and in a way that the customer can use easily. Quailtty code is also incredibly important as this allows the code to work effeciantly, and also to be easily worked on and updated in the future. Quality code has a clear and understandable design, it is "dry" code that does not repeat it's self and makes use of the single responsibility principle. It is easily extended and bulit upon and has a well defined interface. It has been tested extensivly and has clear documentation and comments.
+
+   <!-- * Single responsibility principle / Separation of Concerns
     * Composability
     * Testability
     * DRY
     *
-    *
+    * -->
 
   ### What libraries are being used in the app and why?
     * Express - server
