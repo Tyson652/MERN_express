@@ -63,6 +63,18 @@
 ### Workflow Diagram
 ![require](docs/OneUpWorkflowDiagram.png)
 
+### Wireframes
+#### Landing Page
+![require](docs/LandingPage.png)
+#### Login Page
+![require](docs/LoginPage.png)
+#### Register Page
+![require](docs/RegisterPage.png)
+#### Challenge Page
+![require](docs/ChallengePage.png)
+![require](docs/ChallengePageMockup.png)
+
+
 
   
   * Wireframes
