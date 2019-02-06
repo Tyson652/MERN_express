@@ -53,19 +53,20 @@ async function login(req, res, next) {
 
 //// Change password while logged in App
 async function changePassword(req, res, next) {
-  const { email, password, new_password } = req.body;
+  const { password, new_password } = req.body;
+  const { _id } = req.user;
 
-  const user = await UserModel.findOne({ email });
+  const user = await UserModel.findById(_id);
   if (!user) {
-    return next(new HTTPError(400, "email address not found"));
+    return next(new HTTPError(400, "User not found"));
   }
 
   // Changes user's password hash and salt if password (first argument) is correct to newpassword (second argument), else returns default IncorrectPasswordError
-  await existingUser.changePassword(password, new_password, function(err) {
+  await user.changePassword(password, new_password, function(err) {
     if (err) {
       res.status(400).send(err);
     } else {
-      res.sendStatus(200);
+      return next(new HTTPError(200, "Password changed"));
     }
   });
 }
@@ -91,7 +92,7 @@ async function sendPasswordResetURL(req, res, next) {
   });
 
   sendResetEmail(token, user.email);
-  return res.sendStatus(200);
+  return next(new HTTPError(200, "Email to reset password sent!"));
 }
 
 //// Forget Password 2: Reset password token
@@ -133,7 +134,7 @@ async function changePasswordViaToken(req, res, next) {
       user.resetPasswordToken = "";
       // Saves the save password and deletes token
       user.save();
-      return res.sendStatus(200);
+      return next(new HTTPError(200, "Password changed"));
     }
   });
 }
