@@ -22,11 +22,10 @@ function register(req, res, next) {
 
   UserModel.register(user, password, (error, user) => {
     if (error) {
-      return next(new HTTPError(500, error.message));
+      return next(new HTTPError(400, "A user has already been registered with the given email address"));
     }
 
     const token = JWTService.generateToken(user);
-
     return res.json({ token });
   });
 }
@@ -53,19 +52,20 @@ async function login(req, res, next) {
 
 //// Change password while logged in App
 async function changePassword(req, res, next) {
-  const { email, password, new_password } = req.body;
+  const { password, new_password } = req.body;
+  const { email } = req.user;
 
-  const user = await UserModel.findOne({ email });
-  if (!user) {
+  const existingUser = await UserModel.findOne({ email });
+  if (!existingUser) {
     return next(new HTTPError(400, "email address not found"));
   }
 
   // Changes user's password hash and salt if password (first argument) is correct to newpassword (second argument), else returns default IncorrectPasswordError
   await existingUser.changePassword(password, new_password, function(err) {
     if (err) {
-      res.status(400).send(err);
+      return res.status(400).send(err);
     } else {
-      res.sendStatus(200);
+      return res.sendStatus(200);
     }
   });
 }
@@ -79,7 +79,7 @@ async function sendPasswordResetURL(req, res, next) {
   const user = await UserModel.findOne({ email });
 
   if (!user) {
-    return res.status(400).json({ email: "email address not found" });
+    return next(new HTTPError(400, "No user was found with the given email address"));
   }
 
   const token = generatePasswordToken();
@@ -91,7 +91,7 @@ async function sendPasswordResetURL(req, res, next) {
   });
 
   sendResetEmail(token, user.email);
-  return res.sendStatus(200);
+  return next(new HTTPError(200, "Email to reset password sent!"));
 }
 
 //// Forget Password 2: Reset password token
@@ -133,7 +133,7 @@ async function changePasswordViaToken(req, res, next) {
       user.resetPasswordToken = "";
       // Saves the save password and deletes token
       user.save();
-      return res.sendStatus(200);
+      return next(new HTTPError(200, "Password changed"));
     }
   });
 }

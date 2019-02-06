@@ -66,9 +66,11 @@ async function destroy(req, res, next) {
   try {
     const { id } = req.params;
     // TODO: check req.user._id matches challenge.user_creator._id & Tests
+    console.log("69");
     const challenge = await ChallengeModel.findByIdAndRemove(id);
     return res.status(200).json(challenge);
   } catch (error) {
+    console.log("here");
     return next(new HTTPError(400, error.message));
   }
 }
