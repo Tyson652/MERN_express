@@ -10,7 +10,8 @@ const AuthController = require("../controllers/auth_controller");
 router.post(
   "/login",
   // function(req, res, next) {
-  //   console.log("inside f");
+  //   console.log(body);
+  //   next();
   // },
   celebrate({
     body: {
@@ -27,6 +28,10 @@ router.post(
 //// Register new user
 router.post(
   "/register",
+  function(req, res, next) {
+    console.log(req.body);
+    next();
+  },
   celebrate({
     body: {
       first_name: Joi.string()
@@ -42,7 +47,7 @@ router.post(
       nickname: Joi.string()
         .trim()
         .min(1)
-        .max(20)
+        .max(20)  
         .required(),
       email: Joi.string()
         .trim()
