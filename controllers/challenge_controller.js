@@ -17,11 +17,10 @@ async function index(req, res, next) {
   }
 }
 
-//// API to create a new Challenge
-// @params id: string - current user
+//// API to create a new challenge
 // @params title: string
 // @params description: string
-// @params video_url:string - video url on AWS S3
+// @params video_url:string - video url from upload service
 // @params expiry_date: date
 // @return challenge: object
 async function create(req, res, next) {
@@ -29,7 +28,7 @@ async function create(req, res, next) {
     const { _id, nickname, profile_image } = req.user;
     let { title, description, expiry_date, video_url } = req.body;
 
-    // Creator of the challenge will be set with details from current user
+    // creator of the challenge will be set with details from current user
     const existingUser = await UserModel.findById(_id);
     if (!existingUser) {
       return next(new HTTPError(400, "User ID not found"));
@@ -66,11 +65,9 @@ async function destroy(req, res, next) {
   try {
     const { id } = req.params;
     // TODO: check req.user._id matches challenge.user_creator._id & Tests
-    console.log("69");
     const challenge = await ChallengeModel.findByIdAndRemove(id);
     return res.status(200).json(challenge);
   } catch (error) {
-    console.log("here");
     return next(new HTTPError(400, error.message));
   }
 }

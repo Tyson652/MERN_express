@@ -57,21 +57,20 @@ afterAll(async () => {
 // ---------------- Create API ----------------
 
 describe("Can create a new challenge", () => {
+  // Not how to test video upload. Use manual testings
   // test("POST /challenges/upload with valid req body", async () => {
-  //   const video_url =
-  //     "https://s3-ap-southeast-2.amazonaws.com/1up.webapp/1549008995079";
-
   //   const response = await supertest(app)
   //     .post("/challenges/upload")
   //     .set("Authorization", `Bearer ${token}`)
-  //     // .send({
-  //     //   title: "Challenge_title",
-  //     //   description: "Challenge_description",
-  //     // })
-  //     .field("title", "Challenge_title")
-  //     .field("description", "Challenge_description")
-  //     .attach("attachment", "./tests/data/test_video.mp4");
-  //   // .attach("attachment", `${video_url}`)
+  //     .send({
+  //       title: "Challenge_title",
+  //       description: "Challenge_description",
+  //       video: `"https://s3-ap-southeast-2.amazonaws.com/1up.webapp/1549008995079"`
+  //     });
+  //   // .field("title", "Challenge_title")
+  //   // .field("description", "Challenge_description")
+  //   // .attach("attachment", "./tests/data/test_video.mp4");
+
   //   expect(200);
 
   //   const createdChallenge = await ChallengeModel.findOne({
@@ -82,12 +81,17 @@ describe("Can create a new challenge", () => {
   //   expect(createdChallenge.title).toBe("Challenge_title");
   // });
 
+  test("POST /challenges/upload with invalid JWT", async () => {
+    const response = await supertest(app)
+      .post("/challenges/upload")
+      .set("Authorization", `Bearer invalid`);
+    expect(401);
+  });
+
   test("POST /challenges/upload without video file", async () => {
     const response = await supertest(app)
       .post("/challenges/upload")
       .set("Authorization", `Bearer ${token}`)
-      // .field("title", "title")
-      // .field("description", "description");
       .send({
         title: "title",
         description: "description"
@@ -117,6 +121,13 @@ describe("Get list of challenges", () => {
 // ---------------- Destroy API ----------------
 
 describe("Current user can delete their challenge", async () => {
+  test("DELETE /challenges/:id with invalid JWT", async () => {
+    const response = await supertest(app)
+      .delete(`/challenges/${created_challenge_id}`)
+      .set("Authorization", `Bearer invalid`);
+    expect(401);
+  });
+
   test("DELETE /challenges/:id expect status 200", async () => {
     const response = await supertest(app)
       .delete(`/challenges/${created_challenge_id}`)

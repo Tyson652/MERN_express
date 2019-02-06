@@ -6,7 +6,8 @@ const morgan = require("morgan");
 
 var whitelist = [
   `${process.env.FRONT_END_DOMAIN}`,
-  `${process.env.PROD_FRONT_END_DOMAIN}`
+  `${process.env.PROD_FRONT_END_DOMAIN}`,
+  `${process.env.BACK_END_DOMAIN}`
 ];
 var corsOptions = {
   origin: function(origin, callback) {
@@ -17,8 +18,11 @@ var corsOptions = {
     }
   }
 };
-
 app.use(cors(corsOptions));
+
+//**** FOR TESTING ONLY - allow all origins //****
+// app.use(cors());
+//**** FOR TESTING ONLY - allow all origins //****
 
 app.use(passport.initialize());
 

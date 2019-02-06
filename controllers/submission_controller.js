@@ -38,7 +38,7 @@ async function index(req, res, next) {
 // @params id: string - challenge ID
 // @params title: string
 // @params description: string
-// @params video_url:string - video url on AWS S3
+// @params video_url:string - video url from upload service
 // @return challenge: object
 async function create(req, res, next) {
   try {
@@ -84,7 +84,6 @@ async function create(req, res, next) {
 //     const challenge = await ChallengeModel.findById(id);
 //     challenge.submissions.id(sub_id).remove();
 //     challenge.save();
-//     console.log("returned");
 //     return res.status(200).send();
 //   } catch (error) {
 //     return next(new HTTPError(500, error.message));

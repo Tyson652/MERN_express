@@ -109,9 +109,8 @@ describe("Existing user can change password", () => {
       .put("/changepassword")
       .set("Authorization", `Bearer ${token}`)
       .send({
-        email: "changePasswordUser@mail.com",
         password: "password",
-        newPassword: "newPassword"
+        new_password: "newPassword"
       });
     expect(200);
 
@@ -130,9 +129,8 @@ describe("Existing user can change password", () => {
       .put("/changepassword")
       .set("Authorization", `Bearer ${token}`)
       .send({
-        email: "changePasswordUser@mail.com",
         password: "invalid",
-        newPassword: "invalid"
+        new_password: "invalid"
       });
     expect(401);
     expect(response.text).toEqual("Password incorrect");

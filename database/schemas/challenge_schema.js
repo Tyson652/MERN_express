@@ -8,7 +8,7 @@ const ChallengeSchema = new Schema(
         type: String
       },
       nickname: {
-        type: String,
+        type: String
       },
       profile_image: {
         type: String
@@ -16,11 +16,10 @@ const ChallengeSchema = new Schema(
     },
     title: {
       type: String,
-      required: true,
- 
+      required: true
     },
     description: {
-      type: String,
+      type: String
     },
     video_url: {
       type: String

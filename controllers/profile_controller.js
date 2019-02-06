@@ -57,7 +57,7 @@ async function updateCurrent(req, res, next) {
 }
 
 //// API to update current user's profile image
-// @params profile_image:string - AWS_S3 Image URL
+// @params profile_image:string - image url from upload service
 // @return user: object
 async function avatarUpdate(req, res, next) {
   try {

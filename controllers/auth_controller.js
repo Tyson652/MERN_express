@@ -22,7 +22,12 @@ function register(req, res, next) {
 
   UserModel.register(user, password, (error, user) => {
     if (error) {
-      return next(new HTTPError(400, "A user has already been registered with the given email address"));
+      return next(
+        new HTTPError(
+          400,
+          "A user has already been registered with the given email address"
+        )
+      );
     }
 
     const token = JWTService.generateToken(user);
@@ -50,7 +55,10 @@ async function login(req, res, next) {
   }
 }
 
-//// Change password while logged in App
+//// API to Change password of existing logged in user
+// @params password: string
+// @params new_password: string
+// @return  status 200
 async function changePassword(req, res, next) {
   const { password, new_password } = req.body;
   const { email } = req.user;
@@ -63,7 +71,7 @@ async function changePassword(req, res, next) {
   // Changes user's password hash and salt if password (first argument) is correct to newpassword (second argument), else returns default IncorrectPasswordError
   await existingUser.changePassword(password, new_password, function(err) {
     if (err) {
-      return res.status(400).send(err);
+      return next(new HTTPError(400, "Password incorrect"));
     } else {
       return res.sendStatus(200);
     }
@@ -79,7 +87,9 @@ async function sendPasswordResetURL(req, res, next) {
   const user = await UserModel.findOne({ email });
 
   if (!user) {
-    return next(new HTTPError(400, "No user was found with the given email address"));
+    return next(
+      new HTTPError(400, "No user was found with the given email address")
+    );
   }
 
   const token = generatePasswordToken();

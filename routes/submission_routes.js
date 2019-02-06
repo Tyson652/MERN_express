@@ -7,10 +7,10 @@ const { videoUpload } = require("../services/upload_service");
 
 // @Base Route '/'
 
-// Public - get list of submissions for feed
+//// Public - get list of submissions for feed
 router.get("/submissions", SubmissionController.index);
 
-// Users - create a new submission for a challenge
+//// Users - create a new submission for a challenge
 router.post(
   "/challenges/:id/submissions",
   passport.authenticate("jwt", { session: false }),
