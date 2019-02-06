@@ -71,8 +71,8 @@
 #### Register Page
 ![require](docs/RegisterPage.png)
 #### Challenge Page
-![require](docs/ChallengePage.png)
-![require](docs/ChallengePageMockup.png)
+![require](docs/ChallengePage3.png)
+
 
 
 
