@@ -71,14 +71,17 @@
 #### Register Page
 ![require](docs/RegisterPage.png)
 #### Challenge Page
-![require](docs/ChallengePage3.png)
+![require](docs/ChallengePage.png)
+#### Current Challenge Page
+![require](docs/CurrentChallengePage.png)
+#### Create Challenge Page
+![require](docs/CreateChallengePage.png)
+#### Profile Page
+![require](docs/ProfilePage.png)
 
-
-
-
+### Database Entity Relationship Diagram
+![require](docs/DatabaseEntityRelationshipDiagram.png)
   
-  * Wireframes
-    * Balsamiq
   * Database Entity Relationship Diagrams
   * Data Flow Diagram
   * OO design documentation
