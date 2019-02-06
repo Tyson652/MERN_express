@@ -23,6 +23,24 @@
     * Admin created challenges -->
 
   ### Screenshots
+  #### Login Page
+  ![require](docs/LoginScreen.png)
+  #### Register Page
+  ![require](docs/RegisterScreen.png)
+  #### Newsfeed Page
+  ![require](docs/NewsfeedScreen.png)
+  #### Challenge Page
+  ![require](docs/ChallengeScreen.png)
+  #### Create Challenge Page
+  ![require](docs/CreateChallenge.png)
+  #### Join Challenge Page
+  ![require](docs/JoinChallengeScreen.png)
+  #### Current Challenge Page
+  ![require](docs/CurrentChallengeScreen.png)
+  #### Profile Page
+  ![require](docs/ProfileScreen.png)
+  #### Edit Profile Page
+  ![require](docs/EditProfileScreen.png)
 
   ### Tech stack 
   The OneUp MVP was made with the MERN stack. On the Front-end we used React, with the code being written in JavaScript, JSX and CSS. Material Ui was used for styling the different components and the self-managed AWS S3 was used for streaming the videos. For the Back-end we used Node and Express, MongoDB used used for our database and the self-managed AWS S3 was used for uploading the images and videos. Github was used for source control and the application was deployed on AWS.
@@ -78,8 +96,11 @@
 ### Database Entity Relationship Diagram
 ![require](docs/DatabaseEntityRelationshipDiagram.png)
   
-  * Data Flow Diagram
-  * OO design documentation
+### Data Flow Diagram
+![require](docs/DataflowDiagram.png)
+
+### Schema Design Diagram
+![require](docs/Schema.png)
 
 ## Project Management & Planning
   ### Project plan & timeline
