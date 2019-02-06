@@ -91,7 +91,9 @@
   ![require](docs/Slack1.png)
   ![require](docs/Slack2.png)
 
-  * Screenshots of Trello board(s)
+  ### Trello boards
+  ![require](docs/Trello1.png)
+  ![require](docs/Trello2.png)
 
 * Answers to the Short Answer questions (Section 2.2)
   * What are the most important aspects of quality software?
