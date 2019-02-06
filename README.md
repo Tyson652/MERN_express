@@ -97,7 +97,7 @@
 
 ## Answers to the Short Answer questions (Section 2.2)
   ### What are the most important aspects of quality software?
-  One of the most important aspects of software is it's usability. The software needs to be able to fulfill the needs of the customer by working in the way it is intended and in a way that the customer can use easily. Quailtty code is also incredibly important as this allows the code to work effeciantly, and also to be easily worked on and updated in the future. Quality code has a clear and understandable design, it is "dry" code that does not repeat it's self and makes use of the single responsibility principle. It is easily extended and bulit upon and has a well defined interface. It has been tested extensivly and has clear documentation and comments.
+  One of the most important aspects of software is it's usability. The software needs to be able to fulfill the needs of the customer by working in the way it is intended and in a way that the customer can use easily. Quailty code is also incredibly important as this allows the code to work effeciantly, and also to be easily worked on and updated in the future. Quality code has a clear and understandable design, it is "dry" code that does not repeat it's self and makes use of the single responsibility principle. It is easily extended and bulit upon and has a well defined interface. It has been tested extensively and has clear documentation and comments.
 
    <!-- * Single responsibility principle / Separation of Concerns
     * Composability
@@ -107,38 +107,38 @@
     * -->
 
   ### What libraries are being used in the app and why?
-    * Express - server
-    * Mongoose - wrapper around MongoDB
-    * Passport - authentiction and authorization
-    * Passport-local-mongoose -
-    * jsonwebtoken - used to generate JWT
-    * Celebrate - middleware for validating incoming data
-    * Multer - middleware for handling form data, used to handle file types
-    * aws-skd - create S3 instances
-    * Nodemailer - used to send emails
+  * Express - server
+  * Mongoose - wrapper around MongoDB
+  * Passport - authentiction and authorization
+  * Passport-local-mongoose -
+  * jsonwebtoken - used to generate JWT
+  * Celebrate - middleware for validating incoming data
+  * Multer - middleware for handling form data, used to handle file types
+  * aws-skd - create S3 instances
+  * Nodemailer - used to send emails
 
-    * React - front end library for building single page applications
-    * React-route-dom - handling routing with web application
-    * React-player - video playback
-    * Redux - manages global state store
-    * Redux-form - manage form state
-    * Axios - handles HTTP 
-    * Redux-thunk - extends Redux Actions by handling functions instead of just objects
-    * Material UI - styling library
+  * React - front end library for building single page applications
+  * React-route-dom - handling routing with web application
+  * React-player - video playback
+  * Redux - manages global state store
+  * Redux-form - manage form state
+  * Axios - handles HTTP 
+  * Redux-thunk - extends Redux Actions by handling functions instead of just objects
+  * Material UI - styling library
 
-    * Jest - testing library (front end and back end)
-    * Supertest - used for creating a back end environment for testing
-    * Enzyme - front end testing
+  * Jest - testing library (front end and back end)
+  * Supertest - used for creating a back end environment for testing
+  * Enzyme - front end testing
  
-  ### A team is about to engage in a project, developing a website for a small business. What knowledge and skills would they need in order to develop the project?
-    * Design (UX/UI: user stories, wire frames, user flow, mock ups, )
-    * Development (front-end, back-end, database design, version control, testing, operations)
-    * Project Management
+### A team is about to engage in a project, developing a website for a small business. What knowledge and skills would they need in order to develop the project?
+  * Design (UX/UI: user stories, wire frames, user flow, mock ups, )
+  * Development (front-end, back-end, database design, version control, testing, operations)
+  * Project Management
 
-  ### Within your own project what knowledge or skills were required to complete your project, and overcome challenges?
-    * MERN tech stack
-    * file uploads (images and video)
-    * video playback
-    * Deployment (Heroku, MongoDB Atlas, AWS S3)
+### Within your own project what knowledge or skills were required to complete your project, and overcome challenges?
+  * MERN tech stack
+  * file uploads (images and video)
+  * video playback
+  * Deployment (Heroku, MongoDB Atlas, AWS S3)
 
-  ### Evaluate how effective your knowledge and skills were this project, using examples, and suggest changes or improvements for future projects of a similar nature?
+### Evaluate how effective your knowledge and skills were this project, using examples, and suggest changes or improvements for future projects of a similar nature?
