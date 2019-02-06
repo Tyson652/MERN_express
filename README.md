@@ -32,9 +32,9 @@
   #### Newsfeed Page
   ![require](docs/NewsfeedScreen.png)
   #### Challenge Page
-  ![require](docs/CreateChallenge.png)
-  #### Create Challenge Page
   ![require](docs/ChallengeScreen.png)
+  #### Create Challenge Page
+  ![require](docs/CreateChallenge.png)
   #### Profile Page
   ![require](docs/ProfileScreen.png)
   #### Edit Profile Page
