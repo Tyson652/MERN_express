@@ -83,9 +83,14 @@
   * Data Flow Diagram
   * OO design documentation
 
-* Details of Project Management & Planning process including,
-  * Project plan & timeline
-  * Client communications
+## Project Management & Planning
+  ### Project plan & timeline
+  After having meetings with two possible clients we decided to go with OneUp as our client. We spent the first couple of days looking over the documentation supplied to us by Leanne from OneUp and planning how we would build the app. We built a trello board, worked on the website versions of the wirefames and planned the schemas for our databases. We kept in contact with Leanne as we planned the app and they where able to help us if we had any questions relating to the app design. We had a little under four weeks to build our MVP. Our first week was spent finding a client, planning the app and then starting coding. In our second week we continued coding and we aimed to get the main functionality of our app working by the end of the second week. By the third week most of the main fuctionality of our app was working so we continued working on the main features as well as adding in some new ones. The fourth and last week was mainly spent on styling the app and getting it ready to be presented to our client.  
+
+  ### Client communications
+  ![require](docs/Slack1.png)
+  ![require](docs/Slack2.png)
+
   * Screenshots of Trello board(s)
 
 * Answers to the Short Answer questions (Section 2.2)
