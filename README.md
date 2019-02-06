@@ -64,8 +64,6 @@
 ![require](docs/OneUpWorkflowDiagram.png)
 
 ### Wireframes
-#### Landing Page
-![require](docs/LandingPage.png)
 #### Login Page
 ![require](docs/LoginPage.png)
 #### Register Page
@@ -82,7 +80,6 @@
 ### Database Entity Relationship Diagram
 ![require](docs/DatabaseEntityRelationshipDiagram.png)
   
-  * Database Entity Relationship Diagrams
   * Data Flow Diagram
   * OO design documentation
 
