@@ -35,6 +35,10 @@
   ![require](docs/ChallengeScreen.png)
   #### Create Challenge Page
   ![require](docs/CreateChallenge.png)
+  #### Join Challenge Page
+  ![require](docs/JoinChallengeScreen.png)
+  #### Current Challenge Page
+  ![require](docs/CurrentChallengeScreen.png)
   #### Profile Page
   ![require](docs/ProfileScreen.png)
   #### Edit Profile Page
@@ -97,7 +101,8 @@
 ### Data Flow Diagram
 ![require](docs/DataflowDiagram.png)
 
-  <!-- * OO design documentation -->
+### Schema Design Diagram
+![require](docs/Schema.png)
 
 ## Project Management & Planning
   ### Project plan & timeline
