@@ -14,6 +14,7 @@ router.post(
       email: Joi.string()
         .trim()
         .email()
+        .lowercase()
         .required(),
       password: Joi.string().required()
     }
@@ -44,6 +45,7 @@ router.post(
       email: Joi.string()
         .trim()
         .email()
+        .lowercase()
         .required(),
       password: Joi.string()
         .min(6)
@@ -86,6 +88,7 @@ router.post(
       email: Joi.string()
         .trim()
         .email()
+        .lowercase()
         .required()
     }
   }),

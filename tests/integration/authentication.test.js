@@ -87,6 +87,17 @@ describe("Login an existing user", () => {
     expect(response.body.token).toBeTruthy();
   });
 
+  test("POST /login with valid uppercase email and password", async () => {
+    const response = await supertest(app)
+      .post("/login")
+      .send({
+        email: "AUTH@mail.com",
+        password: "password"
+      });
+    expect(200);
+    expect(response.body.token).toBeTruthy();
+  });
+
   test("POST /login with invalid email and password", async () => {
     const response = await supertest(app)
       .post("/login")
@@ -121,7 +132,16 @@ describe("Existing user can change password", () => {
         password: "newPassword"
       });
     expect(200);
-    expect(updatedPassword.body.token).toBeTruthy();
+  });
+
+  test("PUT /changepassword with old password fails", async () => {
+    const updatedPassword = await supertest(app)
+      .post("/login")
+      .send({
+        email: "changePasswordUser@mail.com",
+        password: "password"
+      });
+    expect(401);
   });
 
   test("PUT /login with invalid password", async () => {

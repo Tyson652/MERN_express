@@ -2,8 +2,8 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 
 mongoose.connect(
-  process.env.PROD_DATABASE_URL,
-  // process.env.DATABASE_URL,
+  process.env.PROD_DATABASE_URL, // Production Database
+  // process.env.DATABASE_URL, // Development Local Database
   { useNewUrlParser: true }
 );
 

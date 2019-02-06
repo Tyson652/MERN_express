@@ -4,6 +4,7 @@ const cors = require("cors");
 const passport = require("./config/passport");
 const morgan = require("morgan");
 
+//**** CORS - FOR Production ****
 var whitelist = [
   `${process.env.FRONT_END_DOMAIN}`,
   `${process.env.PROD_FRONT_END_DOMAIN}`,
@@ -19,10 +20,11 @@ var corsOptions = {
   }
 };
 app.use(cors(corsOptions));
+//**** CORS - FOR Production ****
 
-//**** FOR TESTING ONLY - allow all origins //****
+//**** CORS - FOR TESTING/DEV ONLY - allow all origins //****
 // app.use(cors());
-//**** FOR TESTING ONLY - allow all origins //****
+//**** CORS - FOR TESTING/DEV ONLY - allow all origins //****
 
 app.use(passport.initialize());
 
