@@ -25,6 +25,20 @@
     * Admin created challenges -->
 
   ### Screenshots
+  #### Login Page
+  ![require](docs/LoginScreen.png)
+  #### Register Page
+  ![require](docs/RegisterScreen.png)
+  #### Newsfeed Page
+  ![require](docs/NewsfeedScreen.png)
+  #### Challenge Page
+  ![require](docs/CreateChallenge.png)
+  #### Create Challenge Page
+  ![require](docs/ChallengeScreen.png)
+  #### Profile Page
+  ![require](docs/ProfileScreen.png)
+  #### Edit Profile Page
+  ![require](docs/EditProfileScreen.png)
 
   ### Tech stack 
   The OneUp MVP was made with the MERN stack. On the Front-end we used React, with the code being written in Javascipt, JSX and CSS. Material Ui was used for styling the different components and the YouTube API was used for streaming the videos. For the Back-end we used Node and Express, MongoDB used used for our database and the YouTube API was used for uploading the videos. Github was used for source control and the application was deployed on AWS.
