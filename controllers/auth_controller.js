@@ -61,11 +61,11 @@ async function login(req, res, next) {
 // @return  status 200
 async function changePassword(req, res, next) {
   const { password, new_password } = req.body;
-  const { email } = req.user;
+  const { _id } = req.user;
+  const existingUser = await UserModel.findById(_id);
 
-  const existingUser = await UserModel.findOne({ email });
   if (!existingUser) {
-    return next(new HTTPError(400, "email address not found"));
+    return next(new HTTPError(400, "User not found"));
   }
 
   // Changes user's password hash and salt if password (first argument) is correct to newpassword (second argument), else returns default IncorrectPasswordError

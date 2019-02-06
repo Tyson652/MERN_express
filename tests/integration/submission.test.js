@@ -80,7 +80,7 @@ describe("Get list of recent submissions", () => {
 // ---------------- Create Tests ----------------
 
 describe("Create a submission", () => {
-  // Not how to test video upload. Use manual testings
+  //// Manually tested. Not sure how to mock video upload.
   // test("POST /challenges/:id/submissions with valid req body", async () => {
   //   newChallenge = await ChallengeModel.create(testChallenge);
   //   const { _id, nickname, profile_image } = userData;

@@ -4,25 +4,27 @@ const cors = require("cors");
 const passport = require("./config/passport");
 const morgan = require("morgan");
 
-var whitelist = [
-  `${process.env.FRONT_END_DOMAIN}`,
-  `${process.env.PROD_FRONT_END_DOMAIN}`,
-  `${process.env.BACK_END_DOMAIN}`
-];
-var corsOptions = {
-  origin: function(origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  }
-};
-app.use(cors(corsOptions));
+//**** CORS - FOR Production ****
+// var whitelist = [
+//   `${process.env.FRONT_END_DOMAIN}`,
+//   `${process.env.PROD_FRONT_END_DOMAIN}`,
+//   `${process.env.BACK_END_DOMAIN}`
+// ];
+// var corsOptions = {
+//   origin: function(origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   }
+// };
+// app.use(cors(corsOptions));
+//**** CORS - FOR Production ****
 
-//**** FOR TESTING ONLY - allow all origins //****
-// app.use(cors());
-//**** FOR TESTING ONLY - allow all origins //****
+//**** CORS - FOR TESTING/DEV ONLY - allow all origins //****
+app.use(cors());
+//**** CORS - FOR TESTING/DEV ONLY - allow all origins //****
 
 app.use(passport.initialize());
 

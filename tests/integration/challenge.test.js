@@ -57,7 +57,7 @@ afterAll(async () => {
 // ---------------- Create API ----------------
 
 describe("Can create a new challenge", () => {
-  // Not how to test video upload. Use manual testings
+  //// Manually tested. Not sure how to mock video upload.
   // test("POST /challenges/upload with valid req body", async () => {
   //   const response = await supertest(app)
   //     .post("/challenges/upload")
